@@ -1,0 +1,82 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Computer Networks",
+    "section": "",
+    "text": "Preface\nThis is a Quarto book.\nTo learn more about Quarto books visit https://quarto.org/docs/books.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "intro.html",
+    "href": "intro.html",
+    "title": "1  Introduction",
+    "section": "",
+    "text": "1.1 Data communications\nThis chapter introduces the basic vocabulary of data communications and computer networks. We answer four questions: what does it mean for two devices to communicate?, what is a network?, what is the Internet?, and what are protocols and standards, and why do we need them? The concepts here will return in every later chapter — once you have the vocabulary, everything that follows is filling in details.\nData communications is the exchange of data between two devices over some form of transmission medium such as a wire, optical fibre, or radio link. For communication to occur, three conditions must be met: the devices must be part of a communication system made up of a combination of hardware (physical equipment) and software (programs), the data must be delivered to the correct destination, and the data must be delivered accurately and in a timely manner.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
+    ]
+  },
+  {
+    "objectID": "intro.html#sec-data-comm",
+    "href": "intro.html#sec-data-comm",
+    "title": "1  Introduction",
+    "section": "",
+    "text": "1.1.1 Components of a communication system\nAny data communication system has five essential components, illustrated in Figure 1.1.\n\n\n\n\n\n\n\n\nflowchart LR\n  S[Sender] --&gt;|message| M((Transmission&lt;br/&gt;medium))\n  M --&gt;|message| R[Receiver]\n  P[Protocol] -.governs.-&gt; S\n  P -.governs.-&gt; R\n\n\n\n\n\n\n\n\nFigure 1.1: Five components of a communication system.\n\n\n\n\nMessage — the information to be communicated. It can be text, numbers, images, audio, or video.\nSender — the device that sends the message (a computer, phone, camera, sensor, etc.).\nReceiver — the device that receives the message.\nTransmission medium — the physical path over which the message travels (twisted-pair cable, coaxial cable, optical fibre, radio waves).\nProtocol — a set of rules that governs the communication. Without a shared protocol, two devices may be connected but cannot understand each other.\n\n\n\n\n\n\n\nNote\n\n\n\nA person speaking French to a person who only understands English illustrates the need for a protocol: the medium (air) carries the message, the sender produces it, the receiver hears it, but communication fails because the rules of encoding are different.\n\n\n\n\n1.1.2 Data representation\nInside a digital system, every message — regardless of its original form — is represented as a sequence of bits.\n\nText is encoded using character sets such as ASCII (7 bits per character) or Unicode (typically 8, 16, or 32 bits per character via UTF-8/16/32).\nNumbers are encoded directly in binary.\nImages are represented as a matrix of pixels; each pixel is one or more bytes describing its colour.\nAudio is sampled at a fixed rate (e.g. 44.1 kHz for CD-quality) and each sample is quantised to a fixed bit depth.\nVideo is a sequence of images (frames) shown rapidly, usually compressed using a codec such as H.264 or AV1.\n\n\n\n1.1.3 Data flow\nCommunication between two devices can be one of three types, summarised in Table 1.1.\n\n\n\nTable 1.1: Data flow modes.\n\n\n\n\n\n\n\n\n\n\nMode\nDirection\nExample\n\n\n\n\nSimplex\nOne direction only\nKeyboard → computer\n\n\nHalf-duplex\nBoth directions, but only one at a time\nWalkie-talkie\n\n\nFull-duplex\nBoth directions simultaneously\nTelephone call",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
+    ]
+  },
+  {
+    "objectID": "intro.html#sec-networks",
+    "href": "intro.html#sec-networks",
+    "title": "1  Introduction",
+    "section": "1.2 Networks",
+    "text": "1.2 Networks\nA network is a set of devices (often called nodes) connected by communication links. A node can be a computer, printer, phone, or any other device capable of sending or receiving data on the network.\n\n1.2.1 Network criteria\nA network is judged by how well it meets four criteria.\n\nPerformance\n\nMeasured by throughput (how much data crosses the network per unit time) and delay (how long a unit of data takes to cross). These two metrics are often in tension — increasing throughput by sending more data may also increase delay because of congestion.\n\nReliability\n\nMeasured by the frequency of failures, the time it takes to recover from a failure, and the network’s robustness in a catastrophe.\n\nSecurity\n\nThe ability to protect data from unauthorised access and damage, and to recover from data loss.\n\nScalability\n\nThe ability of the network to grow — to add more nodes or carry more traffic — without redesign.\n\n\n\n\n1.2.2 Physical structures\nThe physical structure of a network has two aspects: how devices are connected and what shape the connections take.\nType of connection. A link can be either:\n\nPoint-to-point: a dedicated link between exactly two devices (e.g. the cable from your laptop to its monitor).\nMultipoint: a single link shared by more than two devices (e.g. classical Ethernet on a coaxial bus).\n\nPhysical topology. The geometric layout of the links. The four primary topologies are:\n\nMesh — every device has a dedicated link to every other device. For \\(n\\) nodes this requires \\(\\dfrac{n(n-1)}{2}\\) links. Extremely robust and fast, but expensive and unscalable.\nStar — every device has a dedicated link to a central hub. The hub becomes a single point of failure but the topology is cheap and easy to manage.\nBus — all devices share a single backbone cable. Cheap and simple, but the backbone is a single point of failure.\nRing — each device is connected to two neighbours, forming a closed loop. Signals travel in one direction around the ring.\nHybrid — a mix of the above; for example, a star of buses.\n\n\n\n\n\n\n\nTipCounting links in a mesh\n\n\n\nA common exam question: if a mesh network has \\(n=10\\) nodes, how many links are required? Plug into the formula: \\(10 \\times 9 / 2 = 45\\) links, and each node needs \\(n-1 = 9\\) I/O ports. Mesh becomes impractical fast — this is why almost no real network is fully meshed.\n\n\n\n\n1.2.3 Network types by reach\nNetworks are classified by the geographic area they cover.\n\n\n\nTable 1.2: Networks classified by reach.\n\n\n\n\n\n\n\n\n\n\nType\nReach\nTypical use\n\n\n\n\nPAN\nA few metres\nBluetooth headset, fitness tracker\n\n\nLAN\nA building, campus\nOffice Ethernet, home Wi-Fi\n\n\nMAN\nA city\nCity-wide Wi-Fi, cable TV distribution\n\n\nWAN\nA country or globe\nThe public Internet, corporate backbone\n\n\n\n\n\n\nA LAN is typically owned and operated by a single organisation. A WAN crosses public infrastructure and is usually built from links leased from telecommunications providers. The Internet is a network of LANs and WANs glued together.\n\n\n1.2.4 Switching\nA network of more than a few devices cannot afford a dedicated link between every pair of nodes. Instead, intermediate devices called switches relay data along a path from source to destination. There are two fundamental strategies:\n\nCircuit switching — before any data is sent, a dedicated path of links is reserved end-to-end for the duration of the conversation, and a fixed share of each link’s capacity is set aside for it. This is how traditional telephone networks worked.\nPacket switching — the message is broken into small chunks called packets. Each packet is forwarded independently through the network. Packets from many conversations share the same links statistically.\n\nThe Internet is a packet-switched network. The advantage is high utilisation: idle moments in one conversation are filled by traffic from another. The disadvantage is variability: when many packets converge on a router, some have to wait in a queue, and if the queue overflows, packets are lost.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
+    ]
+  },
+  {
+    "objectID": "intro.html#sec-internet",
+    "href": "intro.html#sec-internet",
+    "title": "1  Introduction",
+    "section": "1.3 The Internet",
+    "text": "1.3 The Internet\nThe Internet is a global packet-switched network of networks that uses the TCP/IP protocol suite. It is not a single network owned by anyone; it is the union of many independent networks that agree to interconnect.\n\n1.3.1 A very brief history\n\n1960s — ARPANET, funded by the U.S. Defense Department, demonstrates that packet switching works.\n1970s — Vint Cerf and Bob Kahn design TCP/IP, a protocol that allows different networks to interconnect.\n1983 — ARPANET officially switches to TCP/IP. This date is often cited as the birth of the Internet.\n1989 — Tim Berners-Lee proposes the World Wide Web at CERN.\n1990s — The Web, e-mail, and commercial ISPs bring the Internet to the general public.\n2000s–today — Mobile, cloud computing, video streaming, and the Internet of Things become dominant traffic sources.\n\n\n\n1.3.2 The Internet today\nThe modern Internet has a hierarchical structure of Internet Service Providers (ISPs).\n\nEnd users (homes, businesses, mobile devices) connect to a local ISP.\nLocal ISPs connect to regional ISPs.\nRegional ISPs connect to Tier-1 ISPs (also called backbone providers), which span continents and exchange traffic at Internet exchange points (IXPs).\n\nThis hierarchy is not strict — large content providers (Google, Netflix, Meta) operate their own private backbones and peer directly with many ISPs, bypassing the upper tiers. But the mental model of edge → access → core is still useful.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
+    ]
+  },
+  {
+    "objectID": "intro.html#sec-protocols",
+    "href": "intro.html#sec-protocols",
+    "title": "1  Introduction",
+    "section": "1.4 Protocols and standards",
+    "text": "1.4 Protocols and standards\nWe have used the word protocol informally; let us define it.\nA protocol is a set of rules that governs data communication. Every protocol defines three things:\n\nSyntax\n\nThe structure or format of the data — the order in which bits are transmitted, the meaning of each field, the size of headers and payloads.\n\nSemantics\n\nThe meaning of each piece of the message. For example, an address field tells the receiver who is being addressed; an error-checking field tells the receiver whether the data was corrupted in transit.\n\nTiming\n\nWhen data should be sent and how fast. If a sender produces 100 Mbps but the receiver can only consume 1 Mbps, the data will be lost without timing rules to slow the sender down.\n\n\n\n1.4.1 Standards\nA standard is a protocol (or set of protocols) that has been formally agreed upon. Standards are essential — without them, equipment from different vendors could not interoperate.\nStandards come in two flavours:\n\nDe facto standards arise from widespread use, without any formal endorsement. The QWERTY keyboard layout is a de facto standard.\nDe jure standards are formally adopted by a recognised body. The IEEE 802.11 family of Wi-Fi standards is de jure.\n\nThe main standards organisations relevant to networking are summarised in Table 1.3.\n\n\n\nTable 1.3: Major standards bodies in networking.\n\n\n\n\n\n\n\n\n\n\nBody\nStands for\nWhat it standardises\n\n\n\n\nISO\nInternational Organization for Standardization\nThe OSI reference model, many others\n\n\nITU-T\nInternational Telecommunication Union — Telecom\nTelephony, optical transport\n\n\nIEEE\nInstitute of Electrical and Electronics Engineers\nLAN/MAN standards: Ethernet (802.3), Wi-Fi (802.11)\n\n\nIETF\nInternet Engineering Task Force\nInternet protocols, published as RFCs\n\n\nANSI\nAmerican National Standards Institute\nMany U.S. standards\n\n\n\n\n\n\nInternet standards are published as Requests for Comments (RFCs). Despite the modest name, an RFC that reaches Internet Standard status is binding for anyone who wants to interoperate. For example, RFC 791 defines IPv4; RFC 9293 defines TCP.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
+    ]
+  },
+  {
+    "objectID": "intro.html#summary",
+    "href": "intro.html#summary",
+    "title": "1  Introduction",
+    "section": "1.5 Summary",
+    "text": "1.5 Summary\n\nData communication requires five components: a message, a sender, a receiver, a transmission medium, and a protocol.\nA network is a set of devices connected by communication links. It is judged on performance, reliability, security, and scalability.\nNetworks differ in topology (mesh, star, bus, ring, hybrid) and in reach (PAN, LAN, MAN, WAN).\nThe Internet is a global packet-switched network of networks, organised as a loose hierarchy of ISPs.\nA protocol specifies syntax, semantics, and timing; a standard is a protocol that everyone has agreed to follow.\n\nThe remaining chapters look at each layer of the protocol stack in turn, starting from the bottom — the physical layer — and working upward.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
+    ]
+  },
+  {
+    "objectID": "intro.html#exercises",
+    "href": "intro.html#exercises",
+    "title": "1  Introduction",
+    "section": "Exercises",
+    "text": "Exercises\n\nList the five components of a data communication system and explain the role of each.\nA full mesh network has 12 nodes. How many links does it use? How many I/O ports does each node need?\nA camera streams 1080p video at 30 frames per second. Each frame is \\(1920 \\times 1080\\) pixels, and each pixel uses 24 bits of colour. What raw bit rate does this produce, in Mbps? Why is the actual transmitted bit rate much lower?\nClassify each of the following as simplex, half-duplex, or full-duplex: (a) a TV broadcast, (b) two children with a tin-can telephone, (c) a video call, (d) a remote control and a TV, (e) a CB radio conversation.\nThe Internet is described as a “network of networks”. What does this mean? Why is no single organisation in charge of it?",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
+    ]
+  }
+]
