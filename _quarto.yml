@@ -9,6 +9,7 @@ book:
   chapters:
     - index.qmd
     - intro.qmd
+    - physical-layer.qmd
     #- summary.qmd
     #- references.qmd
 
