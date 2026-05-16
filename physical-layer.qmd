@@ -1,0 +1,219 @@
+---
+title: "The Physical Layer"
+---
+
+Hold a piece of Ethernet cable in your hand. It is copper, plastic, and air. It does not know what a bit is. It does not know what a packet is. It knows about electricity — about voltages, currents, the way a copper wire responds when you push electrons into one end. And yet, somehow, the bits you send at one end come out at the other.
+
+This chapter is about that "somehow."
+
+In every conversation about networking, the physical layer is the layer everyone forgets — until something stops working, and then it is the only layer that matters. This is the layer where physics intrudes on engineering. There are hard limits here: bandwidth limits, noise limits, speed-of-light limits. Limits that no amount of clever software can talk its way out of. The rest of the Internet is built on top of these limits, and much of the cleverness in the upper layers exists precisely to *cope* with them.
+
+Three questions organize the chapter:
+
+1. How do we represent bits as physical signals?
+2. How fast can we possibly send bits, and what determines the limit?
+3. What is actually carrying the signal between the two ends?
+
+## The gap between bits and physics
+
+Imagine you are standing at one end of a long copper wire. At the other end is a friend. You have agreed to send each other binary messages. You both have a battery and a voltmeter. The battery can apply a voltage to the wire; the voltmeter reads it.
+
+How would you send the message `1011`?
+
+The obvious idea: agree on a meaning. *High voltage means 1, low voltage means 0.* You start the clock, hold the battery on for one second per bit, switch it on and off according to the bit pattern. Your friend reads the voltmeter every second and writes down what they see.
+
+Congratulations — you have just invented digital signaling. Specifically, you have invented something close to **NRZ** (non-return-to-zero) encoding. The physical layer's job, stripped down, is exactly this: keep both ends in agreement about (a) what voltages mean what, and (b) when to read them.
+
+It sounds trivial. It is not.
+
+## Problem 1: Clocks drift
+
+Suppose you send the bit string `00000000` — eight zeros. With NRZ that is eight seconds of *the same* voltage. Your friend has to keep counting seconds in their head to know how many zeros to write down. If their clock is off by even a tiny fraction, they will read seven zeros, or nine.
+
+Real systems run at billions of bits per second, not one bit per second. Clocks drift, oscillators wobble. So the physical layer needs encodings that *force* a transition on the wire often, even when the data is all zeros or all ones. The receiver uses those transitions to synchronize its clock to the sender's.
+
+**Manchester encoding** is the classic example: every bit is encoded as a transition in the middle of the bit period. A `0` might be a high-to-low transition; a `1` might be low-to-high. The data and the clock are encoded together. This is what classical Ethernet used.
+
+The cost: the signal now changes twice as fast as the bit rate. Half the wire's potential is being spent on synchronization. Cleverer encodings (4B/5B, 8B/10B) get most of the synchronization benefit with less overhead, but the principle is the same — encoding is always a compromise between data efficiency and timing recovery.
+
+## Problem 2: Signals decay
+
+A square wave looks beautiful on a chalkboard: sharp edges, instant transitions, perfectly flat tops. A square wave on a real cable, especially a long one, looks more like a smear of its former self. The sharp edges get rounded off. The peaks droop. Noise from nearby electrical equipment adds wiggles. By the time it arrives, the signal looks less like a binary code and more like a graph of someone's mood.
+
+The receiver still has to look at that smeared, noisy waveform and decide, bit by bit, whether each one is a 0 or a 1. Two things make this possible:
+
+- **Thresholding.** The receiver does not ask *what voltage is this?* It asks *is this above or below the threshold?* A signal can be badly distorted and still cross the threshold at the right times.
+- **Knowing where to look.** Thanks to clock recovery, the receiver knows roughly *when* each bit should arrive, and only samples at those moments.
+
+Even so, there are limits. If the signal gets too distorted, two adjacent bits start to blur into each other — a problem called **intersymbol interference**. At some point you can no longer tell them apart, and the link begins producing errors. Which brings us to the question that defines this chapter.
+
+## How fast can we go?
+
+There is no shortage of bad answers. *As fast as the wire can carry. As fast as the equipment allows. As fast as you are willing to pay for.*
+
+The real answer is a deep result from information theory, and it comes in two parts. The first was proved by Harry Nyquist in 1924. The second by Claude Shannon in 1948.
+
+### Nyquist's limit
+
+Nyquist asked: if I have a perfect, noise-free channel of bandwidth $B$ Hz, and I use $V$ distinct signal levels (2 for binary, 4 for two-bits-per-symbol, and so on), what is the maximum bit rate I can achieve?
+
+$$
+C_{\text{Nyquist}} = 2B \log_2 V \quad \text{bits per second}
+$$ {#eq-nyquist}
+
+Three things to notice. First, the formula does not care how clever you are at encoding — it is a fundamental limit set by the bandwidth itself. Second, the number of signal levels enters *logarithmically*, not linearly: doubling the levels (from 2 to 4) only adds one bit per symbol. Third, this is for a *noise-free* channel, which is to say: it does not exist.
+
+**Example.** A standard voice telephone line has a bandwidth of about $B = 3000$ Hz. With binary signalling ($V = 2$):
+
+$$
+C = 2 \times 3000 \times \log_2 2 = 6{,}000 \text{ bps}
+$$
+
+That is slow. With 16 signal levels ($V = 16$, four bits per symbol):
+
+$$
+C = 2 \times 3000 \times \log_2 16 = 24{,}000 \text{ bps}
+$$
+
+This is roughly the kind of trick early dial-up modems used to wring tens of kilobits per second out of a phone line that was, electrically, designed for 1920s telephony.
+
+### Shannon's limit
+
+But why stop there? If you can keep adding voltage levels, you can keep increasing the rate. Why could a modem not hit a megabit per second on a phone line?
+
+Because of noise. The wire is not quiet. There is thermal noise from the resistance of the copper, electromagnetic interference from nearby motors and fluorescent lights, crosstalk from adjacent wires. As you pack more voltage levels closer together, the noise starts swallowing the difference between them. The receiver sees *is this 5.2 V or 5.4 V?* and the noise is ±0.3 V, and now it cannot tell.
+
+Shannon answered the question Nyquist did not: given bandwidth $B$ *and* signal-to-noise ratio $S/N$, what is the *actual* maximum bit rate?
+
+$$
+C_{\text{Shannon}} = B \log_2 \left(1 + \frac{S}{N}\right) \quad \text{bits per second}
+$$ {#eq-shannon}
+
+This is one of the most important formulas in all of engineering. It says:
+
+- Bandwidth helps **linearly**. Double the bandwidth, double the capacity.
+- Signal-to-noise ratio helps **logarithmically**. To double capacity through SNR alone, you must roughly *square* the signal-to-noise ratio.
+- There is a ceiling. No matter how clever your encoding, no matter how many voltage levels you use, you cannot exceed this number on this channel.
+
+Signal-to-noise ratio is usually quoted in decibels: $\text{SNR}_{\text{dB}} = 10 \log_{10}(S/N)$. So an SNR of 30 dB means $S/N = 1000$.
+
+**Example.** The same telephone line: $B = 3000$ Hz, typical SNR around 30 dB so $S/N = 1000$.
+
+$$
+C = 3000 \times \log_2(1 + 1000) \approx 3000 \times 9.97 \approx 30{,}000 \text{ bps}
+$$
+
+About 30 kbps. This is, almost exactly, the speed of a late-1990s dial-up modem. Those modems were not bad engineering. They were *very nearly optimal* for the channel they were using. To go faster you needed a different physical layer — DSL, cable, fibre — with either more bandwidth, more SNR, or both.
+
+::: {.callout-note}
+Nyquist gives an *upper bound* under ideal conditions. Shannon gives an upper bound under realistic ones. When the two disagree, Shannon wins: noise is not optional. The interesting engineering question is usually *how close to Shannon can we get?*
+:::
+
+## Modulation: when the channel will not carry your signal directly
+
+Everything above assumed you could put a square wave on a wire and the wire would faithfully carry the voltage changes from one end to the other. For many media — Ethernet cables, short copper runs — that works fine. For others — radio, satellite, even some long-distance cables — it does not. The medium only carries signals in a specific frequency band. You cannot transmit a baseband square wave on the radio spectrum.
+
+The solution is **modulation**: take a high-frequency carrier wave (a clean sinusoid at, say, 2.4 GHz for Wi-Fi) and *modify* one of its properties according to the data you want to send. Three basic flavours:
+
+- **Amplitude shift keying (ASK)** — vary the height of the carrier. A loud chunk of carrier means one symbol; a quiet chunk means another.
+- **Frequency shift keying (FSK)** — vary the frequency. A slightly higher pitch is one symbol; a slightly lower pitch is another.
+- **Phase shift keying (PSK)** — vary the phase. The carrier skips forward or backward by a fraction of a cycle to signal a transition.
+
+Modern wireless systems combine them. **Quadrature amplitude modulation (QAM)** varies amplitude *and* phase simultaneously. A 256-QAM signal uses 256 distinct combinations of amplitude and phase to encode 8 bits per symbol. This is what your home Wi-Fi router is doing while you read this.
+
+The relationship to Nyquist and Shannon does not change. More symbols per second still costs bandwidth; more distinguishable symbols still costs SNR. The same fundamental limits apply. Modulation is just how we *use* the channel — not a way around its rules.
+
+## What is actually carrying the signal?
+
+So far we have spoken of "the channel" as if it were a generic thing. It is not. Different physical media have radically different bandwidths, noise levels, costs, and quirks. Choosing the medium is half the design.
+
+There is one useful distinction up front. Some media are **guided**: the signal is constrained to follow a physical path you laid down — a copper wire, a strand of glass. Others are **unguided**: the signal radiates outward through air or space, and you hope it reaches the receiver. Each kind has its own physics, and its own ways of failing.
+
+### Twisted pair
+
+Two insulated copper wires twisted around each other. Cheap, flexible, the most-installed transmission medium in human history. The twist is not decorative — it cancels out electromagnetic interference, because any noise picked up by one wire is picked up almost equally by the other and the receiver looks at the *difference* between them. More twists per inch means better noise rejection.
+
+You meet twisted pair as the telephone line into your house and as the Ethernet cables behind your desk. Categories (Cat 5e, Cat 6, Cat 6a, Cat 7) differ in how tightly they are twisted, how well they are shielded, and consequently how many gigabits per second they can carry over how long a run. Cat 6a can handle 10 Gbps over 100 metres. Beyond that, you are typically into fibre.
+
+The fundamental limits on twisted pair are **attenuation** — the signal weakens as it travels — and **crosstalk**, where signals on adjacent pairs leak into each other.
+
+### Coaxial cable
+
+A single copper conductor surrounded by an insulator, then a braided metallic shield, then an outer jacket. The shield reduces interference dramatically, which means coax has more bandwidth and longer range than twisted pair. It is what your cable TV provider uses to deliver hundreds of TV channels and gigabits of Internet over the same wire. It used to be what classical Ethernet ran on, before twisted pair improved enough to take over.
+
+Coax is heavier, more expensive, and harder to install than twisted pair. It survives mostly in cable television networks and as the short jumpers connecting equipment to antennas.
+
+### Optical fibre
+
+A thin strand of glass — or sometimes plastic — that guides pulses of light along its length. The light is generated by a laser or LED at one end and detected by a photodiode at the other. Total internal reflection keeps the light bouncing along inside the fibre, so it can travel for kilometres with very little loss.
+
+Fibre is the medium that broke the bandwidth ceiling. A single strand can carry signals at frequencies measured in hundreds of terahertz. Plug realistic numbers into @eq-shannon and you get capacities in the terabits per second, per fibre. It is immune to electromagnetic interference, because light is not affected by stray electrical fields. The cables are thin and light, so thousands of fibres can be packed into a single cable.
+
+Fibre comes in two main flavours: **single-mode** fibre, with a very narrow core that allows only one path for the light (longer reach, higher cost, used for long-haul links), and **multi-mode** fibre, with a wider core (shorter reach, lower cost, used inside buildings and data centres). All long-distance Internet traffic — between cities, across oceans — travels on fibre.
+
+The catch is in the *connections*. Fibre is fragile; splicing two fibres together accurately enough that the light passes through is a delicate operation. Bending a fibre too sharply loses signal. This is why fibre dominates the *core* of networks but only sometimes reaches all the way to your house.
+
+### Comparison
+
+| Medium             | Typical bandwidth | Typical reach | Noise immunity | Cost      |
+|--------------------|-------------------|---------------|----------------|-----------|
+| UTP (Cat 6a)       | 500 MHz           | 100 m         | Low–medium     | Very low  |
+| Coaxial cable      | 1 GHz             | hundreds of m | Medium         | Low       |
+| Single-mode fibre  | tens of THz       | tens of km    | Excellent      | Medium    |
+| Wireless (Wi-Fi 6) | up to 160 MHz     | tens of m     | Poor           | Very low  |
+
+: Rough comparison of common physical media. {#tbl-media}
+
+The right medium depends on what you are trying to do. Inside a building, twisted pair is almost always the answer. Between buildings on a campus or across a city, fibre. Out to a moving phone, radio. The Internet uses all of them, glued together by routers and switches at the boundaries.
+
+## Wireless: the unguided medium
+
+Wireless gets its own section because it does not behave like the guided media. A copper wire goes from A to B and that is where the signal goes. A radio antenna *radiates* — the signal spreads out in all directions, weakens with distance, bounces off walls, ducks through some materials and stops at others, and shares the airwaves with every other device on the same band. Almost everything that is easy on a wire is hard on a radio.
+
+### The spectrum
+
+Radio communication uses the **electromagnetic spectrum** — the same continuous range of frequencies that includes visible light, infrared, microwaves, and X-rays. Different bands behave differently:
+
+- **Low frequencies (kHz–MHz)** travel far, pass through obstacles easily, but offer little bandwidth. Used by AM/FM radio and maritime communication.
+- **Microwaves (1–100 GHz)** offer much more bandwidth and can be focused with antennas, but are blocked by walls and absorbed by rain. Used by Wi-Fi (2.4 and 5 GHz), cellular (around 1–6 GHz), and satellite (10–30 GHz).
+- **Millimetre waves (30–300 GHz)** offer enormous bandwidth but barely penetrate anything — even a leaf can block them. Used by 5G's high-band tier.
+
+The pattern is consistent: higher frequency means more bandwidth but worse propagation. There is no free lunch.
+
+The radio spectrum is also a *regulated* resource. Governments assign frequency bands to specific uses — TV here, cellular there, Wi-Fi over there — to prevent interference. A handful of bands (notably 2.4 GHz and 5 GHz) are designated *unlicensed*: anyone can use them, with restrictions on power. That is why your Wi-Fi router, your microwave oven, and your Bluetooth headphones all live in the 2.4 GHz band, and sometimes fight each other for airtime.
+
+### How radio signals fail
+
+Three problems show up on a wireless link that you never had on a wire.
+
+**Path loss.** A radio signal's strength falls off rapidly with distance — roughly as $1/d^2$ in free space, and worse in buildings. Double the distance, and you have a quarter of the power. This is why moving across the room changes your Wi-Fi speed.
+
+**Multipath.** The signal does not travel in a straight line from transmitter to receiver. It reflects off walls, floors, furniture. The receiver gets several copies of the signal, arriving at slightly different times. These copies can add constructively (great) or destructively (the signal cancels itself out and you get nothing). Move the receiver six centimetres and the multipath pattern changes completely. This is why your Wi-Fi reception varies wildly as you walk around with a laptop.
+
+**Interference.** Multiple devices on the same band share the air. A microwave oven leaks at 2.4 GHz. Your neighbour's Wi-Fi sits on the same channel as yours. Bluetooth devices hop around looking for quiet spots. A wireless link's effective SNR is a moving target, depending on what else is on the air at that moment.
+
+### How modern wireless copes
+
+Wireless engineering has spent decades developing techniques to fight these problems. A few worth knowing:
+
+- **Spread spectrum.** Instead of putting all the signal energy at one frequency, spread it across a wide band — either by hopping rapidly between frequencies (FHSS, used by Bluetooth) or by multiplying the signal with a fast pseudo-random sequence (DSSS, used by older Wi-Fi). Spreading the signal makes it more resistant to narrow-band interference and harder to jam.
+- **OFDM** (orthogonal frequency-division multiplexing). Split the channel into hundreds of narrow subcarriers and send a piece of the data on each one in parallel. Subcarriers that happen to land in a deep multipath fade can be dropped or de-emphasized. This is what Wi-Fi (since 802.11a), LTE, and 5G all use.
+- **MIMO** (multiple input, multiple output). Use multiple antennas at both ends. The receiver compares the signals from each antenna and exploits the differences — multipath turns from a problem into a feature, because each path is a slightly different channel. Modern Wi-Fi routers may use four to eight antennas at once.
+
+Wireless can never quite match a good wire for raw throughput on a fair fight, because the air is shared, noisy, and unguided. But the techniques above have closed the gap to within an order of magnitude in many cases, and continue to improve.
+
+## Why this layer matters
+
+The physical layer is, in a real sense, where the speed of your Internet lives. Every upper-layer cleverness — TCP retransmissions, video compression, content delivery networks — operates within the budget the physical layer hands them. When your home Wi-Fi upgrades from 802.11n to 802.11ac to 802.11ax, what is actually changing is the physical layer: more bandwidth, more sophisticated modulation, more antennas, smarter handling of multipath. The bits per second your laptop sees grow accordingly.
+
+In the rest of this course we will mostly ignore the physical layer and pretend that bits arrive on a wire from a source we do not have to think about. That is the whole point of layering. But it is worth remembering, every time you complain about a slow connection, that somewhere down at the bottom of the stack, a copper wire, a glass fibre, or a radio is grinding against the laws of physics on your behalf, and doing pretty well.
+
+## Questions to chew on
+
+1. You are designing a system over a noisy line with $S/N = 7$ (so $\log_2(1+7) = 3$ bits per Hz). You can either (a) negotiate more bandwidth or (b) install better shielding to improve SNR. Both options cost the same. Which buys you more capacity, and why? See @eq-shannon.
+2. Manchester encoding spends half the wire's symbol rate on clock synchronization. Why is this worth doing? Could we not use highly accurate clocks at both ends instead?
+3. A late-1990s telephone modem achieved about 30 kbps over a 3 kHz line. A modern Wi-Fi connection achieves about 1 Gbps over a 160 MHz band. Of those roughly four orders of magnitude of speedup, how much came from more bandwidth, and how much from better SNR?
+4. The Shannon limit is a theoretical ceiling. Real systems get close to it but never reach it. Why not?
+5. A single strand of fibre carries terabits per second; a coax cable carries a few gigabits per second; a twisted pair carries hundreds of megabits per second. Using @tbl-media, explain this ranking in terms of bandwidth and noise immunity.
+6. Why does your Wi-Fi get worse when you walk to a different corner of the room, even when the distance to the router barely changes?
+7. The 5 GHz Wi-Fi band offers higher throughput than the 2.4 GHz band but worse range. Why? Could you design a single band that gave you both?

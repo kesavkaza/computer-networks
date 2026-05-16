@@ -1,0 +1,695 @@
+% Options for packages loaded elsewhere
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  letterpaper,
+  DIV=11,
+  numbers=noendperiod]{scrreprt}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{5}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+
+\usepackage{longtable,booktabs,array}
+\newcounter{none} % for unnumbered tables
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+
+
+
+
+
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+
+ 
+
+
+\KOMAoption{captions}{tableheading}
+\makeatletter
+\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
+\@ifpackageloaded{fontawesome5}{}{\usepackage{fontawesome5}}
+\definecolor{quarto-callout-color}{HTML}{909090}
+\definecolor{quarto-callout-note-color}{HTML}{0758E5}
+\definecolor{quarto-callout-important-color}{HTML}{CC1914}
+\definecolor{quarto-callout-warning-color}{HTML}{EB9113}
+\definecolor{quarto-callout-tip-color}{HTML}{00A047}
+\definecolor{quarto-callout-caution-color}{HTML}{FC5300}
+\definecolor{quarto-callout-color-frame}{HTML}{acacac}
+\definecolor{quarto-callout-note-color-frame}{HTML}{4582ec}
+\definecolor{quarto-callout-important-color-frame}{HTML}{d9534f}
+\definecolor{quarto-callout-warning-color-frame}{HTML}{f0ad4e}
+\definecolor{quarto-callout-tip-color-frame}{HTML}{02b875}
+\definecolor{quarto-callout-caution-color-frame}{HTML}{fd7e14}
+\makeatother
+\makeatletter
+\@ifpackageloaded{bookmark}{}{\usepackage{bookmark}}
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Computer Networks},
+  pdfauthor={K. R. Kaza},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+
+\title{Computer Networks}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{Course Notes}
+\author{K. R. Kaza}
+\date{2026-05-01}
+\begin{document}
+\maketitle
+
+\renewcommand*\contentsname{Table of contents}
+{
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+
+\bookmarksetup{startatroot}
+
+\chapter*{Preface}\label{preface}
+\addcontentsline{toc}{chapter}{Preface}
+
+\markboth{Preface}{Preface}
+
+This is a Quarto book.
+
+To learn more about Quarto books visit
+\url{https://quarto.org/docs/books}.
+
+\bookmarksetup{startatroot}
+
+\chapter{Introduction}\label{introduction}
+
+This chapter introduces the basic vocabulary of data communications and
+computer networks. We answer four questions: \emph{what does it mean for
+two devices to communicate?}, \emph{what is a network?}, \emph{what is
+the Internet?}, and \emph{what are protocols and standards, and why do
+we need them?} The concepts here will return in every later chapter ---
+once you have the vocabulary, everything that follows is filling in
+details.
+
+\section{Data communications}\label{sec-data-comm}
+
+\textbf{Data communications} is the exchange of data between two devices
+over some form of transmission medium such as a wire, optical fibre, or
+radio link. For communication to occur, three conditions must be met:
+the devices must be part of a communication system made up of a
+combination of hardware (physical equipment) and software (programs),
+the data must be delivered to the correct destination, and the data must
+be delivered accurately and in a timely manner.
+
+\subsection{Components of a communication
+system}\label{components-of-a-communication-system}
+
+Any data communication system has five essential components, illustrated
+in Figure~\ref{fig-components}.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=8.29in,height=1.75in]{intro_files/figure-latex/mermaid-figure-1.png}
+
+}
+
+\caption{\label{fig-components}Five components of a communication
+system.}
+
+\end{figure}%
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Message} --- the information to be communicated. It can be
+  text, numbers, images, audio, or video.
+\item
+  \textbf{Sender} --- the device that sends the message (a computer,
+  phone, camera, sensor, etc.).
+\item
+  \textbf{Receiver} --- the device that receives the message.
+\item
+  \textbf{Transmission medium} --- the physical path over which the
+  message travels (twisted-pair cable, coaxial cable, optical fibre,
+  radio waves).
+\item
+  \textbf{Protocol} --- a set of rules that governs the communication.
+  Without a shared protocol, two devices may be connected but cannot
+  understand each other.
+\end{enumerate}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+A person speaking French to a person who only understands English
+illustrates the need for a protocol: the medium (air) carries the
+message, the sender produces it, the receiver hears it, but
+communication fails because the rules of encoding are different.
+
+\end{tcolorbox}
+
+\subsection{Data representation}\label{data-representation}
+
+Inside a digital system, every message --- regardless of its original
+form --- is represented as a sequence of bits.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Text} is encoded using character sets such as ASCII (7 bits
+  per character) or Unicode (typically 8, 16, or 32 bits per character
+  via UTF-8/16/32).
+\item
+  \textbf{Numbers} are encoded directly in binary.
+\item
+  \textbf{Images} are represented as a matrix of pixels; each pixel is
+  one or more bytes describing its colour.
+\item
+  \textbf{Audio} is sampled at a fixed rate (e.g.~44.1 kHz for
+  CD-quality) and each sample is quantised to a fixed bit depth.
+\item
+  \textbf{Video} is a sequence of images (frames) shown rapidly, usually
+  compressed using a codec such as H.264 or AV1.
+\end{itemize}
+
+\subsection{Data flow}\label{data-flow}
+
+Communication between two devices can be one of three types, summarised
+in Table~\ref{tbl-flow}.
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.1807}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.5301}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.2892}}@{}}
+\caption{Data flow modes.}\label{tbl-flow}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Mode
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Direction
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Example
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Mode
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Direction
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Example
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Simplex & One direction only & Keyboard → computer \\
+Half-duplex & Both directions, but only one at a time & Walkie-talkie \\
+Full-duplex & Both directions simultaneously & Telephone call \\
+\end{longtable}
+
+\section{Networks}\label{sec-networks}
+
+A \textbf{network} is a set of devices (often called \emph{nodes})
+connected by communication links. A node can be a computer, printer,
+phone, or any other device capable of sending or receiving data on the
+network.
+
+\subsection{Network criteria}\label{network-criteria}
+
+A network is judged by how well it meets four criteria.
+
+\begin{description}
+\tightlist
+\item[Performance]
+Measured by \textbf{throughput} (how much data crosses the network per
+unit time) and \textbf{delay} (how long a unit of data takes to cross).
+These two metrics are often in tension --- increasing throughput by
+sending more data may also increase delay because of congestion.
+\item[Reliability]
+Measured by the frequency of failures, the time it takes to recover from
+a failure, and the network's robustness in a catastrophe.
+\item[Security]
+The ability to protect data from unauthorised access and damage, and to
+recover from data loss.
+\item[Scalability]
+The ability of the network to grow --- to add more nodes or carry more
+traffic --- without redesign.
+\end{description}
+
+\subsection{Physical structures}\label{physical-structures}
+
+The physical structure of a network has two aspects: \emph{how} devices
+are connected and \emph{what shape} the connections take.
+
+\textbf{Type of connection.} A link can be either:
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{Point-to-point}: a dedicated link between exactly two devices
+  (e.g.~the cable from your laptop to its monitor).
+\item
+  \emph{Multipoint}: a single link shared by more than two devices
+  (e.g.~classical Ethernet on a coaxial bus).
+\end{itemize}
+
+\textbf{Physical topology.} The geometric layout of the links. The four
+primary topologies are:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Mesh} --- every device has a dedicated link to every other
+  device. For \(n\) nodes this requires \(\dfrac{n(n-1)}{2}\) links.
+  Extremely robust and fast, but expensive and unscalable.
+\item
+  \textbf{Star} --- every device has a dedicated link to a central hub.
+  The hub becomes a single point of failure but the topology is cheap
+  and easy to manage.
+\item
+  \textbf{Bus} --- all devices share a single backbone cable. Cheap and
+  simple, but the backbone is a single point of failure.
+\item
+  \textbf{Ring} --- each device is connected to two neighbours, forming
+  a closed loop. Signals travel in one direction around the ring.
+\item
+  \textbf{Hybrid} --- a mix of the above; for example, a star of buses.
+\end{itemize}
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Counting links in a mesh}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+A common exam question: \emph{if a mesh network has \(n=10\) nodes, how
+many links are required?} Plug into the formula:
+\(10 \times 9 / 2 = 45\) links, and each node needs \(n-1 = 9\) I/O
+ports. Mesh becomes impractical fast --- this is why almost no real
+network is fully meshed.
+
+\end{tcolorbox}
+
+\subsection{Network types by reach}\label{network-types-by-reach}
+
+Networks are classified by the geographic area they cover.
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.0833}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.2778}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.6389}}@{}}
+\caption{Networks classified by reach.}\label{tbl-reach}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Type
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Reach
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Typical use
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Type
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Reach
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Typical use
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+PAN & A few metres & Bluetooth headset, fitness tracker \\
+LAN & A building, campus & Office Ethernet, home Wi-Fi \\
+MAN & A city & City-wide Wi-Fi, cable TV distribution \\
+WAN & A country or globe & The public Internet, corporate backbone \\
+\end{longtable}
+
+A \textbf{LAN} is typically owned and operated by a single organisation.
+A \textbf{WAN} crosses public infrastructure and is usually built from
+links leased from telecommunications providers. The Internet is a
+network of LANs and WANs glued together.
+
+\subsection{Switching}\label{sec-switching}
+
+A network of more than a few devices cannot afford a dedicated link
+between every pair of nodes. Instead, intermediate devices called
+\emph{switches} relay data along a path from source to destination.
+There are two fundamental strategies:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Circuit switching} --- before any data is sent, a dedicated
+  path of links is reserved end-to-end for the duration of the
+  conversation, and a fixed share of each link's capacity is set aside
+  for it. This is how traditional telephone networks worked.
+\item
+  \textbf{Packet switching} --- the message is broken into small chunks
+  called \emph{packets}. Each packet is forwarded independently through
+  the network. Packets from many conversations share the same links
+  statistically.
+\end{itemize}
+
+The Internet is a packet-switched network. The advantage is high
+utilisation: idle moments in one conversation are filled by traffic from
+another. The disadvantage is variability: when many packets converge on
+a router, some have to wait in a queue, and if the queue overflows,
+packets are \emph{lost}.
+
+\section{The Internet}\label{sec-internet}
+
+The \textbf{Internet} is a global packet-switched network of networks
+that uses the TCP/IP protocol suite. It is not a single network owned by
+anyone; it is the union of many independent networks that agree to
+interconnect.
+
+\subsection{A very brief history}\label{a-very-brief-history}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{1960s} --- ARPANET, funded by the U.S. Defense Department,
+  demonstrates that packet switching works.
+\item
+  \textbf{1970s} --- Vint Cerf and Bob Kahn design TCP/IP, a protocol
+  that allows different networks to interconnect.
+\item
+  \textbf{1983} --- ARPANET officially switches to TCP/IP. This date is
+  often cited as the birth of the Internet.
+\item
+  \textbf{1989} --- Tim Berners-Lee proposes the World Wide Web at CERN.
+\item
+  \textbf{1990s} --- The Web, e-mail, and commercial ISPs bring the
+  Internet to the general public.
+\item
+  \textbf{2000s--today} --- Mobile, cloud computing, video streaming,
+  and the Internet of Things become dominant traffic sources.
+\end{itemize}
+
+\subsection{The Internet today}\label{the-internet-today}
+
+The modern Internet has a hierarchical structure of \emph{Internet
+Service Providers} (ISPs).
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{End users} (homes, businesses, mobile devices) connect to a
+  \textbf{local ISP}.
+\item
+  Local ISPs connect to \textbf{regional ISPs}.
+\item
+  Regional ISPs connect to \textbf{Tier-1 ISPs} (also called
+  \emph{backbone} providers), which span continents and exchange traffic
+  at \emph{Internet exchange points} (IXPs).
+\end{itemize}
+
+This hierarchy is not strict --- large content providers (Google,
+Netflix, Meta) operate their own private backbones and peer directly
+with many ISPs, bypassing the upper tiers. But the mental model of
+\emph{edge → access → core} is still useful.
+
+\section{Protocols and standards}\label{sec-protocols}
+
+We have used the word \emph{protocol} informally; let us define it.
+
+A \textbf{protocol} is a set of rules that governs data communication.
+Every protocol defines three things:
+
+\begin{description}
+\tightlist
+\item[Syntax]
+The structure or format of the data --- the order in which bits are
+transmitted, the meaning of each field, the size of headers and
+payloads.
+\item[Semantics]
+The meaning of each piece of the message. For example, an address field
+tells the receiver \emph{who is being addressed}; an error-checking
+field tells the receiver \emph{whether the data was corrupted in
+transit}.
+\item[Timing]
+When data should be sent and how fast. If a sender produces 100 Mbps but
+the receiver can only consume 1 Mbps, the data will be lost without
+timing rules to slow the sender down.
+\end{description}
+
+\subsection{Standards}\label{standards}
+
+A \textbf{standard} is a protocol (or set of protocols) that has been
+formally agreed upon. Standards are essential --- without them,
+equipment from different vendors could not interoperate.
+
+Standards come in two flavours:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{De facto} standards arise from widespread use, without any
+  formal endorsement. The QWERTY keyboard layout is a de facto standard.
+\item
+  \textbf{De jure} standards are formally adopted by a recognised body.
+  The IEEE 802.11 family of Wi-Fi standards is de jure.
+\end{itemize}
+
+The main standards organisations relevant to networking are summarised
+in Table~\ref{tbl-standards}.
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.0642}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.5046}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.4312}}@{}}
+\caption{Major standards bodies in
+networking.}\label{tbl-standards}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Body
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Stands for
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+What it standardises
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Body
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Stands for
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+What it standardises
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+ISO & International Organization for Standardization & The OSI reference
+model, many others \\
+ITU-T & International Telecommunication Union --- Telecom & Telephony,
+optical transport \\
+IEEE & Institute of Electrical and Electronics Engineers & LAN/MAN
+standards: Ethernet (802.3), Wi-Fi (802.11) \\
+IETF & Internet Engineering Task Force & Internet protocols, published
+as RFCs \\
+ANSI & American National Standards Institute & Many U.S. standards \\
+\end{longtable}
+
+Internet standards are published as \textbf{Requests for Comments}
+(RFCs). Despite the modest name, an RFC that reaches \emph{Internet
+Standard} status is binding for anyone who wants to interoperate. For
+example, RFC 791 defines IPv4; RFC 9293 defines TCP.
+
+\section{Summary}\label{summary}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Data communication} requires five components: a message, a
+  sender, a receiver, a transmission medium, and a protocol.
+\item
+  A \textbf{network} is a set of devices connected by communication
+  links. It is judged on performance, reliability, security, and
+  scalability.
+\item
+  Networks differ in \textbf{topology} (mesh, star, bus, ring, hybrid)
+  and in \textbf{reach} (PAN, LAN, MAN, WAN).
+\item
+  The Internet is a global \textbf{packet-switched} network of networks,
+  organised as a loose hierarchy of ISPs.
+\item
+  A \textbf{protocol} specifies syntax, semantics, and timing; a
+  \textbf{standard} is a protocol that everyone has agreed to follow.
+\end{itemize}
+
+The remaining chapters look at each layer of the protocol stack in turn,
+starting from the bottom --- the physical layer --- and working upward.
+
+\section*{Exercises}\label{exercises}
+\addcontentsline{toc}{section}{Exercises}
+
+\markright{Exercises}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  List the five components of a data communication system and explain
+  the role of each.
+\item
+  A full mesh network has 12 nodes. How many links does it use? How many
+  I/O ports does each node need?
+\item
+  A camera streams 1080p video at 30 frames per second. Each frame is
+  \(1920 \times 1080\) pixels, and each pixel uses 24 bits of colour.
+  What raw bit rate does this produce, in Mbps? Why is the actual
+  transmitted bit rate much lower?
+\item
+  Classify each of the following as simplex, half-duplex, or
+  full-duplex: (a) a TV broadcast, (b) two children with a tin-can
+  telephone, (c) a video call, (d) a remote control and a TV, (e) a CB
+  radio conversation.
+\item
+  The Internet is described as a ``network of networks''. What does this
+  mean? Why is no single organisation in charge of it?
+\end{enumerate}
+
+
+
+
+\end{document}
