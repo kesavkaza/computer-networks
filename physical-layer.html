@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>2&nbsp; The Physical Layer – Computer Networks</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./intro.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-87b7f55de2e0c9887283481eb31a794c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./physical-layer.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">The Physical Layer</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Computer Networks</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./physical-layer.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">The Physical Layer</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#the-gap-between-bits-and-physics" id="toc-the-gap-between-bits-and-physics" class="nav-link active" data-scroll-target="#the-gap-between-bits-and-physics"><span class="header-section-number">2.1</span> The gap between bits and physics</a></li>
+  <li><a href="#problem-1-clocks-drift" id="toc-problem-1-clocks-drift" class="nav-link" data-scroll-target="#problem-1-clocks-drift"><span class="header-section-number">2.2</span> Problem 1: Clocks drift</a></li>
+  <li><a href="#problem-2-signals-decay" id="toc-problem-2-signals-decay" class="nav-link" data-scroll-target="#problem-2-signals-decay"><span class="header-section-number">2.3</span> Problem 2: Signals decay</a></li>
+  <li><a href="#how-fast-can-we-go" id="toc-how-fast-can-we-go" class="nav-link" data-scroll-target="#how-fast-can-we-go"><span class="header-section-number">2.4</span> How fast can we go?</a>
+  <ul class="collapse">
+  <li><a href="#nyquists-limit" id="toc-nyquists-limit" class="nav-link" data-scroll-target="#nyquists-limit"><span class="header-section-number">2.4.1</span> Nyquist’s limit</a></li>
+  <li><a href="#shannons-limit" id="toc-shannons-limit" class="nav-link" data-scroll-target="#shannons-limit"><span class="header-section-number">2.4.2</span> Shannon’s limit</a></li>
+  </ul></li>
+  <li><a href="#modulation-when-the-channel-will-not-carry-your-signal-directly" id="toc-modulation-when-the-channel-will-not-carry-your-signal-directly" class="nav-link" data-scroll-target="#modulation-when-the-channel-will-not-carry-your-signal-directly"><span class="header-section-number">2.5</span> Modulation: when the channel will not carry your signal directly</a></li>
+  <li><a href="#what-is-actually-carrying-the-signal" id="toc-what-is-actually-carrying-the-signal" class="nav-link" data-scroll-target="#what-is-actually-carrying-the-signal"><span class="header-section-number">2.6</span> What is actually carrying the signal?</a>
+  <ul class="collapse">
+  <li><a href="#twisted-pair" id="toc-twisted-pair" class="nav-link" data-scroll-target="#twisted-pair"><span class="header-section-number">2.6.1</span> Twisted pair</a></li>
+  <li><a href="#coaxial-cable" id="toc-coaxial-cable" class="nav-link" data-scroll-target="#coaxial-cable"><span class="header-section-number">2.6.2</span> Coaxial cable</a></li>
+  <li><a href="#optical-fibre" id="toc-optical-fibre" class="nav-link" data-scroll-target="#optical-fibre"><span class="header-section-number">2.6.3</span> Optical fibre</a></li>
+  <li><a href="#comparison" id="toc-comparison" class="nav-link" data-scroll-target="#comparison"><span class="header-section-number">2.6.4</span> Comparison</a></li>
+  </ul></li>
+  <li><a href="#wireless-the-unguided-medium" id="toc-wireless-the-unguided-medium" class="nav-link" data-scroll-target="#wireless-the-unguided-medium"><span class="header-section-number">2.7</span> Wireless: the unguided medium</a>
+  <ul class="collapse">
+  <li><a href="#the-spectrum" id="toc-the-spectrum" class="nav-link" data-scroll-target="#the-spectrum"><span class="header-section-number">2.7.1</span> The spectrum</a></li>
+  <li><a href="#how-radio-signals-fail" id="toc-how-radio-signals-fail" class="nav-link" data-scroll-target="#how-radio-signals-fail"><span class="header-section-number">2.7.2</span> How radio signals fail</a></li>
+  <li><a href="#how-modern-wireless-copes" id="toc-how-modern-wireless-copes" class="nav-link" data-scroll-target="#how-modern-wireless-copes"><span class="header-section-number">2.7.3</span> How modern wireless copes</a></li>
+  </ul></li>
+  <li><a href="#why-this-layer-matters" id="toc-why-this-layer-matters" class="nav-link" data-scroll-target="#why-this-layer-matters"><span class="header-section-number">2.8</span> Why this layer matters</a></li>
+  <li><a href="#questions-to-chew-on" id="toc-questions-to-chew-on" class="nav-link" data-scroll-target="#questions-to-chew-on"><span class="header-section-number">2.9</span> Questions to chew on</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">The Physical Layer</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Hold a piece of Ethernet cable in your hand. It is copper, plastic, and air. It does not know what a bit is. It does not know what a packet is. It knows about electricity — about voltages, currents, the way a copper wire responds when you push electrons into one end. And yet, somehow, the bits you send at one end come out at the other.</p>
+<p>This chapter is about that “somehow.”</p>
+<p>In every conversation about networking, the physical layer is the layer everyone forgets — until something stops working, and then it is the only layer that matters. This is the layer where physics intrudes on engineering. There are hard limits here: bandwidth limits, noise limits, speed-of-light limits. Limits that no amount of clever software can talk its way out of. The rest of the Internet is built on top of these limits, and much of the cleverness in the upper layers exists precisely to <em>cope</em> with them.</p>
+<p>Three questions organize the chapter:</p>
+<ol type="1">
+<li>How do we represent bits as physical signals?</li>
+<li>How fast can we possibly send bits, and what determines the limit?</li>
+<li>What is actually carrying the signal between the two ends?</li>
+</ol>
+<section id="the-gap-between-bits-and-physics" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="the-gap-between-bits-and-physics"><span class="header-section-number">2.1</span> The gap between bits and physics</h2>
+<p>Imagine you are standing at one end of a long copper wire. At the other end is a friend. You have agreed to send each other binary messages. You both have a battery and a voltmeter. The battery can apply a voltage to the wire; the voltmeter reads it.</p>
+<p>How would you send the message <code>1011</code>?</p>
+<p>The obvious idea: agree on a meaning. <em>High voltage means 1, low voltage means 0.</em> You start the clock, hold the battery on for one second per bit, switch it on and off according to the bit pattern. Your friend reads the voltmeter every second and writes down what they see.</p>
+<p>Congratulations — you have just invented digital signaling. Specifically, you have invented something close to <strong>NRZ</strong> (non-return-to-zero) encoding. The physical layer’s job, stripped down, is exactly this: keep both ends in agreement about (a) what voltages mean what, and (b) when to read them.</p>
+<p>It sounds trivial. It is not.</p>
+</section>
+<section id="problem-1-clocks-drift" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="problem-1-clocks-drift"><span class="header-section-number">2.2</span> Problem 1: Clocks drift</h2>
+<p>Suppose you send the bit string <code>00000000</code> — eight zeros. With NRZ that is eight seconds of <em>the same</em> voltage. Your friend has to keep counting seconds in their head to know how many zeros to write down. If their clock is off by even a tiny fraction, they will read seven zeros, or nine.</p>
+<p>Real systems run at billions of bits per second, not one bit per second. Clocks drift, oscillators wobble. So the physical layer needs encodings that <em>force</em> a transition on the wire often, even when the data is all zeros or all ones. The receiver uses those transitions to synchronize its clock to the sender’s.</p>
+<p><strong>Manchester encoding</strong> is the classic example: every bit is encoded as a transition in the middle of the bit period. A <code>0</code> might be a high-to-low transition; a <code>1</code> might be low-to-high. The data and the clock are encoded together. This is what classical Ethernet used.</p>
+<p>The cost: the signal now changes twice as fast as the bit rate. Half the wire’s potential is being spent on synchronization. Cleverer encodings (4B/5B, 8B/10B) get most of the synchronization benefit with less overhead, but the principle is the same — encoding is always a compromise between data efficiency and timing recovery.</p>
+</section>
+<section id="problem-2-signals-decay" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="problem-2-signals-decay"><span class="header-section-number">2.3</span> Problem 2: Signals decay</h2>
+<p>A square wave looks beautiful on a chalkboard: sharp edges, instant transitions, perfectly flat tops. A square wave on a real cable, especially a long one, looks more like a smear of its former self. The sharp edges get rounded off. The peaks droop. Noise from nearby electrical equipment adds wiggles. By the time it arrives, the signal looks less like a binary code and more like a graph of someone’s mood.</p>
+<p>The receiver still has to look at that smeared, noisy waveform and decide, bit by bit, whether each one is a 0 or a 1. Two things make this possible:</p>
+<ul>
+<li><strong>Thresholding.</strong> The receiver does not ask <em>what voltage is this?</em> It asks <em>is this above or below the threshold?</em> A signal can be badly distorted and still cross the threshold at the right times.</li>
+<li><strong>Knowing where to look.</strong> Thanks to clock recovery, the receiver knows roughly <em>when</em> each bit should arrive, and only samples at those moments.</li>
+</ul>
+<p>Even so, there are limits. If the signal gets too distorted, two adjacent bits start to blur into each other — a problem called <strong>intersymbol interference</strong>. At some point you can no longer tell them apart, and the link begins producing errors. Which brings us to the question that defines this chapter.</p>
+</section>
+<section id="how-fast-can-we-go" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="how-fast-can-we-go"><span class="header-section-number">2.4</span> How fast can we go?</h2>
+<p>There is no shortage of bad answers. <em>As fast as the wire can carry. As fast as the equipment allows. As fast as you are willing to pay for.</em></p>
+<p>The real answer is a deep result from information theory, and it comes in two parts. The first was proved by Harry Nyquist in 1924. The second by Claude Shannon in 1948.</p>
+<section id="nyquists-limit" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="nyquists-limit"><span class="header-section-number">2.4.1</span> Nyquist’s limit</h3>
+<p>Nyquist asked: if I have a perfect, noise-free channel of bandwidth <span class="math inline">\(B\)</span> Hz, and I use <span class="math inline">\(V\)</span> distinct signal levels (2 for binary, 4 for two-bits-per-symbol, and so on), what is the maximum bit rate I can achieve?</p>
+<p><span id="eq-nyquist"><span class="math display">\[
+C_{\text{Nyquist}} = 2B \log_2 V \quad \text{bits per second}
+\tag{2.1}\]</span></span></p>
+<p>Three things to notice. First, the formula does not care how clever you are at encoding — it is a fundamental limit set by the bandwidth itself. Second, the number of signal levels enters <em>logarithmically</em>, not linearly: doubling the levels (from 2 to 4) only adds one bit per symbol. Third, this is for a <em>noise-free</em> channel, which is to say: it does not exist.</p>
+<p><strong>Example.</strong> A standard voice telephone line has a bandwidth of about <span class="math inline">\(B = 3000\)</span> Hz. With binary signalling (<span class="math inline">\(V = 2\)</span>):</p>
+<p><span class="math display">\[
+C = 2 \times 3000 \times \log_2 2 = 6{,}000 \text{ bps}
+\]</span></p>
+<p>That is slow. With 16 signal levels (<span class="math inline">\(V = 16\)</span>, four bits per symbol):</p>
+<p><span class="math display">\[
+C = 2 \times 3000 \times \log_2 16 = 24{,}000 \text{ bps}
+\]</span></p>
+<p>This is roughly the kind of trick early dial-up modems used to wring tens of kilobits per second out of a phone line that was, electrically, designed for 1920s telephony.</p>
+</section>
+<section id="shannons-limit" class="level3" data-number="2.4.2">
+<h3 data-number="2.4.2" class="anchored" data-anchor-id="shannons-limit"><span class="header-section-number">2.4.2</span> Shannon’s limit</h3>
+<p>But why stop there? If you can keep adding voltage levels, you can keep increasing the rate. Why could a modem not hit a megabit per second on a phone line?</p>
+<p>Because of noise. The wire is not quiet. There is thermal noise from the resistance of the copper, electromagnetic interference from nearby motors and fluorescent lights, crosstalk from adjacent wires. As you pack more voltage levels closer together, the noise starts swallowing the difference between them. The receiver sees <em>is this 5.2 V or 5.4 V?</em> and the noise is ±0.3 V, and now it cannot tell.</p>
+<p>Shannon answered the question Nyquist did not: given bandwidth <span class="math inline">\(B\)</span> <em>and</em> signal-to-noise ratio <span class="math inline">\(S/N\)</span>, what is the <em>actual</em> maximum bit rate?</p>
+<p><span id="eq-shannon"><span class="math display">\[
+C_{\text{Shannon}} = B \log_2 \left(1 + \frac{S}{N}\right) \quad \text{bits per second}
+\tag{2.2}\]</span></span></p>
+<p>This is one of the most important formulas in all of engineering. It says:</p>
+<ul>
+<li>Bandwidth helps <strong>linearly</strong>. Double the bandwidth, double the capacity.</li>
+<li>Signal-to-noise ratio helps <strong>logarithmically</strong>. To double capacity through SNR alone, you must roughly <em>square</em> the signal-to-noise ratio.</li>
+<li>There is a ceiling. No matter how clever your encoding, no matter how many voltage levels you use, you cannot exceed this number on this channel.</li>
+</ul>
+<p>Signal-to-noise ratio is usually quoted in decibels: <span class="math inline">\(\text{SNR}_{\text{dB}} = 10 \log_{10}(S/N)\)</span>. So an SNR of 30 dB means <span class="math inline">\(S/N = 1000\)</span>.</p>
+<p><strong>Example.</strong> The same telephone line: <span class="math inline">\(B = 3000\)</span> Hz, typical SNR around 30 dB so <span class="math inline">\(S/N = 1000\)</span>.</p>
+<p><span class="math display">\[
+C = 3000 \times \log_2(1 + 1000) \approx 3000 \times 9.97 \approx 30{,}000 \text{ bps}
+\]</span></p>
+<p>About 30 kbps. This is, almost exactly, the speed of a late-1990s dial-up modem. Those modems were not bad engineering. They were <em>very nearly optimal</em> for the channel they were using. To go faster you needed a different physical layer — DSL, cable, fibre — with either more bandwidth, more SNR, or both.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Nyquist gives an <em>upper bound</em> under ideal conditions. Shannon gives an upper bound under realistic ones. When the two disagree, Shannon wins: noise is not optional. The interesting engineering question is usually <em>how close to Shannon can we get?</em></p>
+</div>
+</div>
+</section>
+</section>
+<section id="modulation-when-the-channel-will-not-carry-your-signal-directly" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="modulation-when-the-channel-will-not-carry-your-signal-directly"><span class="header-section-number">2.5</span> Modulation: when the channel will not carry your signal directly</h2>
+<p>Everything above assumed you could put a square wave on a wire and the wire would faithfully carry the voltage changes from one end to the other. For many media — Ethernet cables, short copper runs — that works fine. For others — radio, satellite, even some long-distance cables — it does not. The medium only carries signals in a specific frequency band. You cannot transmit a baseband square wave on the radio spectrum.</p>
+<p>The solution is <strong>modulation</strong>: take a high-frequency carrier wave (a clean sinusoid at, say, 2.4 GHz for Wi-Fi) and <em>modify</em> one of its properties according to the data you want to send. Three basic flavours:</p>
+<ul>
+<li><strong>Amplitude shift keying (ASK)</strong> — vary the height of the carrier. A loud chunk of carrier means one symbol; a quiet chunk means another.</li>
+<li><strong>Frequency shift keying (FSK)</strong> — vary the frequency. A slightly higher pitch is one symbol; a slightly lower pitch is another.</li>
+<li><strong>Phase shift keying (PSK)</strong> — vary the phase. The carrier skips forward or backward by a fraction of a cycle to signal a transition.</li>
+</ul>
+<p>Modern wireless systems combine them. <strong>Quadrature amplitude modulation (QAM)</strong> varies amplitude <em>and</em> phase simultaneously. A 256-QAM signal uses 256 distinct combinations of amplitude and phase to encode 8 bits per symbol. This is what your home Wi-Fi router is doing while you read this.</p>
+<p>The relationship to Nyquist and Shannon does not change. More symbols per second still costs bandwidth; more distinguishable symbols still costs SNR. The same fundamental limits apply. Modulation is just how we <em>use</em> the channel — not a way around its rules.</p>
+</section>
+<section id="what-is-actually-carrying-the-signal" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="what-is-actually-carrying-the-signal"><span class="header-section-number">2.6</span> What is actually carrying the signal?</h2>
+<p>So far we have spoken of “the channel” as if it were a generic thing. It is not. Different physical media have radically different bandwidths, noise levels, costs, and quirks. Choosing the medium is half the design.</p>
+<p>There is one useful distinction up front. Some media are <strong>guided</strong>: the signal is constrained to follow a physical path you laid down — a copper wire, a strand of glass. Others are <strong>unguided</strong>: the signal radiates outward through air or space, and you hope it reaches the receiver. Each kind has its own physics, and its own ways of failing.</p>
+<section id="twisted-pair" class="level3" data-number="2.6.1">
+<h3 data-number="2.6.1" class="anchored" data-anchor-id="twisted-pair"><span class="header-section-number">2.6.1</span> Twisted pair</h3>
+<p>Two insulated copper wires twisted around each other. Cheap, flexible, the most-installed transmission medium in human history. The twist is not decorative — it cancels out electromagnetic interference, because any noise picked up by one wire is picked up almost equally by the other and the receiver looks at the <em>difference</em> between them. More twists per inch means better noise rejection.</p>
+<p>You meet twisted pair as the telephone line into your house and as the Ethernet cables behind your desk. Categories (Cat 5e, Cat 6, Cat 6a, Cat 7) differ in how tightly they are twisted, how well they are shielded, and consequently how many gigabits per second they can carry over how long a run. Cat 6a can handle 10 Gbps over 100 metres. Beyond that, you are typically into fibre.</p>
+<p>The fundamental limits on twisted pair are <strong>attenuation</strong> — the signal weakens as it travels — and <strong>crosstalk</strong>, where signals on adjacent pairs leak into each other.</p>
+</section>
+<section id="coaxial-cable" class="level3" data-number="2.6.2">
+<h3 data-number="2.6.2" class="anchored" data-anchor-id="coaxial-cable"><span class="header-section-number">2.6.2</span> Coaxial cable</h3>
+<p>A single copper conductor surrounded by an insulator, then a braided metallic shield, then an outer jacket. The shield reduces interference dramatically, which means coax has more bandwidth and longer range than twisted pair. It is what your cable TV provider uses to deliver hundreds of TV channels and gigabits of Internet over the same wire. It used to be what classical Ethernet ran on, before twisted pair improved enough to take over.</p>
+<p>Coax is heavier, more expensive, and harder to install than twisted pair. It survives mostly in cable television networks and as the short jumpers connecting equipment to antennas.</p>
+</section>
+<section id="optical-fibre" class="level3" data-number="2.6.3">
+<h3 data-number="2.6.3" class="anchored" data-anchor-id="optical-fibre"><span class="header-section-number">2.6.3</span> Optical fibre</h3>
+<p>A thin strand of glass — or sometimes plastic — that guides pulses of light along its length. The light is generated by a laser or LED at one end and detected by a photodiode at the other. Total internal reflection keeps the light bouncing along inside the fibre, so it can travel for kilometres with very little loss.</p>
+<p>Fibre is the medium that broke the bandwidth ceiling. A single strand can carry signals at frequencies measured in hundreds of terahertz. Plug realistic numbers into <a href="#eq-shannon" class="quarto-xref">Equation&nbsp;<span>2.2</span></a> and you get capacities in the terabits per second, per fibre. It is immune to electromagnetic interference, because light is not affected by stray electrical fields. The cables are thin and light, so thousands of fibres can be packed into a single cable.</p>
+<p>Fibre comes in two main flavours: <strong>single-mode</strong> fibre, with a very narrow core that allows only one path for the light (longer reach, higher cost, used for long-haul links), and <strong>multi-mode</strong> fibre, with a wider core (shorter reach, lower cost, used inside buildings and data centres). All long-distance Internet traffic — between cities, across oceans — travels on fibre.</p>
+<p>The catch is in the <em>connections</em>. Fibre is fragile; splicing two fibres together accurately enough that the light passes through is a delicate operation. Bending a fibre too sharply loses signal. This is why fibre dominates the <em>core</em> of networks but only sometimes reaches all the way to your house.</p>
+</section>
+<section id="comparison" class="level3" data-number="2.6.4">
+<h3 data-number="2.6.4" class="anchored" data-anchor-id="comparison"><span class="header-section-number">2.6.4</span> Comparison</h3>
+<div id="tbl-media" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-media-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2.1: Rough comparison of common physical media.
+</figcaption>
+<div aria-describedby="tbl-media-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 24%">
+<col style="width: 23%">
+<col style="width: 18%">
+<col style="width: 19%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Medium</th>
+<th>Typical bandwidth</th>
+<th>Typical reach</th>
+<th>Noise immunity</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>UTP (Cat 6a)</td>
+<td>500 MHz</td>
+<td>100 m</td>
+<td>Low–medium</td>
+<td>Very low</td>
+</tr>
+<tr class="even">
+<td>Coaxial cable</td>
+<td>1 GHz</td>
+<td>hundreds of m</td>
+<td>Medium</td>
+<td>Low</td>
+</tr>
+<tr class="odd">
+<td>Single-mode fibre</td>
+<td>tens of THz</td>
+<td>tens of km</td>
+<td>Excellent</td>
+<td>Medium</td>
+</tr>
+<tr class="even">
+<td>Wireless (Wi-Fi 6)</td>
+<td>up to 160 MHz</td>
+<td>tens of m</td>
+<td>Poor</td>
+<td>Very low</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The right medium depends on what you are trying to do. Inside a building, twisted pair is almost always the answer. Between buildings on a campus or across a city, fibre. Out to a moving phone, radio. The Internet uses all of them, glued together by routers and switches at the boundaries.</p>
+</section>
+</section>
+<section id="wireless-the-unguided-medium" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="wireless-the-unguided-medium"><span class="header-section-number">2.7</span> Wireless: the unguided medium</h2>
+<p>Wireless gets its own section because it does not behave like the guided media. A copper wire goes from A to B and that is where the signal goes. A radio antenna <em>radiates</em> — the signal spreads out in all directions, weakens with distance, bounces off walls, ducks through some materials and stops at others, and shares the airwaves with every other device on the same band. Almost everything that is easy on a wire is hard on a radio.</p>
+<section id="the-spectrum" class="level3" data-number="2.7.1">
+<h3 data-number="2.7.1" class="anchored" data-anchor-id="the-spectrum"><span class="header-section-number">2.7.1</span> The spectrum</h3>
+<p>Radio communication uses the <strong>electromagnetic spectrum</strong> — the same continuous range of frequencies that includes visible light, infrared, microwaves, and X-rays. Different bands behave differently:</p>
+<ul>
+<li><strong>Low frequencies (kHz–MHz)</strong> travel far, pass through obstacles easily, but offer little bandwidth. Used by AM/FM radio and maritime communication.</li>
+<li><strong>Microwaves (1–100 GHz)</strong> offer much more bandwidth and can be focused with antennas, but are blocked by walls and absorbed by rain. Used by Wi-Fi (2.4 and 5 GHz), cellular (around 1–6 GHz), and satellite (10–30 GHz).</li>
+<li><strong>Millimetre waves (30–300 GHz)</strong> offer enormous bandwidth but barely penetrate anything — even a leaf can block them. Used by 5G’s high-band tier.</li>
+</ul>
+<p>The pattern is consistent: higher frequency means more bandwidth but worse propagation. There is no free lunch.</p>
+<p>The radio spectrum is also a <em>regulated</em> resource. Governments assign frequency bands to specific uses — TV here, cellular there, Wi-Fi over there — to prevent interference. A handful of bands (notably 2.4 GHz and 5 GHz) are designated <em>unlicensed</em>: anyone can use them, with restrictions on power. That is why your Wi-Fi router, your microwave oven, and your Bluetooth headphones all live in the 2.4 GHz band, and sometimes fight each other for airtime.</p>
+</section>
+<section id="how-radio-signals-fail" class="level3" data-number="2.7.2">
+<h3 data-number="2.7.2" class="anchored" data-anchor-id="how-radio-signals-fail"><span class="header-section-number">2.7.2</span> How radio signals fail</h3>
+<p>Three problems show up on a wireless link that you never had on a wire.</p>
+<p><strong>Path loss.</strong> A radio signal’s strength falls off rapidly with distance — roughly as <span class="math inline">\(1/d^2\)</span> in free space, and worse in buildings. Double the distance, and you have a quarter of the power. This is why moving across the room changes your Wi-Fi speed.</p>
+<p><strong>Multipath.</strong> The signal does not travel in a straight line from transmitter to receiver. It reflects off walls, floors, furniture. The receiver gets several copies of the signal, arriving at slightly different times. These copies can add constructively (great) or destructively (the signal cancels itself out and you get nothing). Move the receiver six centimetres and the multipath pattern changes completely. This is why your Wi-Fi reception varies wildly as you walk around with a laptop.</p>
+<p><strong>Interference.</strong> Multiple devices on the same band share the air. A microwave oven leaks at 2.4 GHz. Your neighbour’s Wi-Fi sits on the same channel as yours. Bluetooth devices hop around looking for quiet spots. A wireless link’s effective SNR is a moving target, depending on what else is on the air at that moment.</p>
+</section>
+<section id="how-modern-wireless-copes" class="level3" data-number="2.7.3">
+<h3 data-number="2.7.3" class="anchored" data-anchor-id="how-modern-wireless-copes"><span class="header-section-number">2.7.3</span> How modern wireless copes</h3>
+<p>Wireless engineering has spent decades developing techniques to fight these problems. A few worth knowing:</p>
+<ul>
+<li><strong>Spread spectrum.</strong> Instead of putting all the signal energy at one frequency, spread it across a wide band — either by hopping rapidly between frequencies (FHSS, used by Bluetooth) or by multiplying the signal with a fast pseudo-random sequence (DSSS, used by older Wi-Fi). Spreading the signal makes it more resistant to narrow-band interference and harder to jam.</li>
+<li><strong>OFDM</strong> (orthogonal frequency-division multiplexing). Split the channel into hundreds of narrow subcarriers and send a piece of the data on each one in parallel. Subcarriers that happen to land in a deep multipath fade can be dropped or de-emphasized. This is what Wi-Fi (since 802.11a), LTE, and 5G all use.</li>
+<li><strong>MIMO</strong> (multiple input, multiple output). Use multiple antennas at both ends. The receiver compares the signals from each antenna and exploits the differences — multipath turns from a problem into a feature, because each path is a slightly different channel. Modern Wi-Fi routers may use four to eight antennas at once.</li>
+</ul>
+<p>Wireless can never quite match a good wire for raw throughput on a fair fight, because the air is shared, noisy, and unguided. But the techniques above have closed the gap to within an order of magnitude in many cases, and continue to improve.</p>
+</section>
+</section>
+<section id="why-this-layer-matters" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="why-this-layer-matters"><span class="header-section-number">2.8</span> Why this layer matters</h2>
+<p>The physical layer is, in a real sense, where the speed of your Internet lives. Every upper-layer cleverness — TCP retransmissions, video compression, content delivery networks — operates within the budget the physical layer hands them. When your home Wi-Fi upgrades from 802.11n to 802.11ac to 802.11ax, what is actually changing is the physical layer: more bandwidth, more sophisticated modulation, more antennas, smarter handling of multipath. The bits per second your laptop sees grow accordingly.</p>
+<p>In the rest of this course we will mostly ignore the physical layer and pretend that bits arrive on a wire from a source we do not have to think about. That is the whole point of layering. But it is worth remembering, every time you complain about a slow connection, that somewhere down at the bottom of the stack, a copper wire, a glass fibre, or a radio is grinding against the laws of physics on your behalf, and doing pretty well.</p>
+</section>
+<section id="questions-to-chew-on" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="questions-to-chew-on"><span class="header-section-number">2.9</span> Questions to chew on</h2>
+<ol type="1">
+<li>You are designing a system over a noisy line with <span class="math inline">\(S/N = 7\)</span> (so <span class="math inline">\(\log_2(1+7) = 3\)</span> bits per Hz). You can either (a) negotiate more bandwidth or (b) install better shielding to improve SNR. Both options cost the same. Which buys you more capacity, and why? See <a href="#eq-shannon" class="quarto-xref">Equation&nbsp;<span>2.2</span></a>.</li>
+<li>Manchester encoding spends half the wire’s symbol rate on clock synchronization. Why is this worth doing? Could we not use highly accurate clocks at both ends instead?</li>
+<li>A late-1990s telephone modem achieved about 30 kbps over a 3 kHz line. A modern Wi-Fi connection achieves about 1 Gbps over a 160 MHz band. Of those roughly four orders of magnitude of speedup, how much came from more bandwidth, and how much from better SNR?</li>
+<li>The Shannon limit is a theoretical ceiling. Real systems get close to it but never reach it. Why not?</li>
+<li>A single strand of fibre carries terabits per second; a coax cable carries a few gigabits per second; a twisted pair carries hundreds of megabits per second. Using <a href="#tbl-media" class="quarto-xref">Table&nbsp;<span>2.1</span></a>, explain this ranking in terms of bandwidth and noise immunity.</li>
+<li>Why does your Wi-Fi get worse when you walk to a different corner of the room, even when the distance to the router barely changes?</li>
+<li>The 5 GHz Wi-Fi band offers higher throughput than the 2.4 GHz band but worse range. Why? Could you design a single band that gave you both?</li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./intro.html" class="pagination-link" aria-label="Introduction">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
