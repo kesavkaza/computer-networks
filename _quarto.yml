@@ -1,0 +1,26 @@
+project:
+  type: book
+
+book:
+  title: "Computer Networks"
+  subtitle: "Course Notes"
+  author: "K. R. Kaza"
+  date: "May 2026"
+  chapters:
+    - index.qmd
+    - intro.qmd
+    #- summary.qmd
+    #- references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+  pdf:
+    documentclass: scrreprt
+
+
+
