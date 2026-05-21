@@ -151,7 +151,10 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a></li>
+  <li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a>
+  <ul class="collapse">
+  <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements">Acknowledgements</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -165,16 +168,23 @@ ul.task-list li input[type="checkbox"] {
 </div>
 
 
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">K. R. Kaza </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            IIIT Allahabad
+          </p>
+      </div>
+  </div>
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>K. R. Kaza </p>
-          </div>
-  </div>
-    
+      
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
@@ -192,10 +202,16 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="preface" class="level1 unnumbered">
 <h1 class="unnumbered">Preface</h1>
+<p>These are course notes for <strong>Computer Networks</strong>, an undergraduate course on how the Internet works. They take a bottom-up approach: we will start with wires, voltages, and radio waves, and climb through the layers of the network stack to where applications like web browsers and email clients live.</p>
+<p>The notes are meant to accompany the lectures, not replace them. They aim for the <em>concepts</em> — what each layer of the network exists to solve, why it works the way it does, what the alternatives looked like. The notes are not a reference manual. They do not cover every detail of every protocol. Instead, they focus on the big ideas and the most important protocols. The goal is to give you a mental model of how the Internet works, so you can understand new protocols as they come along.</p>
+<section id="acknowledgements" class="level2">
+<h2 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
+<p>These notes draw on standard networking textbooks — primarily Forouzan, <em>Data Communications and Networking</em>, with reference to Tanenbaum, Kurose &amp; Ross, and Peterson &amp; Davie. The prose is original; the topics and pedagogy are conventional.</p>
 <p>This is a Quarto book.</p>
 <p>To learn more about Quarto books visit <a href="https://quarto.org/docs/books" class="uri">https://quarto.org/docs/books</a>.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
