@@ -12,71 +12,71 @@
   {
     "objectID": "intro.html",
     "href": "intro.html",
-    "title": "1  <!– —",
+    "title": "1  Introduction",
     "section": "",
-    "text": "1.1 Data communications\ntitle: “Introduction”\nThis chapter introduces the basic vocabulary of data communications and computer networks. We answer four questions: what does it mean for two devices to communicate?, what is a network?, what is the Internet?, and what are protocols and standards, and why do we need them? The concepts here will return in every later chapter — once you have the vocabulary, everything that follows is filling in details.\nData communications is the exchange of data between two devices over some form of transmission medium such as a wire, optical fibre, or radio link. For communication to occur, three conditions must be met: the devices must be part of a communication system made up of a combination of hardware (physical equipment) and software (programs), the data must be delivered to the correct destination, and the data must be delivered accurately and in a timely manner.",
+    "text": "1.1 Data communications\nThis chapter introduces the basic vocabulary of data communications and computer networks. We answer four questions: what does it mean for two devices to communicate?, what is a network?, what is the Internet?, and what are protocols and standards, and why do we need them? The concepts here will return in every later chapter — once you have the vocabulary, everything that follows is filling in details.\nData communications is the exchange of data between two devices over some form of transmission medium such as a wire, optical fibre, or radio link. For communication to occur, three conditions must be met: the devices must be part of a communication system made up of a combination of hardware (physical equipment) and software (programs), the data must be delivered to the correct destination, and the data must be delivered accurately and in a timely manner.",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'><!-- ---</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
     ]
   },
   {
     "objectID": "intro.html#sec-data-comm",
     "href": "intro.html#sec-data-comm",
-    "title": "1  <!– —",
+    "title": "1  Introduction",
     "section": "",
-    "text": "1.1.1 Components of a communication system\nAny data communication system has five essential components, illustrated in Figure 1.1.\n\n\n\nflowchart LR\n  S[Sender] --&gt;|message| M((Transmission&lt;br/&gt;medium))\n  M --&gt;|message| R[Receiver]\n  P[Protocol] -.governs.-&gt; S\n  P -.governs.-&gt; R\n\n\nFigure 1.1: Five components of a communication system.\n\n\n\n\nMessage — the information to be communicated. It can be text, numbers, images, audio, or video.\nSender — the device that sends the message (a computer, phone, camera, sensor, etc.).\nReceiver — the device that receives the message.\nTransmission medium — the physical path over which the message travels (twisted-pair cable, coaxial cable, optical fibre, radio waves).\nProtocol — a set of rules that governs the communication. Without a shared protocol, two devices may be connected but cannot understand each other.\n\n\n\n\n\n\n\nNote\n\n\n\nA person speaking French to a person who only understands English illustrates the need for a protocol: the medium (air) carries the message, the sender produces it, the receiver hears it, but communication fails because the rules of encoding are different.\n\n\n\n\n1.1.2 Data representation\nInside a digital system, every message — regardless of its original form — is represented as a sequence of bits.\n\nText is encoded using character sets such as ASCII (7 bits per character) or Unicode (typically 8, 16, or 32 bits per character via UTF-8/16/32).\nNumbers are encoded directly in binary.\nImages are represented as a matrix of pixels; each pixel is one or more bytes describing its colour.\nAudio is sampled at a fixed rate (e.g. 44.1 kHz for CD-quality) and each sample is quantised to a fixed bit depth.\nVideo is a sequence of images (frames) shown rapidly, usually compressed using a codec such as H.264 or AV1.\n\n\n\n1.1.3 Data flow\nCommunication between two devices can be one of three types, summarised in Table 1.1.\n\n\n\nTable 1.1: Data flow modes.\n\n\n\n\n\n\n\n\n\n\nMode\nDirection\nExample\n\n\n\n\nSimplex\nOne direction only\nKeyboard → computer\n\n\nHalf-duplex\nBoth directions, but only one at a time\nWalkie-talkie\n\n\nFull-duplex\nBoth directions simultaneously\nTelephone call",
+    "text": "1.1.1 Components of a communication system\nAny data communication system has five essential components, illustrated in Figure 1.1.\n\n\n\n\n\n\n\n\nflowchart LR\n  S[Sender] --&gt;|message| M((Transmission&lt;br/&gt;medium))\n  M --&gt;|message| R[Receiver]\n  P[Protocol] -.governs.-&gt; S\n  P -.governs.-&gt; R\n\n\n\n\n\n\n\n\nFigure 1.1: Five components of a communication system.\n\n\n\n\nMessage — the information to be communicated. It can be text, numbers, images, audio, or video.\nSender — the device that sends the message (a computer, phone, camera, sensor, etc.).\nReceiver — the device that receives the message.\nTransmission medium — the physical path over which the message travels (twisted-pair cable, coaxial cable, optical fibre, radio waves).\nProtocol — a set of rules that governs the communication. Without a shared protocol, two devices may be connected but cannot understand each other.\n\n\n\n\n\n\n\nNote\n\n\n\nA person speaking French to a person who only understands English illustrates the need for a protocol: the medium (air) carries the message, the sender produces it, the receiver hears it, but communication fails because the rules of encoding are different.\n\n\n\n\n1.1.2 Data representation\nInside a digital system, every message — regardless of its original form — is represented as a sequence of bits.\n\nText is encoded using character sets such as ASCII (7 bits per character) or Unicode (typically 8, 16, or 32 bits per character via UTF-8/16/32).\nNumbers are encoded directly in binary.\nImages are represented as a matrix of pixels; each pixel is one or more bytes describing its colour.\nAudio is sampled at a fixed rate (e.g. 44.1 kHz for CD-quality) and each sample is quantised to a fixed bit depth.\nVideo is a sequence of images (frames) shown rapidly, usually compressed using a codec such as H.264 or AV1.\n\n\n\n1.1.3 Data flow\nCommunication between two devices can be one of three types, summarised in Table 1.1.\n\n\n\nTable 1.1: Data flow modes.\n\n\n\n\n\n\n\n\n\n\nMode\nDirection\nExample\n\n\n\n\nSimplex\nOne direction only\nKeyboard → computer\n\n\nHalf-duplex\nBoth directions, but only one at a time\nWalkie-talkie\n\n\nFull-duplex\nBoth directions simultaneously\nTelephone call",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'><!-- ---</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
     ]
   },
   {
     "objectID": "intro.html#sec-networks",
     "href": "intro.html#sec-networks",
-    "title": "1  <!– —",
+    "title": "1  Introduction",
     "section": "1.2 Networks",
     "text": "1.2 Networks\nA network is a set of devices (often called nodes) connected by communication links. A node can be a computer, printer, phone, or any other device capable of sending or receiving data on the network.\n\n1.2.1 Network criteria\nA network is judged by how well it meets four criteria.\n\nPerformance\n\nMeasured by throughput (how much data crosses the network per unit time) and delay (how long a unit of data takes to cross). These two metrics are often in tension — increasing throughput by sending more data may also increase delay because of congestion.\n\nReliability\n\nMeasured by the frequency of failures, the time it takes to recover from a failure, and the network’s robustness in a catastrophe.\n\nSecurity\n\nThe ability to protect data from unauthorised access and damage, and to recover from data loss.\n\nScalability\n\nThe ability of the network to grow — to add more nodes or carry more traffic — without redesign.\n\n\n\n\n1.2.2 Physical structures\nThe physical structure of a network has two aspects: how devices are connected and what shape the connections take.\nType of connection. A link can be either:\n\nPoint-to-point: a dedicated link between exactly two devices (e.g. the cable from your laptop to its monitor).\nMultipoint: a single link shared by more than two devices (e.g. classical Ethernet on a coaxial bus).\n\nPhysical topology. The geometric layout of the links. The four primary topologies are:\n\nMesh — every device has a dedicated link to every other device. For \\(n\\) nodes this requires \\(\\dfrac{n(n-1)}{2}\\) links. Extremely robust and fast, but expensive and unscalable.\nStar — every device has a dedicated link to a central hub. The hub becomes a single point of failure but the topology is cheap and easy to manage.\nBus — all devices share a single backbone cable. Cheap and simple, but the backbone is a single point of failure.\nRing — each device is connected to two neighbours, forming a closed loop. Signals travel in one direction around the ring.\nHybrid — a mix of the above; for example, a star of buses.\n\n\n\n\n\n\n\nTipCounting links in a mesh\n\n\n\nA common exam question: if a mesh network has \\(n=10\\) nodes, how many links are required? Plug into the formula: \\(10 \\times 9 / 2 = 45\\) links, and each node needs \\(n-1 = 9\\) I/O ports. Mesh becomes impractical fast — this is why almost no real network is fully meshed.\n\n\n\n\n1.2.3 Network types by reach\nNetworks are classified by the geographic area they cover.\n\n\n\nTable 1.2: Networks classified by reach.\n\n\n\n\n\n\n\n\n\n\nType\nReach\nTypical use\n\n\n\n\nPAN\nA few metres\nBluetooth headset, fitness tracker\n\n\nLAN\nA building, campus\nOffice Ethernet, home Wi-Fi\n\n\nMAN\nA city\nCity-wide Wi-Fi, cable TV distribution\n\n\nWAN\nA country or globe\nThe public Internet, corporate backbone\n\n\n\n\n\n\nA LAN is typically owned and operated by a single organisation. A WAN crosses public infrastructure and is usually built from links leased from telecommunications providers. The Internet is a network of LANs and WANs glued together.\n\n\n1.2.4 Switching\nA network of more than a few devices cannot afford a dedicated link between every pair of nodes. Instead, intermediate devices called switches relay data along a path from source to destination. There are two fundamental strategies:\n\nCircuit switching — before any data is sent, a dedicated path of links is reserved end-to-end for the duration of the conversation, and a fixed share of each link’s capacity is set aside for it. This is how traditional telephone networks worked.\nPacket switching — the message is broken into small chunks called packets. Each packet is forwarded independently through the network. Packets from many conversations share the same links statistically.\n\nThe Internet is a packet-switched network. The advantage is high utilisation: idle moments in one conversation are filled by traffic from another. The disadvantage is variability: when many packets converge on a router, some have to wait in a queue, and if the queue overflows, packets are lost.",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'><!-- ---</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
     ]
   },
   {
     "objectID": "intro.html#sec-internet",
     "href": "intro.html#sec-internet",
-    "title": "1  <!– —",
+    "title": "1  Introduction",
     "section": "1.3 The Internet",
     "text": "1.3 The Internet\nThe Internet is a global packet-switched network of networks that uses the TCP/IP protocol suite. It is not a single network owned by anyone; it is the union of many independent networks that agree to interconnect.\n\n1.3.1 A very brief history\n\n1960s — ARPANET, funded by the U.S. Defense Department, demonstrates that packet switching works.\n1970s — Vint Cerf and Bob Kahn design TCP/IP, a protocol that allows different networks to interconnect.\n1983 — ARPANET officially switches to TCP/IP. This date is often cited as the birth of the Internet.\n1989 — Tim Berners-Lee proposes the World Wide Web at CERN.\n1990s — The Web, e-mail, and commercial ISPs bring the Internet to the general public.\n2000s–today — Mobile, cloud computing, video streaming, and the Internet of Things become dominant traffic sources.\n\n\n\n1.3.2 The Internet today\nThe modern Internet has a hierarchical structure of Internet Service Providers (ISPs).\n\nEnd users (homes, businesses, mobile devices) connect to a local ISP.\nLocal ISPs connect to regional ISPs.\nRegional ISPs connect to Tier-1 ISPs (also called backbone providers), which span continents and exchange traffic at Internet exchange points (IXPs).\n\nThis hierarchy is not strict — large content providers (Google, Netflix, Meta) operate their own private backbones and peer directly with many ISPs, bypassing the upper tiers. But the mental model of edge → access → core is still useful.",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'><!-- ---</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
     ]
   },
   {
     "objectID": "intro.html#sec-protocols",
     "href": "intro.html#sec-protocols",
-    "title": "1  <!– —",
+    "title": "1  Introduction",
     "section": "1.4 Protocols and standards",
     "text": "1.4 Protocols and standards\nWe have used the word protocol informally; let us define it.\nA protocol is a set of rules that governs data communication. Every protocol defines three things:\n\nSyntax\n\nThe structure or format of the data — the order in which bits are transmitted, the meaning of each field, the size of headers and payloads.\n\nSemantics\n\nThe meaning of each piece of the message. For example, an address field tells the receiver who is being addressed; an error-checking field tells the receiver whether the data was corrupted in transit.\n\nTiming\n\nWhen data should be sent and how fast. If a sender produces 100 Mbps but the receiver can only consume 1 Mbps, the data will be lost without timing rules to slow the sender down.\n\n\n\n1.4.1 Standards\nA standard is a protocol (or set of protocols) that has been formally agreed upon. Standards are essential — without them, equipment from different vendors could not interoperate.\nStandards come in two flavours:\n\nDe facto standards arise from widespread use, without any formal endorsement. The QWERTY keyboard layout is a de facto standard.\nDe jure standards are formally adopted by a recognised body. The IEEE 802.11 family of Wi-Fi standards is de jure.\n\nThe main standards organisations relevant to networking are summarised in Table 1.3.\n\n\n\nTable 1.3: Major standards bodies in networking.\n\n\n\n\n\n\n\n\n\n\nBody\nStands for\nWhat it standardises\n\n\n\n\nISO\nInternational Organization for Standardization\nThe OSI reference model, many others\n\n\nITU-T\nInternational Telecommunication Union — Telecom\nTelephony, optical transport\n\n\nIEEE\nInstitute of Electrical and Electronics Engineers\nLAN/MAN standards: Ethernet (802.3), Wi-Fi (802.11)\n\n\nIETF\nInternet Engineering Task Force\nInternet protocols, published as RFCs\n\n\nANSI\nAmerican National Standards Institute\nMany U.S. standards\n\n\n\n\n\n\nInternet standards are published as Requests for Comments (RFCs). Despite the modest name, an RFC that reaches Internet Standard status is binding for anyone who wants to interoperate. For example, RFC 791 defines IPv4; RFC 9293 defines TCP.",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'><!-- ---</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
     ]
   },
   {
     "objectID": "intro.html#summary",
     "href": "intro.html#summary",
-    "title": "1  <!– —",
+    "title": "1  Introduction",
     "section": "1.5 Summary",
     "text": "1.5 Summary\n\nData communication requires five components: a message, a sender, a receiver, a transmission medium, and a protocol.\nA network is a set of devices connected by communication links. It is judged on performance, reliability, security, and scalability.\nNetworks differ in topology (mesh, star, bus, ring, hybrid) and in reach (PAN, LAN, MAN, WAN).\nThe Internet is a global packet-switched network of networks, organised as a loose hierarchy of ISPs.\nA protocol specifies syntax, semantics, and timing; a standard is a protocol that everyone has agreed to follow.\n\nThe remaining chapters look at each layer of the protocol stack in turn, starting from the bottom — the physical layer — and working upward.",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'><!-- ---</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
     ]
   },
   {
     "objectID": "intro.html#exercises",
     "href": "intro.html#exercises",
-    "title": "1  <!– —",
+    "title": "1  Introduction",
     "section": "Exercises",
-    "text": "Exercises\n\nList the five components of a data communication system and explain the role of each.\nA full mesh network has 12 nodes. How many links does it use? How many I/O ports does each node need?\nA camera streams 1080p video at 30 frames per second. Each frame is \\(1920 \\times 1080\\) pixels, and each pixel uses 24 bits of colour. What raw bit rate does this produce, in Mbps? Why is the actual transmitted bit rate much lower?\nClassify each of the following as simplex, half-duplex, or full-duplex: (a) a TV broadcast, (b) two children with a tin-can telephone, (c) a video call, (d) a remote control and a TV, (e) a CB radio conversation.\nThe Internet is described as a “network of networks”. What does this mean? Why is no single organisation in charge of it? –&gt;",
+    "text": "Exercises\n\nList the five components of a data communication system and explain the role of each.\nA full mesh network has 12 nodes. How many links does it use? How many I/O ports does each node need?\nA camera streams 1080p video at 30 frames per second. Each frame is \\(1920 \\times 1080\\) pixels, and each pixel uses 24 bits of colour. What raw bit rate does this produce, in Mbps? Why is the actual transmitted bit rate much lower?\nClassify each of the following as simplex, half-duplex, or full-duplex: (a) a TV broadcast, (b) two children with a tin-can telephone, (c) a video call, (d) a remote control and a TV, (e) a CB radio conversation.\nThe Internet is described as a “network of networks”. What does this mean? Why is no single organisation in charge of it?",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'><!-- ---</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
     ]
   },
   {
@@ -167,6 +167,96 @@
     "text": "2.9 Questions to chew on\n\nYou are designing a system over a noisy line with \\(S/N = 7\\) (so \\(\\log_2(1+7) = 3\\) bits per Hz). You can either (a) negotiate more bandwidth or (b) install better shielding to improve SNR. Both options cost the same. Which buys you more capacity, and why? See Equation 2.2.\nManchester encoding spends half the wire’s symbol rate on clock synchronization. Why is this worth doing? Could we not use highly accurate clocks at both ends instead?\nA late-1990s telephone modem achieved about 30 kbps over a 3 kHz line. A modern Wi-Fi connection achieves about 1 Gbps over a 160 MHz band. Of those roughly four orders of magnitude of speedup, how much came from more bandwidth, and how much from better SNR?\nThe Shannon limit is a theoretical ceiling. Real systems get close to it but never reach it. Why not?\nA single strand of fibre carries terabits per second; a coax cable carries a few gigabits per second; a twisted pair carries hundreds of megabits per second. Using Table 2.1, explain this ranking in terms of bandwidth and noise immunity.\nWhy does your Wi-Fi get worse when you walk to a different corner of the room, even when the distance to the router barely changes?\nThe 5 GHz Wi-Fi band offers higher throughput than the 2.4 GHz band but worse range. Why? Could you design a single band that gave you both?",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>The Physical Layer</span>"
+    ]
+  },
+  {
+    "objectID": "link-layer.html",
+    "href": "link-layer.html",
+    "title": "3  The Link Layer",
+    "section": "",
+    "text": "3.1 Framing\nThe physical layer gave us a way to push bits across a wire or through the air. It made no promises about what those bits mean. From the link layer’s perspective, the physical layer is just a bit pipe — sometimes reliable, sometimes not, sometimes shared with other people, sometimes private.\nThe link layer’s job is to turn that bit pipe into something more useful: a way to send discrete frames from one device to another over a single hop.\nNotice the word “hop”. The link layer worries about one segment of the journey at a time — laptop to Wi-Fi router, Wi-Fi router to cable modem, cable modem to ISP equipment. Each link has its own rules, its own physics, its own way of failing. The link layer handles whichever rules apply to the link it is running on.\nThree problems it solves:\nImagine your friend on the other end of the wire is typing 01010100100101110... forever. Where are the message boundaries? Bits do not arrive with little labels saying here begins a new message.\nThe link layer adds structure. It groups bits into frames, each with a header and a trailer. The header marks the start, the trailer marks the end, and the payload sits between them. A few standard tricks for marking boundaries:\nThe choice differs between protocols. The point is always the same: turn a bit stream into discrete messages.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>The Link Layer</span>"
+    ]
+  },
+  {
+    "objectID": "link-layer.html#framing",
+    "href": "link-layer.html#framing",
+    "title": "3  The Link Layer",
+    "section": "",
+    "text": "Flag bytes — reserve a special bit pattern (e.g. 01111110) as a delimiter. If that pattern ever appears in the data itself, “escape” it so the receiver does not mistake it for a frame boundary.\nLength fields — put the length of the frame in the header. The receiver reads the length, then reads exactly that many bits.\nPhysical-layer signals — some protocols use illegal bit patterns (signals that cannot appear in normal data) to mark boundaries.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>The Link Layer</span>"
+    ]
+  },
+  {
+    "objectID": "link-layer.html#error-detection",
+    "href": "link-layer.html#error-detection",
+    "title": "3  The Link Layer",
+    "section": "3.2 Error detection",
+    "text": "3.2 Error detection\nThe physical layer does its best, but bits flip. A 0 becomes a 1. A whole burst of bits gets corrupted by a passing electromagnetic glitch. The link layer needs to notice — at least sometimes — and discard the bad frame.\nThe standard trick is a checksum: the sender computes some mathematical function of the frame’s contents and appends the result. The receiver recomputes the same function and checks that it matches.\nThe simplest scheme is parity: add one bit so the total number of 1s is even. Trivial, but only catches single-bit errors. Two flips and you are back to even.\nModern links use cyclic redundancy checks (CRC), which treat the data as a polynomial, divide by a known generator polynomial, and use the remainder as the checksum. CRCs catch almost all realistic error patterns with very low overhead. Ethernet uses a 32-bit CRC.\nA point worth noticing: the link layer typically does error detection, not correction. A bad frame is just dropped. Fixing it — asking for it again, in order — is the transport layer’s job. Some specialized links (deep space, long-haul fibre) use forward error correction codes that can repair errors directly, but those are the exception.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>The Link Layer</span>"
+    ]
+  },
+  {
+    "objectID": "link-layer.html#sharing-the-medium",
+    "href": "link-layer.html#sharing-the-medium",
+    "title": "3  The Link Layer",
+    "section": "3.3 Sharing the medium",
+    "text": "3.3 Sharing the medium\nFraming and error detection are problems on any link. But on a shared medium — Wi-Fi, classical Ethernet, satellite — there is a third problem that dwarfs the others. Many devices want to transmit. The medium can only carry one signal at a time. If two devices transmit simultaneously, the signals collide and both are lost.\nThis is the medium access control (MAC) problem, and it has consumed careers. Three families of solutions:\nChannel partitioning. Divide the medium up. Each device gets its own slice — either of time (TDMA), frequency (FDMA), or code (CDMA, where each device transmits at once with a unique mathematical “fingerprint” the receiver can decode). Predictable, fair, and good when many devices have steady traffic. Wasteful when most devices are usually idle.\nRandom access. Do not bother coordinating in advance. Transmit when you have something to send, and deal with collisions when they happen.\n\nALOHA (the original, from 1970s Hawaii): transmit immediately, retry after a random delay if no acknowledgement arrives. Tops out around 18% efficiency.\nCSMA (carrier sense multiple access): listen first. If the channel is quiet, transmit. If it is busy, wait. Better, but two devices that start listening at the same moment will still collide.\nCSMA/CD (collision detection): listen while transmitting. If a collision is detected, stop immediately and retry after a random backoff. Used by classical Ethernet.\nCSMA/CA (collision avoidance): used by Wi-Fi. Radios cannot reliably detect their own collisions, so the strategy is to wait a random small backoff before transmitting, hoping no one else picks the same one.\n\nTaking turns. Use a token or polling scheme. Whoever holds the token transmits, then passes it on. No collisions, but more overhead, and you need a way to recover if the token gets lost.\nModern networks mix and match. Wi-Fi is CSMA/CA, cellular is a sophisticated form of channel partitioning, and switched Ethernet (next section) avoids the problem altogether.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>The Link Layer</span>"
+    ]
+  },
+  {
+    "objectID": "link-layer.html#addresses",
+    "href": "link-layer.html#addresses",
+    "title": "3  The Link Layer",
+    "section": "3.4 Addresses",
+    "text": "3.4 Addresses\nWhen more than two devices share a medium, the receiver needs to know which frames are meant for it. Every device on a link has a MAC address — a 48-bit identifier, written as six bytes in hex (e.g. 3c:22:fb:1a:9d:42). MAC addresses are globally unique: when a manufacturer makes a network card, they burn in an address that no other card on Earth will ever have.\nThe first three bytes identify the manufacturer; the last three are a serial number. Look at your laptop’s network settings — you can find your own.\nA frame’s header includes the destination MAC address. Devices on the link look at it; if it is not theirs, they ignore the frame.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>The Link Layer</span>"
+    ]
+  },
+  {
+    "objectID": "link-layer.html#hubs-switches-and-the-death-of-shared-ethernet",
+    "href": "link-layer.html#hubs-switches-and-the-death-of-shared-ethernet",
+    "title": "3  The Link Layer",
+    "section": "3.5 Hubs, switches, and the death of shared Ethernet",
+    "text": "3.5 Hubs, switches, and the death of shared Ethernet\nClassical Ethernet ran on a shared coaxial cable with CSMA/CD. As Ethernet got faster — 10 Mbps, then 100 Mbps, then 1 Gbps — the collision problem got worse. At higher speeds, even brief collisions waste a lot of capacity. The solution was to abandon the shared medium entirely.\nA switch is a device with multiple Ethernet ports. It learns which devices are on which port by watching the source MAC addresses on incoming frames. When a frame arrives, the switch looks up the destination MAC and forwards the frame only out the right port. Every device gets its own private link to the switch. No collisions, no CSMA needed.\nThis is why modern wired networks are almost always switched. Wi-Fi remains shared — the air is shared by definition — which is why CSMA/CA still matters there.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>The Link Layer</span>"
+    ]
+  },
+  {
+    "objectID": "link-layer.html#arp-the-bridge-to-the-network-layer",
+    "href": "link-layer.html#arp-the-bridge-to-the-network-layer",
+    "title": "3  The Link Layer",
+    "section": "3.6 ARP: the bridge to the network layer",
+    "text": "3.6 ARP: the bridge to the network layer\nThere is a translation problem worth flagging. The application layer deals with names (cs.mcgill.ca). The network layer deals with IP addresses. But the link layer only knows MAC addresses. Something has to bridge “I want to send to IP 192.168.1.5” with “send to MAC 3c:22:fb:1a:9d:42.”\nThat something is the Address Resolution Protocol (ARP). When your laptop wants to send a frame to an IP address on its own link, it broadcasts an ARP request: who has 192.168.1.5? Tell me your MAC address. The device with that IP replies. Your laptop caches the answer and uses the MAC from then on.\nARP is one of those quietly essential protocols nobody notices until it breaks.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>The Link Layer</span>"
+    ]
+  },
+  {
+    "objectID": "link-layer.html#summary",
+    "href": "link-layer.html#summary",
+    "title": "3  The Link Layer",
+    "section": "3.7 Summary",
+    "text": "3.7 Summary\nThe link layer takes the bit pipe given to it by the physical layer and provides:\n\nFrames with clear boundaries.\nError detection via checksums.\nMedium access control when the link is shared.\nMAC addressing so devices on a link can be told apart.\n\nThe result is a service the network layer can build on: get this frame to that device on this link. The network layer then chains these single-hop deliveries together to move a packet across the world.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>The Link Layer</span>"
+    ]
+  },
+  {
+    "objectID": "link-layer.html#questions-to-chew-on",
+    "href": "link-layer.html#questions-to-chew-on",
+    "title": "3  The Link Layer",
+    "section": "3.8 Questions to chew on",
+    "text": "3.8 Questions to chew on\n\nThe link layer detects errors but does not correct them. Why leave correction to the transport layer instead of fixing things on the spot?\nCSMA/CD works on Ethernet but not on Wi-Fi. What is different about a radio link that makes collision detection unreliable?\nYou are designing a MAC protocol for a satellite link with a 250 ms one-way delay. Would you pick channel partitioning, random access, or taking turns? Why?\nSwitches eliminate collisions on Ethernet. What would it take to do the same for Wi-Fi?\nMAC addresses are globally unique and burned in at manufacture. IP addresses are not — they can change. Why the asymmetry?",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>The Link Layer</span>"
     ]
   }
 ]

@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="K. R. Kaza">
-<meta name="dcterms.date" content="2026-05-01">
 
-<title>Computer Networks</title>
+<title>3&nbsp; The Link Layer – Computer Networks</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -35,7 +33,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./intro.html" rel="next">
+<link href="./physical-layer.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -86,7 +84,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Preface</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./link-layer.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Link Layer</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -113,7 +111,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Preface</span></a>
   </div>
 </li>
@@ -131,7 +129,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./link-layer.html" class="sidebar-item-text sidebar-link">
+  <a href="./link-layer.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Link Layer</span></span></a>
   </div>
 </li>
@@ -145,7 +143,14 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a></li>
+  <li><a href="#framing" id="toc-framing" class="nav-link active" data-scroll-target="#framing"><span class="header-section-number">3.1</span> Framing</a></li>
+  <li><a href="#error-detection" id="toc-error-detection" class="nav-link" data-scroll-target="#error-detection"><span class="header-section-number">3.2</span> Error detection</a></li>
+  <li><a href="#sharing-the-medium" id="toc-sharing-the-medium" class="nav-link" data-scroll-target="#sharing-the-medium"><span class="header-section-number">3.3</span> Sharing the medium</a></li>
+  <li><a href="#addresses" id="toc-addresses" class="nav-link" data-scroll-target="#addresses"><span class="header-section-number">3.4</span> Addresses</a></li>
+  <li><a href="#hubs-switches-and-the-death-of-shared-ethernet" id="toc-hubs-switches-and-the-death-of-shared-ethernet" class="nav-link" data-scroll-target="#hubs-switches-and-the-death-of-shared-ethernet"><span class="header-section-number">3.5</span> Hubs, switches, and the death of shared Ethernet</a></li>
+  <li><a href="#arp-the-bridge-to-the-network-layer" id="toc-arp-the-bridge-to-the-network-layer" class="nav-link" data-scroll-target="#arp-the-bridge-to-the-network-layer"><span class="header-section-number">3.6</span> ARP: the bridge to the network layer</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">3.7</span> Summary</a></li>
+  <li><a href="#questions-to-chew-on" id="toc-questions-to-chew-on" class="nav-link" data-scroll-target="#questions-to-chew-on"><span class="header-section-number">3.8</span> Questions to chew on</a></li>
   </ul>
 </nav>
     </div>
@@ -154,27 +159,14 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Computer Networks</h1>
-<p class="subtitle lead">Course Notes</p>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Link Layer</span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>K. R. Kaza </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">May 1, 2026</p>
-    </div>
-  </div>
   
     
   </div>
@@ -184,10 +176,87 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="preface" class="level1 unnumbered">
-<h1 class="unnumbered">Preface</h1>
-<p>This is a Quarto book.</p>
-<p>To learn more about Quarto books visit <a href="https://quarto.org/docs/books" class="uri">https://quarto.org/docs/books</a>.</p>
+<p>The physical layer gave us a way to push bits across a wire or through the air. It made no promises about what those bits <em>mean</em>. From the link layer’s perspective, the physical layer is just a bit pipe — sometimes reliable, sometimes not, sometimes shared with other people, sometimes private.</p>
+<p>The link layer’s job is to turn that bit pipe into something more useful: a way to send discrete <em>frames</em> from one device to another over a single hop.</p>
+<p>Notice the word “hop”. The link layer worries about one segment of the journey at a time — laptop to Wi-Fi router, Wi-Fi router to cable modem, cable modem to ISP equipment. Each link has its own rules, its own physics, its own way of failing. The link layer handles whichever rules apply to the link it is running on.</p>
+<p>Three problems it solves:</p>
+<ol type="1">
+<li><strong>Framing.</strong> Bits arrive as a continuous stream. Where does one message end and the next begin?</li>
+<li><strong>Error detection.</strong> Bits get corrupted in transit. How do we notice?</li>
+<li><strong>Sharing.</strong> When more than two devices share the same medium, who gets to transmit when?</li>
+</ol>
+<section id="framing" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="framing"><span class="header-section-number">3.1</span> Framing</h2>
+<p>Imagine your friend on the other end of the wire is typing <code>01010100100101110...</code> forever. Where are the message boundaries? Bits do not arrive with little labels saying <em>here begins a new message</em>.</p>
+<p>The link layer adds structure. It groups bits into <strong>frames</strong>, each with a header and a trailer. The header marks the start, the trailer marks the end, and the payload sits between them. A few standard tricks for marking boundaries:</p>
+<ul>
+<li><strong>Flag bytes</strong> — reserve a special bit pattern (e.g.&nbsp;<code>01111110</code>) as a delimiter. If that pattern ever appears in the data itself, “escape” it so the receiver does not mistake it for a frame boundary.</li>
+<li><strong>Length fields</strong> — put the length of the frame in the header. The receiver reads the length, then reads exactly that many bits.</li>
+<li><strong>Physical-layer signals</strong> — some protocols use illegal bit patterns (signals that cannot appear in normal data) to mark boundaries.</li>
+</ul>
+<p>The choice differs between protocols. The point is always the same: turn a bit stream into discrete messages.</p>
+</section>
+<section id="error-detection" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="error-detection"><span class="header-section-number">3.2</span> Error detection</h2>
+<p>The physical layer does its best, but bits flip. A <code>0</code> becomes a <code>1</code>. A whole burst of bits gets corrupted by a passing electromagnetic glitch. The link layer needs to notice — at least sometimes — and discard the bad frame.</p>
+<p>The standard trick is a <strong>checksum</strong>: the sender computes some mathematical function of the frame’s contents and appends the result. The receiver recomputes the same function and checks that it matches.</p>
+<p>The simplest scheme is <strong>parity</strong>: add one bit so the total number of <code>1</code>s is even. Trivial, but only catches single-bit errors. Two flips and you are back to even.</p>
+<p>Modern links use <strong>cyclic redundancy checks (CRC)</strong>, which treat the data as a polynomial, divide by a known generator polynomial, and use the remainder as the checksum. CRCs catch almost all realistic error patterns with very low overhead. Ethernet uses a 32-bit CRC.</p>
+<p>A point worth noticing: the link layer typically does error <em>detection</em>, not <em>correction</em>. A bad frame is just dropped. Fixing it — asking for it again, in order — is the transport layer’s job. Some specialized links (deep space, long-haul fibre) use <em>forward error correction</em> codes that can repair errors directly, but those are the exception.</p>
+</section>
+<section id="sharing-the-medium" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="sharing-the-medium"><span class="header-section-number">3.3</span> Sharing the medium</h2>
+<p>Framing and error detection are problems on any link. But on a <em>shared</em> medium — Wi-Fi, classical Ethernet, satellite — there is a third problem that dwarfs the others. Many devices want to transmit. The medium can only carry one signal at a time. If two devices transmit simultaneously, the signals collide and both are lost.</p>
+<p>This is the <strong>medium access control</strong> (MAC) problem, and it has consumed careers. Three families of solutions:</p>
+<p><strong>Channel partitioning.</strong> Divide the medium up. Each device gets its own slice — either of time (TDMA), frequency (FDMA), or code (CDMA, where each device transmits at once with a unique mathematical “fingerprint” the receiver can decode). Predictable, fair, and good when many devices have steady traffic. Wasteful when most devices are usually idle.</p>
+<p><strong>Random access.</strong> Do not bother coordinating in advance. Transmit when you have something to send, and deal with collisions when they happen.</p>
+<ul>
+<li><strong>ALOHA</strong> (the original, from 1970s Hawaii): transmit immediately, retry after a random delay if no acknowledgement arrives. Tops out around 18% efficiency.</li>
+<li><strong>CSMA</strong> (carrier sense multiple access): listen first. If the channel is quiet, transmit. If it is busy, wait. Better, but two devices that start listening at the same moment will still collide.</li>
+<li><strong>CSMA/CD</strong> (collision detection): listen <em>while</em> transmitting. If a collision is detected, stop immediately and retry after a random backoff. Used by classical Ethernet.</li>
+<li><strong>CSMA/CA</strong> (collision avoidance): used by Wi-Fi. Radios cannot reliably detect their own collisions, so the strategy is to wait a random small backoff before transmitting, hoping no one else picks the same one.</li>
+</ul>
+<p><strong>Taking turns.</strong> Use a token or polling scheme. Whoever holds the token transmits, then passes it on. No collisions, but more overhead, and you need a way to recover if the token gets lost.</p>
+<p>Modern networks mix and match. Wi-Fi is CSMA/CA, cellular is a sophisticated form of channel partitioning, and switched Ethernet (next section) avoids the problem altogether.</p>
+</section>
+<section id="addresses" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="addresses"><span class="header-section-number">3.4</span> Addresses</h2>
+<p>When more than two devices share a medium, the receiver needs to know which frames are meant for it. Every device on a link has a <strong>MAC address</strong> — a 48-bit identifier, written as six bytes in hex (e.g.&nbsp;<code>3c:22:fb:1a:9d:42</code>). MAC addresses are globally unique: when a manufacturer makes a network card, they burn in an address that no other card on Earth will ever have.</p>
+<p>The first three bytes identify the manufacturer; the last three are a serial number. Look at your laptop’s network settings — you can find your own.</p>
+<p>A frame’s header includes the destination MAC address. Devices on the link look at it; if it is not theirs, they ignore the frame.</p>
+</section>
+<section id="hubs-switches-and-the-death-of-shared-ethernet" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="hubs-switches-and-the-death-of-shared-ethernet"><span class="header-section-number">3.5</span> Hubs, switches, and the death of shared Ethernet</h2>
+<p>Classical Ethernet ran on a shared coaxial cable with CSMA/CD. As Ethernet got faster — 10 Mbps, then 100 Mbps, then 1 Gbps — the collision problem got worse. At higher speeds, even brief collisions waste a lot of capacity. The solution was to abandon the shared medium entirely.</p>
+<p>A <strong>switch</strong> is a device with multiple Ethernet ports. It <em>learns</em> which devices are on which port by watching the source MAC addresses on incoming frames. When a frame arrives, the switch looks up the destination MAC and forwards the frame <em>only out the right port</em>. Every device gets its own private link to the switch. No collisions, no CSMA needed.</p>
+<p>This is why modern wired networks are almost always switched. Wi-Fi remains shared — the air is shared by definition — which is why CSMA/CA still matters there.</p>
+</section>
+<section id="arp-the-bridge-to-the-network-layer" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="arp-the-bridge-to-the-network-layer"><span class="header-section-number">3.6</span> ARP: the bridge to the network layer</h2>
+<p>There is a translation problem worth flagging. The application layer deals with names (<code>cs.mcgill.ca</code>). The network layer deals with IP addresses. But the link layer only knows MAC addresses. Something has to bridge “I want to send to IP <code>192.168.1.5</code>” with “send to MAC <code>3c:22:fb:1a:9d:42</code>.”</p>
+<p>That something is the <strong>Address Resolution Protocol (ARP)</strong>. When your laptop wants to send a frame to an IP address on its own link, it broadcasts an ARP request: <em>who has <code>192.168.1.5</code>? Tell me your MAC address.</em> The device with that IP replies. Your laptop caches the answer and uses the MAC from then on.</p>
+<p>ARP is one of those quietly essential protocols nobody notices until it breaks.</p>
+</section>
+<section id="summary" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="summary"><span class="header-section-number">3.7</span> Summary</h2>
+<p>The link layer takes the bit pipe given to it by the physical layer and provides:</p>
+<ul>
+<li><strong>Frames</strong> with clear boundaries.</li>
+<li><strong>Error detection</strong> via checksums.</li>
+<li><strong>Medium access control</strong> when the link is shared.</li>
+<li><strong>MAC addressing</strong> so devices on a link can be told apart.</li>
+</ul>
+<p>The result is a service the network layer can build on: <em>get this frame to that device on this link.</em> The network layer then chains these single-hop deliveries together to move a packet across the world.</p>
+</section>
+<section id="questions-to-chew-on" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="questions-to-chew-on"><span class="header-section-number">3.8</span> Questions to chew on</h2>
+<ol type="1">
+<li>The link layer detects errors but does not correct them. Why leave correction to the transport layer instead of fixing things on the spot?</li>
+<li>CSMA/CD works on Ethernet but not on Wi-Fi. What is different about a radio link that makes collision detection unreliable?</li>
+<li>You are designing a MAC protocol for a satellite link with a 250 ms one-way delay. Would you pick channel partitioning, random access, or taking turns? Why?</li>
+<li>Switches eliminate collisions on Ethernet. What would it take to do the same for Wi-Fi?</li>
+<li>MAC addresses are globally unique and burned in at manufacture. IP addresses are not — they can change. Why the asymmetry?</li>
+</ol>
 
 
 </section>
@@ -595,11 +664,11 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./physical-layer.html" class="pagination-link" aria-label="The Physical Layer">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">The Physical Layer</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./intro.html" class="pagination-link" aria-label="Introduction">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
