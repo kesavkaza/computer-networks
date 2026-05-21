@@ -1,0 +1,101 @@
+---
+title: "The Link Layer"
+---
+
+The physical layer gave us a way to push bits across a wire or through the air. It made no promises about what those bits *mean*. From the link layer's perspective, the physical layer is just a bit pipe — sometimes reliable, sometimes not, sometimes shared with other people, sometimes private.
+
+The link layer's job is to turn that bit pipe into something more useful: a way to send discrete *frames* from one device to another over a single hop.
+
+Notice the word "hop". The link layer worries about one segment of the journey at a time — laptop to Wi-Fi router, Wi-Fi router to cable modem, cable modem to ISP equipment. Each link has its own rules, its own physics, its own way of failing. The link layer handles whichever rules apply to the link it is running on.
+
+Three problems it solves:
+
+1. **Framing.** Bits arrive as a continuous stream. Where does one message end and the next begin?
+2. **Error detection.** Bits get corrupted in transit. How do we notice?
+3. **Sharing.** When more than two devices share the same medium, who gets to transmit when?
+
+## Framing
+
+Imagine your friend on the other end of the wire is typing `01010100100101110...` forever. Where are the message boundaries? Bits do not arrive with little labels saying *here begins a new message*.
+
+The link layer adds structure. It groups bits into **frames**, each with a header and a trailer. The header marks the start, the trailer marks the end, and the payload sits between them. A few standard tricks for marking boundaries:
+
+- **Flag bytes** — reserve a special bit pattern (e.g. `01111110`) as a delimiter. If that pattern ever appears in the data itself, "escape" it so the receiver does not mistake it for a frame boundary.
+- **Length fields** — put the length of the frame in the header. The receiver reads the length, then reads exactly that many bits.
+- **Physical-layer signals** — some protocols use illegal bit patterns (signals that cannot appear in normal data) to mark boundaries.
+
+The choice differs between protocols. The point is always the same: turn a bit stream into discrete messages.
+
+## Error detection
+
+The physical layer does its best, but bits flip. A `0` becomes a `1`. A whole burst of bits gets corrupted by a passing electromagnetic glitch. The link layer needs to notice — at least sometimes — and discard the bad frame.
+
+The standard trick is a **checksum**: the sender computes some mathematical function of the frame's contents and appends the result. The receiver recomputes the same function and checks that it matches.
+
+The simplest scheme is **parity**: add one bit so the total number of `1`s is even. Trivial, but only catches single-bit errors. Two flips and you are back to even.
+
+Modern links use **cyclic redundancy checks (CRC)**, which treat the data as a polynomial, divide by a known generator polynomial, and use the remainder as the checksum. CRCs catch almost all realistic error patterns with very low overhead. Ethernet uses a 32-bit CRC.
+
+A point worth noticing: the link layer typically does error *detection*, not *correction*. A bad frame is just dropped. Fixing it — asking for it again, in order — is the transport layer's job. Some specialized links (deep space, long-haul fibre) use *forward error correction* codes that can repair errors directly, but those are the exception.
+
+## Sharing the medium
+
+Framing and error detection are problems on any link. But on a *shared* medium — Wi-Fi, classical Ethernet, satellite — there is a third problem that dwarfs the others. Many devices want to transmit. The medium can only carry one signal at a time. If two devices transmit simultaneously, the signals collide and both are lost.
+
+This is the **medium access control** (MAC) problem, and it has consumed careers. Three families of solutions:
+
+**Channel partitioning.** Divide the medium up. Each device gets its own slice — either of time (TDMA), frequency (FDMA), or code (CDMA, where each device transmits at once with a unique mathematical "fingerprint" the receiver can decode). Predictable, fair, and good when many devices have steady traffic. Wasteful when most devices are usually idle.
+
+**Random access.** Do not bother coordinating in advance. Transmit when you have something to send, and deal with collisions when they happen.
+
+- **ALOHA** (the original, from 1970s Hawaii): transmit immediately, retry after a random delay if no acknowledgement arrives. Tops out around 18% efficiency.
+- **CSMA** (carrier sense multiple access): listen first. If the channel is quiet, transmit. If it is busy, wait. Better, but two devices that start listening at the same moment will still collide.
+- **CSMA/CD** (collision detection): listen *while* transmitting. If a collision is detected, stop immediately and retry after a random backoff. Used by classical Ethernet.
+- **CSMA/CA** (collision avoidance): used by Wi-Fi. Radios cannot reliably detect their own collisions, so the strategy is to wait a random small backoff before transmitting, hoping no one else picks the same one.
+
+**Taking turns.** Use a token or polling scheme. Whoever holds the token transmits, then passes it on. No collisions, but more overhead, and you need a way to recover if the token gets lost.
+
+Modern networks mix and match. Wi-Fi is CSMA/CA, cellular is a sophisticated form of channel partitioning, and switched Ethernet (next section) avoids the problem altogether.
+
+## Addresses
+
+When more than two devices share a medium, the receiver needs to know which frames are meant for it. Every device on a link has a **MAC address** — a 48-bit identifier, written as six bytes in hex (e.g. `3c:22:fb:1a:9d:42`). MAC addresses are globally unique: when a manufacturer makes a network card, they burn in an address that no other card on Earth will ever have.
+
+The first three bytes identify the manufacturer; the last three are a serial number. Look at your laptop's network settings — you can find your own.
+
+A frame's header includes the destination MAC address. Devices on the link look at it; if it is not theirs, they ignore the frame.
+
+## Hubs, switches, and the death of shared Ethernet
+
+Classical Ethernet ran on a shared coaxial cable with CSMA/CD. As Ethernet got faster — 10 Mbps, then 100 Mbps, then 1 Gbps — the collision problem got worse. At higher speeds, even brief collisions waste a lot of capacity. The solution was to abandon the shared medium entirely.
+
+A **switch** is a device with multiple Ethernet ports. It *learns* which devices are on which port by watching the source MAC addresses on incoming frames. When a frame arrives, the switch looks up the destination MAC and forwards the frame *only out the right port*. Every device gets its own private link to the switch. No collisions, no CSMA needed.
+
+This is why modern wired networks are almost always switched. Wi-Fi remains shared — the air is shared by definition — which is why CSMA/CA still matters there.
+
+## ARP: the bridge to the network layer
+
+There is a translation problem worth flagging. The application layer deals with names (`cs.mcgill.ca`). The network layer deals with IP addresses. But the link layer only knows MAC addresses. Something has to bridge "I want to send to IP `192.168.1.5`" with "send to MAC `3c:22:fb:1a:9d:42`."
+
+That something is the **Address Resolution Protocol (ARP)**. When your laptop wants to send a frame to an IP address on its own link, it broadcasts an ARP request: *who has `192.168.1.5`? Tell me your MAC address.* The device with that IP replies. Your laptop caches the answer and uses the MAC from then on.
+
+ARP is one of those quietly essential protocols nobody notices until it breaks.
+
+## Summary
+
+The link layer takes the bit pipe given to it by the physical layer and provides:
+
+- **Frames** with clear boundaries.
+- **Error detection** via checksums.
+- **Medium access control** when the link is shared.
+- **MAC addressing** so devices on a link can be told apart.
+
+The result is a service the network layer can build on: *get this frame to that device on this link.* The network layer then chains these single-hop deliveries together to move a packet across the world.
+
+## Questions to chew on
+
+1. The link layer detects errors but does not correct them. Why leave correction to the transport layer instead of fixing things on the spot?
+2. CSMA/CD works on Ethernet but not on Wi-Fi. What is different about a radio link that makes collision detection unreliable?
+3. You are designing a MAC protocol for a satellite link with a 250 ms one-way delay. Would you pick channel partitioning, random access, or taking turns? Why?
+4. Switches eliminate collisions on Ethernet. What would it take to do the same for Wi-Fi?
+5. MAC addresses are globally unique and burned in at manufacture. IP addresses are not — they can change. Why the asymmetry?
