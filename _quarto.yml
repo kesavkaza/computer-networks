@@ -12,6 +12,7 @@ book:
     - intro.qmd
     - physical-layer.qmd
     - link-layer.qmd
+    - network-layer.qmd
     #- summary.qmd   git add link-layer.qmd _quarto.yml
 
     #- references.qmd
