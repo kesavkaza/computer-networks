@@ -1,5 +1,15 @@
 # Preface {.unnumbered}
 
+These are course notes for **Computer Networks**, an undergraduate course on how the Internet works. They take a bottom-up approach: we will start with wires, voltages, and radio waves, and climb through the layers of the network stack to where applications like web browsers and email clients live.
+
+The notes are meant to accompany the lectures, not replace them. They aim for the *concepts* — what each layer of the network exists to solve, why it works the way it does, what the alternatives looked like.
+The notes are not a reference manual. They do not cover every detail of every protocol. Instead, they focus on the big ideas and the most important protocols. The goal is to give you a mental model of how the Internet works, so you can understand new protocols as they come along.
+
+
+## Acknowledgements
+
+These notes draw on standard networking textbooks — primarily Forouzan, *Data Communications and Networking*, with reference to Tanenbaum, Kurose & Ross, and Peterson & Davie. The prose is original; the topics and pedagogy are conventional.
+
 This is a Quarto book.
 
 To learn more about Quarto books visit <https://quarto.org/docs/books>.

@@ -5,13 +5,15 @@ book:
   title: "Computer Networks"
   subtitle: "Course Notes"
   author: "K. R. Kaza"
+  affiliation: "IIIT Allahabad"
   date: "May 2026"
   chapters:
     - index.qmd
     - intro.qmd
     - physical-layer.qmd
     - link-layer.qmd
-    #- summary.qmd
+    #- summary.qmd   git add link-layer.qmd _quarto.yml
+
     #- references.qmd
 
 bibliography: references.bib
