@@ -258,5 +258,75 @@
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>The Link Layer</span>"
     ]
+  },
+  {
+    "objectID": "network-layer.html",
+    "href": "network-layer.html",
+    "title": "4  The Network Layer",
+    "section": "",
+    "text": "4.1 Names that scale: IP addresses\nThe link layer can deliver a frame to any device that shares a wire with you. That is a useful service, but it is a small service. The world is full of devices you do not share a wire with — servers in other cities, phones on other continents, sensors on the International Space Station. Reaching them is the network layer’s job.\nThe network layer is what makes the “network of networks” actually a network. It takes the patchwork of individual link-layer networks the world has built — Wi-Fi at the café, fibre under the ocean, Ethernet in some building you have never been to — and stitches them into a single global system where any device can reach any other.\nTwo questions organize this chapter:\nThe link layer used MAC addresses. Every device has one, they are globally unique, and they are assigned at the factory. Why not just use those at the global scale too?\nThe problem is that MAC addresses are flat. There is no structure that says this address is in Paris, this one is in Tokyo. A MAC address is just a 48-bit number with no geographic or organisational meaning. To route a packet from the café to McGill using only MAC addresses, every router on Earth would need to know the location of every device on Earth. That is billions of entries. Routers cannot store that many lookups, and updating them every time a device joins or leaves the Internet would be a nightmare.\nThe network layer uses a different scheme. IP addresses are hierarchical. They are organised so that addresses close to each other in the number line are usually close to each other in the network. A router does not need to know every address individually — it just needs to know which direction to send a packet based on the address’s prefix.\nAn IPv4 address is 32 bits, written as four bytes in decimal: 132.206.10.5. The first part of the address identifies a network — a block of contiguous addresses assigned to one organisation. The last part identifies a specific host within that network.\nThe boundary between network and host parts is set by a subnet mask or, in modern notation, a slash followed by the number of network bits. 132.206.10.5/24 means the first 24 bits are the network prefix, and the last 8 bits identify the host within that network. A “/24” contains 256 addresses, of which two are reserved (network and broadcast) and the rest can be assigned to devices.\nExample. A small company gets the block 192.168.5.0/24. They can assign 254 host addresses (192.168.5.1 through 192.168.5.254). If they need more, they ask for a larger block — say /22, which is four times bigger and contains 1024 addresses.\nThis hierarchical assignment is what makes Internet routing tractable. A router in Mumbai does not need to know about your laptop. It needs to know: to reach the 132.206.0.0/16 block, send the packet that way. All 65 000 McGill addresses are summarised in a single routing-table entry. This style of prefix-based allocation is called Classless Inter-Domain Routing (CIDR), and it replaced an older, rigid scheme (Class A / B / C blocks) in the 1990s.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>The Network Layer</span>"
+    ]
+  },
+  {
+    "objectID": "network-layer.html#forwarding-what-a-router-actually-does",
+    "href": "network-layer.html#forwarding-what-a-router-actually-does",
+    "title": "4  The Network Layer",
+    "section": "4.2 Forwarding: what a router actually does",
+    "text": "4.2 Forwarding: what a router actually does\nPicture a router with five ports, each connecting it to a different next-hop neighbour. A packet arrives on port 1. Where should it go?\nThe router consults its forwarding table, a list of (prefix, outgoing port) entries:\n\n\n\nTable 4.1: A small forwarding table.\n\n\n\n\n\nPrefix\nOutgoing port\n\n\n\n\n132.206.0.0/16\n2\n\n\n8.8.0.0/16\n3\n\n\n192.168.0.0/16\n4\n\n\n0.0.0.0/0 (default)\n5\n\n\n\n\n\n\nThe router takes the destination IP from the packet and finds the longest prefix that matches. A packet destined for 132.206.10.5 matches 132.206.0.0/16, so it goes out port 2. A packet for 99.123.45.6 matches nothing specific, so it falls through to the default route on port 5 (towards some upstream router that hopefully knows more).\nThis is longest-prefix-matching forwarding, and it is what every router on the Internet does, billions of times per second.\nA subtle but important point: forwarding is a local decision. The router does not know the full path to the destination. It only knows which neighbour to hand the packet to. The next router will make its own decision when the packet arrives. The end-to-end path is not planned in advance — it emerges from these per-router choices, one hop at a time.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>The Network Layer</span>"
+    ]
+  },
+  {
+    "objectID": "network-layer.html#where-do-forwarding-tables-come-from",
+    "href": "network-layer.html#where-do-forwarding-tables-come-from",
+    "title": "4  The Network Layer",
+    "section": "4.3 Where do forwarding tables come from?",
+    "text": "4.3 Where do forwarding tables come from?\nForwarding is what a router does. Routing is the question of how the table got there in the first place.\nTwo classical algorithms compute forwarding tables, differing in what each router knows about the network.\n\n4.3.1 Link-state routing (Dijkstra)\nIn a link-state protocol, every router announces its list of direct neighbours and the cost of reaching each one. These announcements are flooded to every other router in the network. After enough flooding, every router has the same complete map of the network.\nOnce you have the map, computing the shortest path to every destination is a problem you have probably seen before: Dijkstra’s algorithm. Each router runs Dijkstra on its local copy of the map and produces its own forwarding table.\nThe standard Internet link-state protocol is OSPF (Open Shortest Path First), used by most ISPs and enterprises inside their networks.\nThe strength of link-state routing is that everyone agrees on the same map; convergence after a topology change is fast. The cost is that the map has to be small enough to handle — a few hundred routers, not millions.\n\n\n4.3.2 Distance-vector routing (Bellman-Ford)\nDistance-vector routers do not maintain a global map. Each one only tells its direct neighbours the distance to every known destination: I can reach destination X in 5 hops, destination Y in 3 hops. A neighbour combines this with the cost of reaching that neighbour and updates its own table if it finds a shorter path.\nThis is the Bellman-Ford algorithm, applied in a distributed, gossipy way. Information slowly propagates outward — I just heard from my neighbour that there is a shorter way to X; let me tell my other neighbours.\nThe strength of distance-vector is that each router only has to talk to its direct neighbours. The weakness is the count-to-infinity problem: when a link fails, bad news propagates slowly because routers can briefly believe each other’s stale information (“I can reach it via you” — “but I was reaching it via you”). Variants like RIP (Routing Information Protocol) use tricks (split horizon, poison reverse) to mitigate this, but it remains a fundamental limitation.\n\n\n4.3.3 Picking between them\nIn practice, most large networks run link-state (OSPF, IS-IS) internally. Distance-vector survives in smaller or older networks (RIP), and — in a heavily modified form — in BGP, which we get to next.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>The Network Layer</span>"
+    ]
+  },
+  {
+    "objectID": "network-layer.html#routing-at-internet-scale-autonomous-systems-and-bgp",
+    "href": "network-layer.html#routing-at-internet-scale-autonomous-systems-and-bgp",
+    "title": "4  The Network Layer",
+    "section": "4.4 Routing at Internet scale: autonomous systems and BGP",
+    "text": "4.4 Routing at Internet scale: autonomous systems and BGP\nNeither Dijkstra nor Bellman-Ford scales to the whole Internet. There are too many routers, too many links, and too many independent operators with their own rules.\nThe fix is hierarchy. The Internet is divided into autonomous systems (ASes) — chunks of the network operated by a single organisation (an ISP, a university, a tech giant). Routing inside an AS is handled by an interior gateway protocol like OSPF. Routing between ASes is handled by BGP (Border Gateway Protocol).\nBGP is different from interior protocols in that it cares about policy, not just shortest paths. When AS1 announces to AS2 that it can reach a destination, AS2 decides whether to use that route based on business arrangements: does AS1 pay AS2 to carry its traffic, or the other way around? Is AS1 a competitor? Routing policy on the Internet is partly mathematics and largely commerce.\nA surprising amount of the Internet’s day-to-day stability rests on BGP operators not making mistakes. Misconfigurations happen — an AS accidentally announces it can reach parts of the Internet it cannot — and chunks of the network briefly go dark until the bad announcement is withdrawn.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>The Network Layer</span>"
+    ]
+  },
+  {
+    "objectID": "network-layer.html#a-few-practicalities",
+    "href": "network-layer.html#a-few-practicalities",
+    "title": "4  The Network Layer",
+    "section": "4.5 A few practicalities",
+    "text": "4.5 A few practicalities\nNAT (Network Address Translation). IPv4 has only about 4 billion addresses, which we ran out of years ago. The workaround is NAT: your home router uses one public IP address shared by every device behind it, and rewrites packets so that each device thinks it has its own private address. NAT is everywhere, and it complicates a lot of upper-layer designs — peer-to-peer applications in particular have to work hard to deal with it.\nIPv6. The real solution to address exhaustion is IPv6, which uses 128-bit addresses — enough to give every grain of sand on Earth its own address with room to spare. Deployment has been gradual because the Internet cannot switch overnight, but IPv6 now carries a significant fraction of global traffic.\nTTL, fragmentation, and ICMP. Each packet carries a time to live (TTL) field that decrements at every hop, so that misrouted packets do not circulate forever. Packets crossing networks with different maximum sizes may need to be fragmented and reassembled. And the network layer has its own diagnostic protocol, ICMP, which is what ping and traceroute use to probe the path between two endpoints.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>The Network Layer</span>"
+    ]
+  },
+  {
+    "objectID": "network-layer.html#why-this-layer-matters",
+    "href": "network-layer.html#why-this-layer-matters",
+    "title": "4  The Network Layer",
+    "section": "4.6 Why this layer matters",
+    "text": "4.6 Why this layer matters\nThe network layer is the one that earns the Internet the word Internet. Without it, the world would just be a patchwork of unconnected LANs and WANs, each with its own conventions. The genius of IP is that it imposes one simple convention — every device has a hierarchical address; routers forward based on prefix — and lets everything else stay local. Wi-Fi, fibre, and satellite all look the same from the network layer’s perspective: a way to move an IP packet one hop closer to its destination.\nThis is also where most of the Internet’s growth lives. Faster physical layers and cleverer transport layers help, but the reason a sensor in Antarctica can talk to a phone in São Paulo is the network layer.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>The Network Layer</span>"
+    ]
+  },
+  {
+    "objectID": "network-layer.html#questions-to-chew-on",
+    "href": "network-layer.html#questions-to-chew-on",
+    "title": "4  The Network Layer",
+    "section": "4.7 Questions to chew on",
+    "text": "4.7 Questions to chew on\n\nWhy are MAC addresses flat (no structure) but IP addresses hierarchical? What would the Internet look like if it had been built with flat addressing?\nThe forwarding table in Table 4.1 uses longest prefix matching. Why longest, not shortest, not first match? Construct a small example where shortest match would give the wrong answer.\nDistance-vector routing has the count-to-infinity problem. Link-state routing does not. What is the corresponding weakness of link-state?\nBGP prefers commercial shortest paths, not actual shortest paths. Give one example where the BGP path could be much longer than the geographically shortest one, and explain why an operator might still prefer it.\nNAT lets many devices share one IP address by rewriting packet headers. What kinds of applications find this difficult, and why?",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>The Network Layer</span>"
+    ]
   }
 ]

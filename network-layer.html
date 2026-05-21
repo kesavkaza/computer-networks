@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3&nbsp; The Link Layer – Computer Networks</title>
+<title>4&nbsp; The Network Layer – Computer Networks</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -33,8 +33,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./network-layer.html" rel="next">
-<link href="./physical-layer.html" rel="prev">
+<link href="./link-layer.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -85,7 +84,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./link-layer.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Link Layer</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./network-layer.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The Network Layer</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -130,13 +129,13 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./link-layer.html" class="sidebar-item-text sidebar-link active">
+  <a href="./link-layer.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Link Layer</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./network-layer.html" class="sidebar-item-text sidebar-link">
+  <a href="./network-layer.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The Network Layer</span></span></a>
   </div>
 </li>
@@ -150,14 +149,18 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#framing" id="toc-framing" class="nav-link active" data-scroll-target="#framing"><span class="header-section-number">3.1</span> Framing</a></li>
-  <li><a href="#error-detection" id="toc-error-detection" class="nav-link" data-scroll-target="#error-detection"><span class="header-section-number">3.2</span> Error detection</a></li>
-  <li><a href="#sharing-the-medium" id="toc-sharing-the-medium" class="nav-link" data-scroll-target="#sharing-the-medium"><span class="header-section-number">3.3</span> Sharing the medium</a></li>
-  <li><a href="#addresses" id="toc-addresses" class="nav-link" data-scroll-target="#addresses"><span class="header-section-number">3.4</span> Addresses</a></li>
-  <li><a href="#hubs-switches-and-the-death-of-shared-ethernet" id="toc-hubs-switches-and-the-death-of-shared-ethernet" class="nav-link" data-scroll-target="#hubs-switches-and-the-death-of-shared-ethernet"><span class="header-section-number">3.5</span> Hubs, switches, and the death of shared Ethernet</a></li>
-  <li><a href="#arp-the-bridge-to-the-network-layer" id="toc-arp-the-bridge-to-the-network-layer" class="nav-link" data-scroll-target="#arp-the-bridge-to-the-network-layer"><span class="header-section-number">3.6</span> ARP: the bridge to the network layer</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">3.7</span> Summary</a></li>
-  <li><a href="#questions-to-chew-on" id="toc-questions-to-chew-on" class="nav-link" data-scroll-target="#questions-to-chew-on"><span class="header-section-number">3.8</span> Questions to chew on</a></li>
+  <li><a href="#names-that-scale-ip-addresses" id="toc-names-that-scale-ip-addresses" class="nav-link active" data-scroll-target="#names-that-scale-ip-addresses"><span class="header-section-number">4.1</span> Names that scale: IP addresses</a></li>
+  <li><a href="#forwarding-what-a-router-actually-does" id="toc-forwarding-what-a-router-actually-does" class="nav-link" data-scroll-target="#forwarding-what-a-router-actually-does"><span class="header-section-number">4.2</span> Forwarding: what a router actually does</a></li>
+  <li><a href="#where-do-forwarding-tables-come-from" id="toc-where-do-forwarding-tables-come-from" class="nav-link" data-scroll-target="#where-do-forwarding-tables-come-from"><span class="header-section-number">4.3</span> Where do forwarding tables come from?</a>
+  <ul class="collapse">
+  <li><a href="#link-state-routing-dijkstra" id="toc-link-state-routing-dijkstra" class="nav-link" data-scroll-target="#link-state-routing-dijkstra"><span class="header-section-number">4.3.1</span> Link-state routing (Dijkstra)</a></li>
+  <li><a href="#distance-vector-routing-bellman-ford" id="toc-distance-vector-routing-bellman-ford" class="nav-link" data-scroll-target="#distance-vector-routing-bellman-ford"><span class="header-section-number">4.3.2</span> Distance-vector routing (Bellman-Ford)</a></li>
+  <li><a href="#picking-between-them" id="toc-picking-between-them" class="nav-link" data-scroll-target="#picking-between-them"><span class="header-section-number">4.3.3</span> Picking between them</a></li>
+  </ul></li>
+  <li><a href="#routing-at-internet-scale-autonomous-systems-and-bgp" id="toc-routing-at-internet-scale-autonomous-systems-and-bgp" class="nav-link" data-scroll-target="#routing-at-internet-scale-autonomous-systems-and-bgp"><span class="header-section-number">4.4</span> Routing at Internet scale: autonomous systems and BGP</a></li>
+  <li><a href="#a-few-practicalities" id="toc-a-few-practicalities" class="nav-link" data-scroll-target="#a-few-practicalities"><span class="header-section-number">4.5</span> A few practicalities</a></li>
+  <li><a href="#why-this-layer-matters" id="toc-why-this-layer-matters" class="nav-link" data-scroll-target="#why-this-layer-matters"><span class="header-section-number">4.6</span> Why this layer matters</a></li>
+  <li><a href="#questions-to-chew-on" id="toc-questions-to-chew-on" class="nav-link" data-scroll-target="#questions-to-chew-on"><span class="header-section-number">4.7</span> Questions to chew on</a></li>
   </ul>
 </nav>
     </div>
@@ -166,7 +169,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Link Layer</span></h1>
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The Network Layer</span></h1>
 </div>
 
 
@@ -183,86 +186,114 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>The physical layer gave us a way to push bits across a wire or through the air. It made no promises about what those bits <em>mean</em>. From the link layer’s perspective, the physical layer is just a bit pipe — sometimes reliable, sometimes not, sometimes shared with other people, sometimes private.</p>
-<p>The link layer’s job is to turn that bit pipe into something more useful: a way to send discrete <em>frames</em> from one device to another over a single hop.</p>
-<p>Notice the word “hop”. The link layer worries about one segment of the journey at a time — laptop to Wi-Fi router, Wi-Fi router to cable modem, cable modem to ISP equipment. Each link has its own rules, its own physics, its own way of failing. The link layer handles whichever rules apply to the link it is running on.</p>
-<p>Three problems it solves:</p>
+<p>The link layer can deliver a frame to any device that shares a wire with you. That is a useful service, but it is a small service. The world is full of devices you do not share a wire with — servers in other cities, phones on other continents, sensors on the International Space Station. Reaching them is the network layer’s job.</p>
+<p>The network layer is what makes the “network of networks” actually a network. It takes the patchwork of individual link-layer networks the world has built — Wi-Fi at the café, fibre under the ocean, Ethernet in some building you have never been to — and stitches them into a single global system where any device can reach any other.</p>
+<p>Two questions organize this chapter:</p>
 <ol type="1">
-<li><strong>Framing.</strong> Bits arrive as a continuous stream. Where does one message end and the next begin?</li>
-<li><strong>Error detection.</strong> Bits get corrupted in transit. How do we notice?</li>
-<li><strong>Sharing.</strong> When more than two devices share the same medium, who gets to transmit when?</li>
+<li>How are devices named so any device can be found from anywhere?</li>
+<li>How does a packet actually travel across many independent networks to find that device?</li>
 </ol>
-<section id="framing" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="framing"><span class="header-section-number">3.1</span> Framing</h2>
-<p>Imagine your friend on the other end of the wire is typing <code>01010100100101110...</code> forever. Where are the message boundaries? Bits do not arrive with little labels saying <em>here begins a new message</em>.</p>
-<p>The link layer adds structure. It groups bits into <strong>frames</strong>, each with a header and a trailer. The header marks the start, the trailer marks the end, and the payload sits between them. A few standard tricks for marking boundaries:</p>
-<ul>
-<li><strong>Flag bytes</strong> — reserve a special bit pattern (e.g.&nbsp;<code>01111110</code>) as a delimiter. If that pattern ever appears in the data itself, “escape” it so the receiver does not mistake it for a frame boundary.</li>
-<li><strong>Length fields</strong> — put the length of the frame in the header. The receiver reads the length, then reads exactly that many bits.</li>
-<li><strong>Physical-layer signals</strong> — some protocols use illegal bit patterns (signals that cannot appear in normal data) to mark boundaries.</li>
-</ul>
-<p>The choice differs between protocols. The point is always the same: turn a bit stream into discrete messages.</p>
+<section id="names-that-scale-ip-addresses" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="names-that-scale-ip-addresses"><span class="header-section-number">4.1</span> Names that scale: IP addresses</h2>
+<p>The link layer used MAC addresses. Every device has one, they are globally unique, and they are assigned at the factory. Why not just use those at the global scale too?</p>
+<p>The problem is that MAC addresses are <em>flat</em>. There is no structure that says <em>this address is in Paris, this one is in Tokyo</em>. A MAC address is just a 48-bit number with no geographic or organisational meaning. To route a packet from the café to McGill using only MAC addresses, every router on Earth would need to know the location of every device on Earth. That is billions of entries. Routers cannot store that many lookups, and updating them every time a device joins or leaves the Internet would be a nightmare.</p>
+<p>The network layer uses a different scheme. <strong>IP addresses</strong> are <em>hierarchical</em>. They are organised so that addresses close to each other in the number line are usually close to each other in the network. A router does not need to know every address individually — it just needs to know which direction to send a packet based on the address’s prefix.</p>
+<p>An IPv4 address is 32 bits, written as four bytes in decimal: <code>132.206.10.5</code>. The first part of the address identifies a <em>network</em> — a block of contiguous addresses assigned to one organisation. The last part identifies a specific <em>host</em> within that network.</p>
+<p>The boundary between network and host parts is set by a <strong>subnet mask</strong> or, in modern notation, a slash followed by the number of network bits. <code>132.206.10.5/24</code> means the first 24 bits are the network prefix, and the last 8 bits identify the host within that network. A “/24” contains 256 addresses, of which two are reserved (network and broadcast) and the rest can be assigned to devices.</p>
+<p><strong>Example.</strong> A small company gets the block <code>192.168.5.0/24</code>. They can assign 254 host addresses (<code>192.168.5.1</code> through <code>192.168.5.254</code>). If they need more, they ask for a larger block — say <code>/22</code>, which is four times bigger and contains 1024 addresses.</p>
+<p>This hierarchical assignment is what makes Internet routing tractable. A router in Mumbai does not need to know about your laptop. It needs to know: <em>to reach the <code>132.206.0.0/16</code> block, send the packet that way.</em> All 65 000 McGill addresses are summarised in a single routing-table entry. This style of prefix-based allocation is called <strong>Classless Inter-Domain Routing (CIDR)</strong>, and it replaced an older, rigid scheme (Class A / B / C blocks) in the 1990s.</p>
 </section>
-<section id="error-detection" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="error-detection"><span class="header-section-number">3.2</span> Error detection</h2>
-<p>The physical layer does its best, but bits flip. A <code>0</code> becomes a <code>1</code>. A whole burst of bits gets corrupted by a passing electromagnetic glitch. The link layer needs to notice — at least sometimes — and discard the bad frame.</p>
-<p>The standard trick is a <strong>checksum</strong>: the sender computes some mathematical function of the frame’s contents and appends the result. The receiver recomputes the same function and checks that it matches.</p>
-<p>The simplest scheme is <strong>parity</strong>: add one bit so the total number of <code>1</code>s is even. Trivial, but only catches single-bit errors. Two flips and you are back to even.</p>
-<p>Modern links use <strong>cyclic redundancy checks (CRC)</strong>, which treat the data as a polynomial, divide by a known generator polynomial, and use the remainder as the checksum. CRCs catch almost all realistic error patterns with very low overhead. Ethernet uses a 32-bit CRC.</p>
-<p>A point worth noticing: the link layer typically does error <em>detection</em>, not <em>correction</em>. A bad frame is just dropped. Fixing it — asking for it again, in order — is the transport layer’s job. Some specialized links (deep space, long-haul fibre) use <em>forward error correction</em> codes that can repair errors directly, but those are the exception.</p>
+<section id="forwarding-what-a-router-actually-does" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="forwarding-what-a-router-actually-does"><span class="header-section-number">4.2</span> Forwarding: what a router actually does</h2>
+<p>Picture a router with five ports, each connecting it to a different next-hop neighbour. A packet arrives on port 1. Where should it go?</p>
+<p>The router consults its <strong>forwarding table</strong>, a list of (prefix, outgoing port) entries:</p>
+<div id="tbl-forwarding" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-forwarding-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.1: A small forwarding table.
+</figcaption>
+<div aria-describedby="tbl-forwarding-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Prefix</th>
+<th>Outgoing port</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>132.206.0.0/16</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>8.8.0.0/16</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td>192.168.0.0/16</td>
+<td>4</td>
+</tr>
+<tr class="even">
+<td>0.0.0.0/0 (default)</td>
+<td>5</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The router takes the destination IP from the packet and finds the <em>longest prefix</em> that matches. A packet destined for <code>132.206.10.5</code> matches <code>132.206.0.0/16</code>, so it goes out port 2. A packet for <code>99.123.45.6</code> matches nothing specific, so it falls through to the default route on port 5 (towards some upstream router that hopefully knows more).</p>
+<p>This is <strong>longest-prefix-matching forwarding</strong>, and it is what every router on the Internet does, billions of times per second.</p>
+<p>A subtle but important point: forwarding is a <em>local</em> decision. The router does not know the full path to the destination. It only knows which neighbour to hand the packet to. The next router will make its own decision when the packet arrives. The end-to-end path is not planned in advance — it emerges from these per-router choices, one hop at a time.</p>
 </section>
-<section id="sharing-the-medium" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="sharing-the-medium"><span class="header-section-number">3.3</span> Sharing the medium</h2>
-<p>Framing and error detection are problems on any link. But on a <em>shared</em> medium — Wi-Fi, classical Ethernet, satellite — there is a third problem that dwarfs the others. Many devices want to transmit. The medium can only carry one signal at a time. If two devices transmit simultaneously, the signals collide and both are lost.</p>
-<p>This is the <strong>medium access control</strong> (MAC) problem, and it has consumed careers. Three families of solutions:</p>
-<p><strong>Channel partitioning.</strong> Divide the medium up. Each device gets its own slice — either of time (TDMA), frequency (FDMA), or code (CDMA, where each device transmits at once with a unique mathematical “fingerprint” the receiver can decode). Predictable, fair, and good when many devices have steady traffic. Wasteful when most devices are usually idle.</p>
-<p><strong>Random access.</strong> Do not bother coordinating in advance. Transmit when you have something to send, and deal with collisions when they happen.</p>
-<ul>
-<li><strong>ALOHA</strong> (the original, from 1970s Hawaii): transmit immediately, retry after a random delay if no acknowledgement arrives. Tops out around 18% efficiency.</li>
-<li><strong>CSMA</strong> (carrier sense multiple access): listen first. If the channel is quiet, transmit. If it is busy, wait. Better, but two devices that start listening at the same moment will still collide.</li>
-<li><strong>CSMA/CD</strong> (collision detection): listen <em>while</em> transmitting. If a collision is detected, stop immediately and retry after a random backoff. Used by classical Ethernet.</li>
-<li><strong>CSMA/CA</strong> (collision avoidance): used by Wi-Fi. Radios cannot reliably detect their own collisions, so the strategy is to wait a random small backoff before transmitting, hoping no one else picks the same one.</li>
-</ul>
-<p><strong>Taking turns.</strong> Use a token or polling scheme. Whoever holds the token transmits, then passes it on. No collisions, but more overhead, and you need a way to recover if the token gets lost.</p>
-<p>Modern networks mix and match. Wi-Fi is CSMA/CA, cellular is a sophisticated form of channel partitioning, and switched Ethernet (next section) avoids the problem altogether.</p>
+<section id="where-do-forwarding-tables-come-from" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="where-do-forwarding-tables-come-from"><span class="header-section-number">4.3</span> Where do forwarding tables come from?</h2>
+<p>Forwarding is what a router <em>does</em>. <strong>Routing</strong> is the question of how the table got there in the first place.</p>
+<p>Two classical algorithms compute forwarding tables, differing in what each router knows about the network.</p>
+<section id="link-state-routing-dijkstra" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="link-state-routing-dijkstra"><span class="header-section-number">4.3.1</span> Link-state routing (Dijkstra)</h3>
+<p>In a link-state protocol, every router announces its list of direct neighbours and the cost of reaching each one. These announcements are flooded to every other router in the network. After enough flooding, every router has the same complete map of the network.</p>
+<p>Once you have the map, computing the shortest path to every destination is a problem you have probably seen before: <strong>Dijkstra’s algorithm</strong>. Each router runs Dijkstra on its local copy of the map and produces its own forwarding table.</p>
+<p>The standard Internet link-state protocol is <strong>OSPF</strong> (Open Shortest Path First), used by most ISPs and enterprises inside their networks.</p>
+<p>The strength of link-state routing is that everyone agrees on the same map; convergence after a topology change is fast. The cost is that the map has to be small enough to handle — a few hundred routers, not millions.</p>
 </section>
-<section id="addresses" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="addresses"><span class="header-section-number">3.4</span> Addresses</h2>
-<p>When more than two devices share a medium, the receiver needs to know which frames are meant for it. Every device on a link has a <strong>MAC address</strong> — a 48-bit identifier, written as six bytes in hex (e.g.&nbsp;<code>3c:22:fb:1a:9d:42</code>). MAC addresses are globally unique: when a manufacturer makes a network card, they burn in an address that no other card on Earth will ever have.</p>
-<p>The first three bytes identify the manufacturer; the last three are a serial number. Look at your laptop’s network settings — you can find your own.</p>
-<p>A frame’s header includes the destination MAC address. Devices on the link look at it; if it is not theirs, they ignore the frame.</p>
+<section id="distance-vector-routing-bellman-ford" class="level3" data-number="4.3.2">
+<h3 data-number="4.3.2" class="anchored" data-anchor-id="distance-vector-routing-bellman-ford"><span class="header-section-number">4.3.2</span> Distance-vector routing (Bellman-Ford)</h3>
+<p>Distance-vector routers do not maintain a global map. Each one only tells its direct neighbours the distance to every known destination: <em>I can reach destination X in 5 hops, destination Y in 3 hops.</em> A neighbour combines this with the cost of reaching that neighbour and updates its own table if it finds a shorter path.</p>
+<p>This is the <strong>Bellman-Ford algorithm</strong>, applied in a distributed, gossipy way. Information slowly propagates outward — <em>I just heard from my neighbour that there is a shorter way to X; let me tell my other neighbours.</em></p>
+<p>The strength of distance-vector is that each router only has to talk to its direct neighbours. The weakness is the <strong>count-to-infinity</strong> problem: when a link fails, bad news propagates slowly because routers can briefly believe each other’s stale information (<em>“I can reach it via you” — “but I was reaching it via you”</em>). Variants like <strong>RIP</strong> (Routing Information Protocol) use tricks (split horizon, poison reverse) to mitigate this, but it remains a fundamental limitation.</p>
 </section>
-<section id="hubs-switches-and-the-death-of-shared-ethernet" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="hubs-switches-and-the-death-of-shared-ethernet"><span class="header-section-number">3.5</span> Hubs, switches, and the death of shared Ethernet</h2>
-<p>Classical Ethernet ran on a shared coaxial cable with CSMA/CD. As Ethernet got faster — 10 Mbps, then 100 Mbps, then 1 Gbps — the collision problem got worse. At higher speeds, even brief collisions waste a lot of capacity. The solution was to abandon the shared medium entirely.</p>
-<p>A <strong>switch</strong> is a device with multiple Ethernet ports. It <em>learns</em> which devices are on which port by watching the source MAC addresses on incoming frames. When a frame arrives, the switch looks up the destination MAC and forwards the frame <em>only out the right port</em>. Every device gets its own private link to the switch. No collisions, no CSMA needed.</p>
-<p>This is why modern wired networks are almost always switched. Wi-Fi remains shared — the air is shared by definition — which is why CSMA/CA still matters there.</p>
+<section id="picking-between-them" class="level3" data-number="4.3.3">
+<h3 data-number="4.3.3" class="anchored" data-anchor-id="picking-between-them"><span class="header-section-number">4.3.3</span> Picking between them</h3>
+<p>In practice, most large networks run link-state (OSPF, IS-IS) internally. Distance-vector survives in smaller or older networks (RIP), and — in a heavily modified form — in BGP, which we get to next.</p>
 </section>
-<section id="arp-the-bridge-to-the-network-layer" class="level2" data-number="3.6">
-<h2 data-number="3.6" class="anchored" data-anchor-id="arp-the-bridge-to-the-network-layer"><span class="header-section-number">3.6</span> ARP: the bridge to the network layer</h2>
-<p>There is a translation problem worth flagging. The application layer deals with names (<code>cs.mcgill.ca</code>). The network layer deals with IP addresses. But the link layer only knows MAC addresses. Something has to bridge “I want to send to IP <code>192.168.1.5</code>” with “send to MAC <code>3c:22:fb:1a:9d:42</code>.”</p>
-<p>That something is the <strong>Address Resolution Protocol (ARP)</strong>. When your laptop wants to send a frame to an IP address on its own link, it broadcasts an ARP request: <em>who has <code>192.168.1.5</code>? Tell me your MAC address.</em> The device with that IP replies. Your laptop caches the answer and uses the MAC from then on.</p>
-<p>ARP is one of those quietly essential protocols nobody notices until it breaks.</p>
 </section>
-<section id="summary" class="level2" data-number="3.7">
-<h2 data-number="3.7" class="anchored" data-anchor-id="summary"><span class="header-section-number">3.7</span> Summary</h2>
-<p>The link layer takes the bit pipe given to it by the physical layer and provides:</p>
-<ul>
-<li><strong>Frames</strong> with clear boundaries.</li>
-<li><strong>Error detection</strong> via checksums.</li>
-<li><strong>Medium access control</strong> when the link is shared.</li>
-<li><strong>MAC addressing</strong> so devices on a link can be told apart.</li>
-</ul>
-<p>The result is a service the network layer can build on: <em>get this frame to that device on this link.</em> The network layer then chains these single-hop deliveries together to move a packet across the world.</p>
+<section id="routing-at-internet-scale-autonomous-systems-and-bgp" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="routing-at-internet-scale-autonomous-systems-and-bgp"><span class="header-section-number">4.4</span> Routing at Internet scale: autonomous systems and BGP</h2>
+<p>Neither Dijkstra nor Bellman-Ford scales to the whole Internet. There are too many routers, too many links, and too many independent operators with their own rules.</p>
+<p>The fix is hierarchy. The Internet is divided into <strong>autonomous systems</strong> (ASes) — chunks of the network operated by a single organisation (an ISP, a university, a tech giant). Routing <em>inside</em> an AS is handled by an interior gateway protocol like OSPF. Routing <em>between</em> ASes is handled by <strong>BGP</strong> (Border Gateway Protocol).</p>
+<p>BGP is different from interior protocols in that it cares about <em>policy</em>, not just shortest paths. When AS1 announces to AS2 that it can reach a destination, AS2 decides whether to use that route based on business arrangements: does AS1 pay AS2 to carry its traffic, or the other way around? Is AS1 a competitor? Routing policy on the Internet is partly mathematics and largely commerce.</p>
+<p>A surprising amount of the Internet’s day-to-day stability rests on BGP operators not making mistakes. Misconfigurations happen — an AS accidentally announces it can reach parts of the Internet it cannot — and chunks of the network briefly go dark until the bad announcement is withdrawn.</p>
 </section>
-<section id="questions-to-chew-on" class="level2" data-number="3.8">
-<h2 data-number="3.8" class="anchored" data-anchor-id="questions-to-chew-on"><span class="header-section-number">3.8</span> Questions to chew on</h2>
+<section id="a-few-practicalities" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="a-few-practicalities"><span class="header-section-number">4.5</span> A few practicalities</h2>
+<p><strong>NAT (Network Address Translation).</strong> IPv4 has only about 4 billion addresses, which we ran out of years ago. The workaround is NAT: your home router uses <em>one</em> public IP address shared by every device behind it, and rewrites packets so that each device thinks it has its own private address. NAT is everywhere, and it complicates a lot of upper-layer designs — peer-to-peer applications in particular have to work hard to deal with it.</p>
+<p><strong>IPv6.</strong> The real solution to address exhaustion is <strong>IPv6</strong>, which uses 128-bit addresses — enough to give every grain of sand on Earth its own address with room to spare. Deployment has been gradual because the Internet cannot switch overnight, but IPv6 now carries a significant fraction of global traffic.</p>
+<p><strong>TTL, fragmentation, and ICMP.</strong> Each packet carries a <em>time to live</em> (TTL) field that decrements at every hop, so that misrouted packets do not circulate forever. Packets crossing networks with different maximum sizes may need to be <em>fragmented</em> and reassembled. And the network layer has its own diagnostic protocol, <strong>ICMP</strong>, which is what <code>ping</code> and <code>traceroute</code> use to probe the path between two endpoints.</p>
+</section>
+<section id="why-this-layer-matters" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="why-this-layer-matters"><span class="header-section-number">4.6</span> Why this layer matters</h2>
+<p>The network layer is the one that earns the Internet the word <em>Internet</em>. Without it, the world would just be a patchwork of unconnected LANs and WANs, each with its own conventions. The genius of IP is that it imposes one simple convention — <em>every device has a hierarchical address; routers forward based on prefix</em> — and lets everything else stay local. Wi-Fi, fibre, and satellite all look the same from the network layer’s perspective: a way to move an IP packet one hop closer to its destination.</p>
+<p>This is also where most of the Internet’s growth lives. Faster physical layers and cleverer transport layers help, but the reason a sensor in Antarctica can talk to a phone in São Paulo is the network layer.</p>
+</section>
+<section id="questions-to-chew-on" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="questions-to-chew-on"><span class="header-section-number">4.7</span> Questions to chew on</h2>
 <ol type="1">
-<li>The link layer detects errors but does not correct them. Why leave correction to the transport layer instead of fixing things on the spot?</li>
-<li>CSMA/CD works on Ethernet but not on Wi-Fi. What is different about a radio link that makes collision detection unreliable?</li>
-<li>You are designing a MAC protocol for a satellite link with a 250 ms one-way delay. Would you pick channel partitioning, random access, or taking turns? Why?</li>
-<li>Switches eliminate collisions on Ethernet. What would it take to do the same for Wi-Fi?</li>
-<li>MAC addresses are globally unique and burned in at manufacture. IP addresses are not — they can change. Why the asymmetry?</li>
+<li>Why are MAC addresses flat (no structure) but IP addresses hierarchical? What would the Internet look like if it had been built with flat addressing?</li>
+<li>The forwarding table in <a href="#tbl-forwarding" class="quarto-xref">Table&nbsp;<span>4.1</span></a> uses <em>longest prefix matching</em>. Why longest, not shortest, not first match? Construct a small example where shortest match would give the wrong answer.</li>
+<li>Distance-vector routing has the count-to-infinity problem. Link-state routing does not. What is the corresponding weakness of link-state?</li>
+<li>BGP prefers <em>commercial</em> shortest paths, not actual shortest paths. Give one example where the BGP path could be much longer than the geographically shortest one, and explain why an operator might still prefer it.</li>
+<li>NAT lets many devices share one IP address by rewriting packet headers. What kinds of applications find this difficult, and why?</li>
 </ol>
 
 
@@ -671,14 +702,11 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./physical-layer.html" class="pagination-link" aria-label="The Physical Layer">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">The Physical Layer</span></span>
+      <a href="./link-layer.html" class="pagination-link" aria-label="The Link Layer">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Link Layer</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./network-layer.html" class="pagination-link" aria-label="The Network Layer">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The Network Layer</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
