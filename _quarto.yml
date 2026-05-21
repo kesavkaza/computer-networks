@@ -4,8 +4,9 @@ project:
 book:
   title: "Computer Networks"
   subtitle: "Course Notes"
-  author: "K. R. Kaza"
-  affiliation: "IIIT Allahabad"
+  author: 
+    - name: "K. R. Kaza"
+      affiliation: "IIIT Allahabad"
   date: "May 2026"
   chapters:
     - index.qmd
