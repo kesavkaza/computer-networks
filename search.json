@@ -338,5 +338,85 @@
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>The Network Layer</span>"
     ]
+  },
+  {
+    "objectID": "transport-layer.html",
+    "href": "transport-layer.html",
+    "title": "5  The Transport Layer",
+    "section": "",
+    "text": "5.1 Problem 1: Whose packet is this?\nThe network layer’s promise is: I can move a packet from any host to any other host. That is genuinely impressive. It is also not quite what we usually want.\nWhat we usually want is a conversation between two programs — a browser talking to a web server, a chat app talking to a messaging service. The network layer does not know about programs; it only knows about hosts. And it makes no promises about reliability, ordering, or rate. If a packet is dropped, the network layer shrugs. If two packets arrive out of order, that is your problem.\nThe transport layer’s job is to close this gap. It takes the network layer’s best-effort host-to-host delivery and turns it into something programs can use directly.\nThree problems organize the chapter:\nYour laptop is running fifty programs at once. The browser has a dozen tabs open. A messaging app is connected to two servers. A video call is in progress. The operating system is downloading updates in the background. All of them are sending and receiving packets through the same network interface.\nWhen a packet arrives, how does the operating system know which program to hand it to?\nThe transport layer solves this with port numbers. Every transport-layer packet carries a source port and a destination port — small integers (0–65535) identifying which program on each host is the sender and receiver. The combination (IP address, port) uniquely identifies an endpoint.\nBy convention, certain services use well-known port numbers:\nPorts 1–1023 are reserved for well-known services. Above that, clients pick a random unused port for outgoing connections.\nThis is what turns a host-to-host protocol into a process-to-process protocol. Once you have ports, dozens of conversations can share one network connection without getting confused.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>The Transport Layer</span>"
+    ]
+  },
+  {
+    "objectID": "transport-layer.html#problem-1-whose-packet-is-this",
+    "href": "transport-layer.html#problem-1-whose-packet-is-this",
+    "title": "5  The Transport Layer",
+    "section": "",
+    "text": "Web servers (HTTP) listen on port 80.\nEncrypted web servers (HTTPS) listen on port 443.\nSSH listens on port 22.\nDNS uses port 53.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>The Transport Layer</span>"
+    ]
+  },
+  {
+    "objectID": "transport-layer.html#udp-keep-it-simple",
+    "href": "transport-layer.html#udp-keep-it-simple",
+    "title": "5  The Transport Layer",
+    "section": "5.2 UDP: keep it simple",
+    "text": "5.2 UDP: keep it simple\nThe simplest transport protocol is UDP (User Datagram Protocol). It adds exactly two things on top of the network layer: source and destination ports (so messages reach the right program), and a checksum (so the receiver can detect — but not repair — corruption).\nThat is all. No connection setup. No retransmission. No ordering. If a packet is lost, it is lost. If two packets arrive out of order, they arrive out of order. UDP delivers what IP delivers and gets out of the way.\nThis sounds bad. Why would anyone use it? Because for some applications, simplicity is exactly what you want:\n\nDNS queries — small, quick, a single round trip. The overhead of opening a TCP connection (handshake, teardown, acknowledgements) would dominate the actual cost. If a UDP query is lost, just send it again.\nLive video and voice — losing a packet is annoying, but waiting for it to be retransmitted, so the audio finally arrives 200 ms late and out of place, is worse. Better to skip the missing piece and keep going.\nOnline games — same logic. Stale data is useless; fresh data is what matters.\nNetwork measurement — if you are probing the network’s behaviour, you want minimal protocol overhead.\n\nUDP gives applications a clean way to do one thing: send a message and hope it arrives. When that is what you want, UDP is the right tool.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>The Transport Layer</span>"
+    ]
+  },
+  {
+    "objectID": "transport-layer.html#problem-2-making-the-unreliable-look-reliable",
+    "href": "transport-layer.html#problem-2-making-the-unreliable-look-reliable",
+    "title": "5  The Transport Layer",
+    "section": "5.3 Problem 2: Making the unreliable look reliable",
+    "text": "5.3 Problem 2: Making the unreliable look reliable\nFor most applications — web browsing, email, file transfers, software updates — UDP’s lack of guarantees is unacceptable. A webpage missing 5% of its bytes does not display 95% of the page. It is just broken.\nThese applications want a reliable byte stream: the bytes I send arrive at the other end, in order, exactly once. That is what TCP (Transmission Control Protocol) provides.\nTCP is doing a remarkable trick. The underlying network drops packets, reorders them, sometimes duplicates them. TCP has to detect all of this and recover, without any cooperation from the network. The recipes for doing this make up most of this chapter.\n\n5.3.1 Acknowledgements and sequence numbers\nThe basic idea: every byte TCP sends is numbered. The receiver tells the sender which bytes have arrived by sending back an acknowledgement (ACK) with the sequence number of the next byte it expects.\nIf the sender does not receive an ACK within a reasonable time, it assumes the data was lost and retransmits.\nSender                          Receiver\n  | -- bytes 1-100 ----------&gt; |\n  | &lt;-- ACK 101 ------------- |\n  | -- bytes 101-200 --------&gt; |   (lost!)\n  |    (timeout, retransmit)   |\n  | -- bytes 101-200 --------&gt; |\n  | &lt;-- ACK 201 ------------- |\nThis basic stop-and-wait scheme works but is painfully slow — the sender pauses after every chunk for the ACK. To go faster, TCP uses a sliding window: many chunks are in flight at once, and the window slides forward as ACKs come back. How big the window is — how many chunks may be in flight at any moment — is the question of flow control and congestion control, which come next.\n\n\n5.3.2 Flow control: do not overwhelm the receiver\nThe receiver has a buffer for incoming data. If the sender pushes data faster than the receiver can process it, the buffer fills up and packets get dropped on the floor.\nTCP solves this with a receive window. The receiver tells the sender, in every ACK, how much free buffer space it has. The sender never has more than that amount of unacknowledged data in flight. If the receiver is slow, the window shrinks. If it stops processing entirely, the window goes to zero and the sender pauses.\nThis is flow control: keeping the sender from outrunning the receiver.\n\n\n5.3.3 Congestion control: do not overwhelm the network\nThere is a different problem. Even if the receiver could accept data at 1 Gbps, the network path between sender and receiver might only have 100 Mbps available at this moment. Send faster than that, and packets pile up at the bottleneck router, queues overflow, packets get dropped.\nThe maddening part is that the sender has no direct way to know how much capacity the network has right now. There is no signal that says the path is currently 73% full. The only feedback the sender gets is: packets either arrive (or get ACKed), or they do not.\nTCP’s congestion control infers congestion from packet loss. Roughly:\n\nStart slow (slow start): send a small amount, double the rate every round-trip-time until something goes wrong.\nWhen a packet is lost, cut the sending rate sharply — often by half. The network is congested.\nThen increase gradually, slowly probing for more capacity until the next loss.\n\nThis pattern is called additive increase, multiplicative decrease (AIMD). It produces a characteristic sawtooth of sending rate over time: ramp up gently, slam down hard, ramp up again.\nA surprising consequence: TCP connections sharing a bottleneck link tend to converge to roughly equal shares of the bandwidth, even without coordinating with each other. The whole Internet’s fairness depends on most TCP implementations playing by these rules. A connection that aggressively ignored congestion signals would grab a bigger share — at everyone else’s expense.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>The Transport Layer</span>"
+    ]
+  },
+  {
+    "objectID": "transport-layer.html#problem-3-putting-it-all-together",
+    "href": "transport-layer.html#problem-3-putting-it-all-together",
+    "title": "5  The Transport Layer",
+    "section": "5.4 Problem 3: Putting it all together",
+    "text": "5.4 Problem 3: Putting it all together\nA TCP connection’s lifecycle has three phases.\nSetup. Before any data is sent, both sides exchange a three-way handshake: the initiator sends a SYN (“synchronize”), the receiver responds with a SYN-ACK, the initiator confirms with an ACK. After this, both sides know each other’s initial sequence numbers and agree the connection is open.\nData transfer. The sliding-window machinery above kicks in. Bytes flow in both directions (TCP is bidirectional). Sequence numbers, acknowledgements, windows, and timers all dance together to provide the reliable byte stream.\nTeardown. When a side is done sending, it transmits a FIN (“finish”) packet. The other side ACKs it. The other side eventually sends its own FIN, which the first side ACKs. This is the four-way handshake for teardown, though variants and shortcuts exist.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>The Transport Layer</span>"
+    ]
+  },
+  {
+    "objectID": "transport-layer.html#a-note-on-quic",
+    "href": "transport-layer.html#a-note-on-quic",
+    "title": "5  The Transport Layer",
+    "section": "5.5 A note on QUIC",
+    "text": "5.5 A note on QUIC\nIn the last few years, much of the web has quietly migrated to a different transport protocol: QUIC. QUIC runs on top of UDP but reimplements reliability, ordering, and congestion control with several advantages over TCP — faster connection setup (especially when combined with TLS), better behaviour on lossy mobile networks, and the ability to evolve faster because it lives in user space rather than the OS kernel.\nIf you load any large website today (Google, YouTube, Facebook, anything behind Cloudflare), your browser is probably using QUIC, not TCP. The principles in this chapter — sliding windows, ACKs, congestion control — all carry over to QUIC. The packaging is different; the problems and the kinds of solutions are the same.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>The Transport Layer</span>"
+    ]
+  },
+  {
+    "objectID": "transport-layer.html#why-this-layer-matters",
+    "href": "transport-layer.html#why-this-layer-matters",
+    "title": "5  The Transport Layer",
+    "section": "5.6 Why this layer matters",
+    "text": "5.6 Why this layer matters\nThe transport layer is where the network’s raw “best effort” gets turned into something programs can actually use. Almost no application talks directly to IP. They talk to TCP, UDP, or QUIC, which talk to IP. The careful engineering that makes web pages load smoothly on flaky Wi-Fi, that lets video calls work despite occasional packet loss, that keeps the Internet from collapsing when traffic spikes — all of it lives here.\nIn the rest of the course we will look at the applications that sit on top of this layer. They get to assume the transport layer’s promises hold. That assumption is doing a lot of work.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>The Transport Layer</span>"
+    ]
+  },
+  {
+    "objectID": "transport-layer.html#questions-to-chew-on",
+    "href": "transport-layer.html#questions-to-chew-on",
+    "title": "5  The Transport Layer",
+    "section": "5.7 Questions to chew on",
+    "text": "5.7 Questions to chew on\n\nUDP provides almost nothing on top of IP. Why does it exist at all? Couldn’t applications just use IP directly?\nTCP infers congestion from packet loss. What would happen if the underlying network’s losses were mostly caused by something other than congestion — for example, a wireless link with high error rates?\nTCP’s AIMD scheme produces a sawtooth sending rate. Why would “multiplicative increase, additive decrease” — the same scheme reversed — be a much worse idea?\nThe transport layer is where most fairness in the Internet is implemented: everyone using TCP backs off similarly when congestion happens. What stops someone from writing a “TCP” that does not back off as much, to grab a bigger share?\nQUIC runs on top of UDP. Why didn’t its designers just modify TCP to add the same improvements?",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>The Transport Layer</span>"
+    ]
   }
 ]

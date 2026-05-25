@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3&nbsp; The Link Layer – Computer Networks</title>
+<title>5&nbsp; The Transport Layer – Computer Networks</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -33,8 +33,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./network-layer.html" rel="next">
-<link href="./physical-layer.html" rel="prev">
+<link href="./network-layer.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -85,7 +84,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./link-layer.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Link Layer</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./transport-layer.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The Transport Layer</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -130,7 +129,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./link-layer.html" class="sidebar-item-text sidebar-link active">
+  <a href="./link-layer.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Link Layer</span></span></a>
   </div>
 </li>
@@ -142,7 +141,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./transport-layer.html" class="sidebar-item-text sidebar-link">
+  <a href="./transport-layer.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The Transport Layer</span></span></a>
   </div>
 </li>
@@ -156,14 +155,18 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#framing" id="toc-framing" class="nav-link active" data-scroll-target="#framing"><span class="header-section-number">3.1</span> Framing</a></li>
-  <li><a href="#error-detection" id="toc-error-detection" class="nav-link" data-scroll-target="#error-detection"><span class="header-section-number">3.2</span> Error detection</a></li>
-  <li><a href="#sharing-the-medium" id="toc-sharing-the-medium" class="nav-link" data-scroll-target="#sharing-the-medium"><span class="header-section-number">3.3</span> Sharing the medium</a></li>
-  <li><a href="#addresses" id="toc-addresses" class="nav-link" data-scroll-target="#addresses"><span class="header-section-number">3.4</span> Addresses</a></li>
-  <li><a href="#hubs-switches-and-the-death-of-shared-ethernet" id="toc-hubs-switches-and-the-death-of-shared-ethernet" class="nav-link" data-scroll-target="#hubs-switches-and-the-death-of-shared-ethernet"><span class="header-section-number">3.5</span> Hubs, switches, and the death of shared Ethernet</a></li>
-  <li><a href="#arp-the-bridge-to-the-network-layer" id="toc-arp-the-bridge-to-the-network-layer" class="nav-link" data-scroll-target="#arp-the-bridge-to-the-network-layer"><span class="header-section-number">3.6</span> ARP: the bridge to the network layer</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">3.7</span> Summary</a></li>
-  <li><a href="#questions-to-chew-on" id="toc-questions-to-chew-on" class="nav-link" data-scroll-target="#questions-to-chew-on"><span class="header-section-number">3.8</span> Questions to chew on</a></li>
+  <li><a href="#problem-1-whose-packet-is-this" id="toc-problem-1-whose-packet-is-this" class="nav-link active" data-scroll-target="#problem-1-whose-packet-is-this"><span class="header-section-number">5.1</span> Problem 1: Whose packet is this?</a></li>
+  <li><a href="#udp-keep-it-simple" id="toc-udp-keep-it-simple" class="nav-link" data-scroll-target="#udp-keep-it-simple"><span class="header-section-number">5.2</span> UDP: keep it simple</a></li>
+  <li><a href="#problem-2-making-the-unreliable-look-reliable" id="toc-problem-2-making-the-unreliable-look-reliable" class="nav-link" data-scroll-target="#problem-2-making-the-unreliable-look-reliable"><span class="header-section-number">5.3</span> Problem 2: Making the unreliable look reliable</a>
+  <ul class="collapse">
+  <li><a href="#acknowledgements-and-sequence-numbers" id="toc-acknowledgements-and-sequence-numbers" class="nav-link" data-scroll-target="#acknowledgements-and-sequence-numbers"><span class="header-section-number">5.3.1</span> Acknowledgements and sequence numbers</a></li>
+  <li><a href="#flow-control-do-not-overwhelm-the-receiver" id="toc-flow-control-do-not-overwhelm-the-receiver" class="nav-link" data-scroll-target="#flow-control-do-not-overwhelm-the-receiver"><span class="header-section-number">5.3.2</span> Flow control: do not overwhelm the receiver</a></li>
+  <li><a href="#congestion-control-do-not-overwhelm-the-network" id="toc-congestion-control-do-not-overwhelm-the-network" class="nav-link" data-scroll-target="#congestion-control-do-not-overwhelm-the-network"><span class="header-section-number">5.3.3</span> Congestion control: do not overwhelm the network</a></li>
+  </ul></li>
+  <li><a href="#problem-3-putting-it-all-together" id="toc-problem-3-putting-it-all-together" class="nav-link" data-scroll-target="#problem-3-putting-it-all-together"><span class="header-section-number">5.4</span> Problem 3: Putting it all together</a></li>
+  <li><a href="#a-note-on-quic" id="toc-a-note-on-quic" class="nav-link" data-scroll-target="#a-note-on-quic"><span class="header-section-number">5.5</span> A note on QUIC</a></li>
+  <li><a href="#why-this-layer-matters" id="toc-why-this-layer-matters" class="nav-link" data-scroll-target="#why-this-layer-matters"><span class="header-section-number">5.6</span> Why this layer matters</a></li>
+  <li><a href="#questions-to-chew-on" id="toc-questions-to-chew-on" class="nav-link" data-scroll-target="#questions-to-chew-on"><span class="header-section-number">5.7</span> Questions to chew on</a></li>
   </ul>
 </nav>
     </div>
@@ -172,7 +175,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Link Layer</span></h1>
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The Transport Layer</span></h1>
 </div>
 
 
@@ -189,86 +192,106 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>The physical layer gave us a way to push bits across a wire or through the air. It made no promises about what those bits <em>mean</em>. From the link layer’s perspective, the physical layer is just a bit pipe — sometimes reliable, sometimes not, sometimes shared with other people, sometimes private.</p>
-<p>The link layer’s job is to turn that bit pipe into something more useful: a way to send discrete <em>frames</em> from one device to another over a single hop.</p>
-<p>Notice the word “hop”. The link layer worries about one segment of the journey at a time — laptop to Wi-Fi router, Wi-Fi router to cable modem, cable modem to ISP equipment. Each link has its own rules, its own physics, its own way of failing. The link layer handles whichever rules apply to the link it is running on.</p>
-<p>Three problems it solves:</p>
+<p>The network layer’s promise is: <em>I can move a packet from any host to any other host.</em> That is genuinely impressive. It is also not quite what we usually want.</p>
+<p>What we usually want is a <em>conversation</em> between two programs — a browser talking to a web server, a chat app talking to a messaging service. The network layer does not know about programs; it only knows about hosts. And it makes no promises about reliability, ordering, or rate. If a packet is dropped, the network layer shrugs. If two packets arrive out of order, that is your problem.</p>
+<p>The transport layer’s job is to close this gap. It takes the network layer’s best-effort host-to-host delivery and turns it into something programs can use directly.</p>
+<p>Three problems organize the chapter:</p>
 <ol type="1">
-<li><strong>Framing.</strong> Bits arrive as a continuous stream. Where does one message end and the next begin?</li>
-<li><strong>Error detection.</strong> Bits get corrupted in transit. How do we notice?</li>
-<li><strong>Sharing.</strong> When more than two devices share the same medium, who gets to transmit when?</li>
+<li>Many programs on each host share one network interface. Which program does an arriving packet belong to?</li>
+<li>The network drops, duplicates, and reorders packets. How do we make a stream look reliable?</li>
+<li>Many senders share the network’s capacity. How do we share it fairly without melting it?</li>
 </ol>
-<section id="framing" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="framing"><span class="header-section-number">3.1</span> Framing</h2>
-<p>Imagine your friend on the other end of the wire is typing <code>01010100100101110...</code> forever. Where are the message boundaries? Bits do not arrive with little labels saying <em>here begins a new message</em>.</p>
-<p>The link layer adds structure. It groups bits into <strong>frames</strong>, each with a header and a trailer. The header marks the start, the trailer marks the end, and the payload sits between them. A few standard tricks for marking boundaries:</p>
+<section id="problem-1-whose-packet-is-this" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="problem-1-whose-packet-is-this"><span class="header-section-number">5.1</span> Problem 1: Whose packet is this?</h2>
+<p>Your laptop is running fifty programs at once. The browser has a dozen tabs open. A messaging app is connected to two servers. A video call is in progress. The operating system is downloading updates in the background. All of them are sending and receiving packets through the same network interface.</p>
+<p>When a packet arrives, how does the operating system know which program to hand it to?</p>
+<p>The transport layer solves this with <strong>port numbers</strong>. Every transport-layer packet carries a source port and a destination port — small integers (0–65535) identifying which program on each host is the sender and receiver. The combination <em>(IP address, port)</em> uniquely identifies an endpoint.</p>
+<p>By convention, certain services use well-known port numbers:</p>
 <ul>
-<li><strong>Flag bytes</strong> — reserve a special bit pattern (e.g.&nbsp;<code>01111110</code>) as a delimiter. If that pattern ever appears in the data itself, “escape” it so the receiver does not mistake it for a frame boundary.</li>
-<li><strong>Length fields</strong> — put the length of the frame in the header. The receiver reads the length, then reads exactly that many bits.</li>
-<li><strong>Physical-layer signals</strong> — some protocols use illegal bit patterns (signals that cannot appear in normal data) to mark boundaries.</li>
+<li>Web servers (HTTP) listen on port 80.</li>
+<li>Encrypted web servers (HTTPS) listen on port 443.</li>
+<li>SSH listens on port 22.</li>
+<li>DNS uses port 53.</li>
 </ul>
-<p>The choice differs between protocols. The point is always the same: turn a bit stream into discrete messages.</p>
+<p>Ports 1–1023 are reserved for well-known services. Above that, clients pick a random unused port for outgoing connections.</p>
+<p>This is what turns a host-to-host protocol into a <em>process-to-process</em> protocol. Once you have ports, dozens of conversations can share one network connection without getting confused.</p>
 </section>
-<section id="error-detection" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="error-detection"><span class="header-section-number">3.2</span> Error detection</h2>
-<p>The physical layer does its best, but bits flip. A <code>0</code> becomes a <code>1</code>. A whole burst of bits gets corrupted by a passing electromagnetic glitch. The link layer needs to notice — at least sometimes — and discard the bad frame.</p>
-<p>The standard trick is a <strong>checksum</strong>: the sender computes some mathematical function of the frame’s contents and appends the result. The receiver recomputes the same function and checks that it matches.</p>
-<p>The simplest scheme is <strong>parity</strong>: add one bit so the total number of <code>1</code>s is even. Trivial, but only catches single-bit errors. Two flips and you are back to even.</p>
-<p>Modern links use <strong>cyclic redundancy checks (CRC)</strong>, which treat the data as a polynomial, divide by a known generator polynomial, and use the remainder as the checksum. CRCs catch almost all realistic error patterns with very low overhead. Ethernet uses a 32-bit CRC.</p>
-<p>A point worth noticing: the link layer typically does error <em>detection</em>, not <em>correction</em>. A bad frame is just dropped. Fixing it — asking for it again, in order — is the transport layer’s job. Some specialized links (deep space, long-haul fibre) use <em>forward error correction</em> codes that can repair errors directly, but those are the exception.</p>
-</section>
-<section id="sharing-the-medium" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="sharing-the-medium"><span class="header-section-number">3.3</span> Sharing the medium</h2>
-<p>Framing and error detection are problems on any link. But on a <em>shared</em> medium — Wi-Fi, classical Ethernet, satellite — there is a third problem that dwarfs the others. Many devices want to transmit. The medium can only carry one signal at a time. If two devices transmit simultaneously, the signals collide and both are lost.</p>
-<p>This is the <strong>medium access control</strong> (MAC) problem, and it has consumed careers. Three families of solutions:</p>
-<p><strong>Channel partitioning.</strong> Divide the medium up. Each device gets its own slice — either of time (TDMA), frequency (FDMA), or code (CDMA, where each device transmits at once with a unique mathematical “fingerprint” the receiver can decode). Predictable, fair, and good when many devices have steady traffic. Wasteful when most devices are usually idle.</p>
-<p><strong>Random access.</strong> Do not bother coordinating in advance. Transmit when you have something to send, and deal with collisions when they happen.</p>
+<section id="udp-keep-it-simple" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="udp-keep-it-simple"><span class="header-section-number">5.2</span> UDP: keep it simple</h2>
+<p>The simplest transport protocol is <strong>UDP</strong> (User Datagram Protocol). It adds exactly two things on top of the network layer: source and destination ports (so messages reach the right program), and a checksum (so the receiver can detect — but not repair — corruption).</p>
+<p>That is all. No connection setup. No retransmission. No ordering. If a packet is lost, it is lost. If two packets arrive out of order, they arrive out of order. UDP delivers what IP delivers and gets out of the way.</p>
+<p>This sounds bad. Why would anyone use it? Because for some applications, simplicity is exactly what you want:</p>
 <ul>
-<li><strong>ALOHA</strong> (the original, from 1970s Hawaii): transmit immediately, retry after a random delay if no acknowledgement arrives. Tops out around 18% efficiency.</li>
-<li><strong>CSMA</strong> (carrier sense multiple access): listen first. If the channel is quiet, transmit. If it is busy, wait. Better, but two devices that start listening at the same moment will still collide.</li>
-<li><strong>CSMA/CD</strong> (collision detection): listen <em>while</em> transmitting. If a collision is detected, stop immediately and retry after a random backoff. Used by classical Ethernet.</li>
-<li><strong>CSMA/CA</strong> (collision avoidance): used by Wi-Fi. Radios cannot reliably detect their own collisions, so the strategy is to wait a random small backoff before transmitting, hoping no one else picks the same one.</li>
+<li><strong>DNS queries</strong> — small, quick, a single round trip. The overhead of opening a TCP connection (handshake, teardown, acknowledgements) would dominate the actual cost. If a UDP query is lost, just send it again.</li>
+<li><strong>Live video and voice</strong> — losing a packet is annoying, but waiting for it to be retransmitted, so the audio finally arrives 200 ms late and out of place, is worse. Better to skip the missing piece and keep going.</li>
+<li><strong>Online games</strong> — same logic. Stale data is useless; fresh data is what matters.</li>
+<li><strong>Network measurement</strong> — if you are probing the network’s behaviour, you want minimal protocol overhead.</li>
 </ul>
-<p><strong>Taking turns.</strong> Use a token or polling scheme. Whoever holds the token transmits, then passes it on. No collisions, but more overhead, and you need a way to recover if the token gets lost.</p>
-<p>Modern networks mix and match. Wi-Fi is CSMA/CA, cellular is a sophisticated form of channel partitioning, and switched Ethernet (next section) avoids the problem altogether.</p>
+<p>UDP gives applications a clean way to do one thing: <em>send a message and hope it arrives.</em> When that is what you want, UDP is the right tool.</p>
 </section>
-<section id="addresses" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="addresses"><span class="header-section-number">3.4</span> Addresses</h2>
-<p>When more than two devices share a medium, the receiver needs to know which frames are meant for it. Every device on a link has a <strong>MAC address</strong> — a 48-bit identifier, written as six bytes in hex (e.g.&nbsp;<code>3c:22:fb:1a:9d:42</code>). MAC addresses are globally unique: when a manufacturer makes a network card, they burn in an address that no other card on Earth will ever have.</p>
-<p>The first three bytes identify the manufacturer; the last three are a serial number. Look at your laptop’s network settings — you can find your own.</p>
-<p>A frame’s header includes the destination MAC address. Devices on the link look at it; if it is not theirs, they ignore the frame.</p>
+<section id="problem-2-making-the-unreliable-look-reliable" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="problem-2-making-the-unreliable-look-reliable"><span class="header-section-number">5.3</span> Problem 2: Making the unreliable look reliable</h2>
+<p>For most applications — web browsing, email, file transfers, software updates — UDP’s lack of guarantees is unacceptable. A webpage missing 5% of its bytes does not display 95% of the page. It is just broken.</p>
+<p>These applications want a <em>reliable byte stream</em>: the bytes I send arrive at the other end, in order, exactly once. That is what <strong>TCP</strong> (Transmission Control Protocol) provides.</p>
+<p>TCP is doing a remarkable trick. The underlying network drops packets, reorders them, sometimes duplicates them. TCP has to detect all of this and recover, <em>without</em> any cooperation from the network. The recipes for doing this make up most of this chapter.</p>
+<section id="acknowledgements-and-sequence-numbers" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="acknowledgements-and-sequence-numbers"><span class="header-section-number">5.3.1</span> Acknowledgements and sequence numbers</h3>
+<p>The basic idea: every byte TCP sends is numbered. The receiver tells the sender which bytes have arrived by sending back an <strong>acknowledgement</strong> (ACK) with the sequence number of the next byte it expects.</p>
+<p>If the sender does not receive an ACK within a reasonable time, it assumes the data was lost and retransmits.</p>
+<pre><code>Sender                          Receiver
+  | -- bytes 1-100 ----------&gt; |
+  | &lt;-- ACK 101 ------------- |
+  | -- bytes 101-200 --------&gt; |   (lost!)
+  |    (timeout, retransmit)   |
+  | -- bytes 101-200 --------&gt; |
+  | &lt;-- ACK 201 ------------- |</code></pre>
+<p>This basic stop-and-wait scheme works but is painfully slow — the sender pauses after every chunk for the ACK. To go faster, TCP uses a <strong>sliding window</strong>: many chunks are in flight at once, and the window slides forward as ACKs come back. How big the window is — how many chunks may be in flight at any moment — is the question of flow control and congestion control, which come next.</p>
 </section>
-<section id="hubs-switches-and-the-death-of-shared-ethernet" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="hubs-switches-and-the-death-of-shared-ethernet"><span class="header-section-number">3.5</span> Hubs, switches, and the death of shared Ethernet</h2>
-<p>Classical Ethernet ran on a shared coaxial cable with CSMA/CD. As Ethernet got faster — 10 Mbps, then 100 Mbps, then 1 Gbps — the collision problem got worse. At higher speeds, even brief collisions waste a lot of capacity. The solution was to abandon the shared medium entirely.</p>
-<p>A <strong>switch</strong> is a device with multiple Ethernet ports. It <em>learns</em> which devices are on which port by watching the source MAC addresses on incoming frames. When a frame arrives, the switch looks up the destination MAC and forwards the frame <em>only out the right port</em>. Every device gets its own private link to the switch. No collisions, no CSMA needed.</p>
-<p>This is why modern wired networks are almost always switched. Wi-Fi remains shared — the air is shared by definition — which is why CSMA/CA still matters there.</p>
+<section id="flow-control-do-not-overwhelm-the-receiver" class="level3" data-number="5.3.2">
+<h3 data-number="5.3.2" class="anchored" data-anchor-id="flow-control-do-not-overwhelm-the-receiver"><span class="header-section-number">5.3.2</span> Flow control: do not overwhelm the receiver</h3>
+<p>The receiver has a buffer for incoming data. If the sender pushes data faster than the receiver can process it, the buffer fills up and packets get dropped on the floor.</p>
+<p>TCP solves this with a <strong>receive window</strong>. The receiver tells the sender, in every ACK, how much free buffer space it has. The sender never has more than that amount of unacknowledged data in flight. If the receiver is slow, the window shrinks. If it stops processing entirely, the window goes to zero and the sender pauses.</p>
+<p>This is flow control: keeping the <em>sender</em> from outrunning the <em>receiver</em>.</p>
 </section>
-<section id="arp-the-bridge-to-the-network-layer" class="level2" data-number="3.6">
-<h2 data-number="3.6" class="anchored" data-anchor-id="arp-the-bridge-to-the-network-layer"><span class="header-section-number">3.6</span> ARP: the bridge to the network layer</h2>
-<p>There is a translation problem worth flagging. The application layer deals with names (<code>cs.mcgill.ca</code>). The network layer deals with IP addresses. But the link layer only knows MAC addresses. Something has to bridge “I want to send to IP <code>192.168.1.5</code>” with “send to MAC <code>3c:22:fb:1a:9d:42</code>.”</p>
-<p>That something is the <strong>Address Resolution Protocol (ARP)</strong>. When your laptop wants to send a frame to an IP address on its own link, it broadcasts an ARP request: <em>who has <code>192.168.1.5</code>? Tell me your MAC address.</em> The device with that IP replies. Your laptop caches the answer and uses the MAC from then on.</p>
-<p>ARP is one of those quietly essential protocols nobody notices until it breaks.</p>
-</section>
-<section id="summary" class="level2" data-number="3.7">
-<h2 data-number="3.7" class="anchored" data-anchor-id="summary"><span class="header-section-number">3.7</span> Summary</h2>
-<p>The link layer takes the bit pipe given to it by the physical layer and provides:</p>
+<section id="congestion-control-do-not-overwhelm-the-network" class="level3" data-number="5.3.3">
+<h3 data-number="5.3.3" class="anchored" data-anchor-id="congestion-control-do-not-overwhelm-the-network"><span class="header-section-number">5.3.3</span> Congestion control: do not overwhelm the network</h3>
+<p>There is a different problem. Even if the receiver could accept data at 1 Gbps, the network path between sender and receiver might only have 100 Mbps available at this moment. Send faster than that, and packets pile up at the bottleneck router, queues overflow, packets get dropped.</p>
+<p>The maddening part is that the sender has no direct way to know how much capacity the network has right now. There is no signal that says <em>the path is currently 73% full</em>. The only feedback the sender gets is: packets either arrive (or get ACKed), or they do not.</p>
+<p>TCP’s congestion control infers congestion from packet loss. Roughly:</p>
 <ul>
-<li><strong>Frames</strong> with clear boundaries.</li>
-<li><strong>Error detection</strong> via checksums.</li>
-<li><strong>Medium access control</strong> when the link is shared.</li>
-<li><strong>MAC addressing</strong> so devices on a link can be told apart.</li>
+<li>Start slow (<strong>slow start</strong>): send a small amount, double the rate every round-trip-time until something goes wrong.</li>
+<li>When a packet is lost, cut the sending rate sharply — often by half. The network is congested.</li>
+<li>Then increase gradually, slowly probing for more capacity until the next loss.</li>
 </ul>
-<p>The result is a service the network layer can build on: <em>get this frame to that device on this link.</em> The network layer then chains these single-hop deliveries together to move a packet across the world.</p>
+<p>This pattern is called <strong>additive increase, multiplicative decrease</strong> (AIMD). It produces a characteristic sawtooth of sending rate over time: ramp up gently, slam down hard, ramp up again.</p>
+<p>A surprising consequence: TCP connections sharing a bottleneck link tend to converge to roughly equal shares of the bandwidth, even without coordinating with each other. The whole Internet’s fairness depends on most TCP implementations playing by these rules. A connection that aggressively ignored congestion signals would grab a bigger share — at everyone else’s expense.</p>
 </section>
-<section id="questions-to-chew-on" class="level2" data-number="3.8">
-<h2 data-number="3.8" class="anchored" data-anchor-id="questions-to-chew-on"><span class="header-section-number">3.8</span> Questions to chew on</h2>
+</section>
+<section id="problem-3-putting-it-all-together" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="problem-3-putting-it-all-together"><span class="header-section-number">5.4</span> Problem 3: Putting it all together</h2>
+<p>A TCP connection’s lifecycle has three phases.</p>
+<p><strong>Setup.</strong> Before any data is sent, both sides exchange a <strong>three-way handshake</strong>: the initiator sends a SYN (“synchronize”), the receiver responds with a SYN-ACK, the initiator confirms with an ACK. After this, both sides know each other’s initial sequence numbers and agree the connection is open.</p>
+<p><strong>Data transfer.</strong> The sliding-window machinery above kicks in. Bytes flow in both directions (TCP is bidirectional). Sequence numbers, acknowledgements, windows, and timers all dance together to provide the reliable byte stream.</p>
+<p><strong>Teardown.</strong> When a side is done sending, it transmits a FIN (“finish”) packet. The other side ACKs it. The other side eventually sends its own FIN, which the first side ACKs. This is the <strong>four-way handshake</strong> for teardown, though variants and shortcuts exist.</p>
+</section>
+<section id="a-note-on-quic" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="a-note-on-quic"><span class="header-section-number">5.5</span> A note on QUIC</h2>
+<p>In the last few years, much of the web has quietly migrated to a different transport protocol: <strong>QUIC</strong>. QUIC runs on top of UDP but reimplements reliability, ordering, and congestion control with several advantages over TCP — faster connection setup (especially when combined with TLS), better behaviour on lossy mobile networks, and the ability to evolve faster because it lives in user space rather than the OS kernel.</p>
+<p>If you load any large website today (Google, YouTube, Facebook, anything behind Cloudflare), your browser is probably using QUIC, not TCP. The principles in this chapter — sliding windows, ACKs, congestion control — all carry over to QUIC. The packaging is different; the problems and the kinds of solutions are the same.</p>
+</section>
+<section id="why-this-layer-matters" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="why-this-layer-matters"><span class="header-section-number">5.6</span> Why this layer matters</h2>
+<p>The transport layer is where the network’s raw “best effort” gets turned into something programs can actually use. Almost no application talks directly to IP. They talk to TCP, UDP, or QUIC, which talk to IP. The careful engineering that makes web pages load smoothly on flaky Wi-Fi, that lets video calls work despite occasional packet loss, that keeps the Internet from collapsing when traffic spikes — all of it lives here.</p>
+<p>In the rest of the course we will look at the applications that sit on top of this layer. They get to assume the transport layer’s promises hold. That assumption is doing a lot of work.</p>
+</section>
+<section id="questions-to-chew-on" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="questions-to-chew-on"><span class="header-section-number">5.7</span> Questions to chew on</h2>
 <ol type="1">
-<li>The link layer detects errors but does not correct them. Why leave correction to the transport layer instead of fixing things on the spot?</li>
-<li>CSMA/CD works on Ethernet but not on Wi-Fi. What is different about a radio link that makes collision detection unreliable?</li>
-<li>You are designing a MAC protocol for a satellite link with a 250 ms one-way delay. Would you pick channel partitioning, random access, or taking turns? Why?</li>
-<li>Switches eliminate collisions on Ethernet. What would it take to do the same for Wi-Fi?</li>
-<li>MAC addresses are globally unique and burned in at manufacture. IP addresses are not — they can change. Why the asymmetry?</li>
+<li>UDP provides almost nothing on top of IP. Why does it exist at all? Couldn’t applications just use IP directly?</li>
+<li>TCP infers congestion from packet loss. What would happen if the underlying network’s losses were mostly caused by something other than congestion — for example, a wireless link with high error rates?</li>
+<li>TCP’s AIMD scheme produces a sawtooth sending rate. Why would “multiplicative increase, additive decrease” — the same scheme reversed — be a much worse idea?</li>
+<li>The transport layer is where most fairness in the Internet is implemented: everyone using TCP backs off similarly when congestion happens. What stops someone from writing a “TCP” that does not back off as much, to grab a bigger share?</li>
+<li>QUIC runs on top of UDP. Why didn’t its designers just modify TCP to add the same improvements?</li>
 </ol>
 
 
@@ -677,14 +700,11 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./physical-layer.html" class="pagination-link" aria-label="The Physical Layer">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">The Physical Layer</span></span>
+      <a href="./network-layer.html" class="pagination-link" aria-label="The Network Layer">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The Network Layer</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./network-layer.html" class="pagination-link" aria-label="The Network Layer">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The Network Layer</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
